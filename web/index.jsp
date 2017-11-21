@@ -14,11 +14,19 @@
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.title.hotel" var="hostel"/>
+    <fmt:message bundle="${loc}"
     <title>${hostel}</title>
 </head>
 <body>
-${motivation}<a href="login.jsp">${signIn}</a>
-${oror}<a href="registration.jsp">${signUp}</a>
+<c:choose>
+    <c:when test="${sessionScope.user eq null}">
+        ${motivation}<a href="login.jsp">${signIn}</a>
+        ${oror}<a href="registration.jsp">${signUp}</a>
+    </c:when>
+    <c:otherwise>
+
+    </c:otherwise>
+</c:choose>
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="current-page" value="index.jsp">
     <input type="hidden" name="command" value="change-local-command">
