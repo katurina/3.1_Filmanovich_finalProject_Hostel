@@ -18,26 +18,47 @@
     <title>${signUp}</title>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/controller" method="get">
-    ${name}<input name="name"><br>
-    ${surname}<input name="surname"><br>
-    ${login}<input name="login"><br>
-    ${password}<input name="password"><br>
-    ${email}<input name="email">
-    <input type="submit" value="${signUp}"/>
-    <input type="hidden" name="command" value="registration-command">
-</form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="current-page" value="registration.jsp">
-    <input type="hidden" name="command" value="change-local-command">
-    <input type="hidden" name="local" value="ru"/>
-    <input type="submit" value="${ru_button}"/>
-</form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="current-page" value="registration.jsp">
-    <input type="hidden" name="command" value="change-local-command">
-    <input type="hidden" name="local" value="en"/>
-    <input type="submit" value="${en_button}">
-</form>
+<div style="float: left">
+    <form action="${pageContext.request.contextPath}/controller" method="get">
+        <table>
+            <tr>
+                <td>${name}</td>
+                <td><input name="name"></td>
+            </tr>
+            <tr>
+                <td>${surname}</td>
+                <td><input name="surname"></td>
+            </tr>
+            <tr>
+                <td>${login}</td>
+                <td><input name="login"></td>
+            </tr>
+            <tr>
+                <td>${password}</td>
+                <td><input name="password"></td>
+            </tr>
+            <tr>
+                <td>${email}</td>
+                <td><input name="email"></td>
+            </tr>
+        </table>
+        <br><input type="submit" value="${signUp}"/>
+        <input type="hidden" name="command" value="registration-command">
+    </form>
+</div>
+<div style="float:right;">
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="current-page" value="registration.jsp">
+        <input type="hidden" name="command" value="change-local-command">
+        <input type="hidden" name="local" value="ru"/>
+        <input type="submit" value="${ru_button}"/>
+    </form>
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="current-page" value="registration.jsp">
+        <input type="hidden" name="command" value="change-local-command">
+        <input type="hidden" name="local" value="en"/>
+        <input type="submit" value="${en_button}">
+    </form>
+</div>
 </body>
 </html>

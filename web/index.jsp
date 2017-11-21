@@ -18,27 +18,30 @@
     <title>${hostel}</title>
 </head>
 <body>
-<c:choose>
-    <c:when test="${sessionScope.user eq null}">
-        ${motivation}<a href="login.jsp">${signIn}</a>
-        ${oror}<a href="registration.jsp">${signUp}</a>
-    </c:when>
-    <c:otherwise>
-        ${hi} ${sessionScope.user.name}
-    </c:otherwise>
-</c:choose>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="current-page" value="index.jsp">
-    <input type="hidden" name="command" value="change-local-command">
-    <input type="hidden" name="local" value="ru"/>
-    <input type="submit" value="${ru_button}"/>
-</form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="current-page" value="index.jsp">
-    <input type="hidden" name="command" value="change-local-command">
-    <input type="hidden" name="local" value="en"/>
-    <input type="submit" value="${en_button}">
-</form>
-
+<div style="float: left">
+    <c:choose>
+        <c:when test="${sessionScope.user eq null}">
+            ${motivation} <a href="login.jsp"> ${signIn}</a>
+             ${oror} <a href="registration.jsp"> ${signUp}</a>
+        </c:when>
+        <c:otherwise>
+            ${hi} ${sessionScope.user.name}
+        </c:otherwise>
+    </c:choose>
+</div>
+<div style="float:right;">
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="current-page" value="index.jsp">
+        <input type="hidden" name="command" value="change-local-command">
+        <input type="hidden" name="local" value="ru"/>
+        <input type="submit" value="${ru_button}"/>
+    </form>
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="current-page" value="index.jsp">
+        <input type="hidden" name="command" value="change-local-command">
+        <input type="hidden" name="local" value="en"/>
+        <input type="submit" value="${en_button}">
+    </form>
+</div>
 </body>
 </html>
