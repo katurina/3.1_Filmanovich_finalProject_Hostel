@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(3, login);
             ps.setString(4, password);
             ps.setString(5, email);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException(e);
         }

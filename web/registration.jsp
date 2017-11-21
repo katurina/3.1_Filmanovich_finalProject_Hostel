@@ -25,6 +25,7 @@
     ${password}<input name="password"><br>
     ${email}<input name="email">
     <input type="submit" value="${signUp}"/>
+    <input type="hidden" name="command" value="registration-command">
 </form>
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="current-page" value="registration.jsp">

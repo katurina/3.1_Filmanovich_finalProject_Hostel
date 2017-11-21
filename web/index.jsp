@@ -14,7 +14,7 @@
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.title.hotel" var="hostel"/>
-    <fmt:message bundle="${loc}"
+    <fmt:message bundle="${loc}" key="local.welcome.text" var="hi"/>
     <title>${hostel}</title>
 </head>
 <body>
@@ -24,7 +24,7 @@
         ${oror}<a href="registration.jsp">${signUp}</a>
     </c:when>
     <c:otherwise>
-
+        ${hi} ${sessionScope.user.name}
     </c:otherwise>
 </c:choose>
 <form action="${pageContext.request.contextPath}/controller" method="post">

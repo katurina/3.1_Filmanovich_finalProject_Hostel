@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionProvider {
     private static final String DRIVER_DB = "com.mysql.jdbc.Driver";
-    private static final String URL_DB = "jdbc:mysql://localhost:3306/persons";
+    private static final String URL_DB = "jdbc:mysql://localhost:3306/hostel";
     private static final String USER_DB = "root";
     private static final String PASSWORD_DB = "root";
 

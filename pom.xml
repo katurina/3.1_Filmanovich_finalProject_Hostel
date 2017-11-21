@@ -14,8 +14,7 @@
         <servlet-api.version>2.5</servlet-api.version>
         <junit.version>4.12</junit.version>
         <jstl.version>1.2</jstl.version>
-        <xerces.version>2.4.0</xerces.version>
-        <xercesImpl.version>2.9.1</xercesImpl.version>
+        <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
     </properties>
 
     <dependencies>
@@ -35,17 +34,11 @@
             <version>${jstl.version}</version>
         </dependency>
         <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xerces</artifactId>
-            <version>${xerces.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>${xercesImpl.version}</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
