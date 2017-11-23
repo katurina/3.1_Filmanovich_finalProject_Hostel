@@ -20,6 +20,7 @@ public class ChangeLocalCommand implements Command {
             String currentPage = String.valueOf(request.getParameter(CURRENT_PAGE));
             request.getRequestDispatcher(currentPage).forward(request,response);
         } catch (ServletException | IOException e) {
+            e.printStackTrace();
             throw new CommandException(e);
         }
     }
