@@ -17,7 +17,6 @@ public class LoginCommand implements Command {
     private static final String LOGIN = "login";
     private static final String USER = "user";
     private static final String INDEX_JSP = "index.jsp";
-    private static final String EMPTY_PARAM = "emptparam";
     private static final String LOGIN_JSP = "login.jsp";
     private static final String TRUE = "true";
     private static final String FALSE = "false";
