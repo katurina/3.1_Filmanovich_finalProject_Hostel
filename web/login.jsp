@@ -13,10 +13,13 @@
     <fmt:message bundle="${loc}" key="local.home.page" var="home"/>
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
+    <fmt:message bundle="${loc}" key="local.not.valid.password.login" var="not_valid"/>
+    <fmt:message bundle="${loc}" key="local.registration" var="registration"/>
     <title>${login}</title>
 </head>
 <body>
 <div style="float: left">
+    <c:if test="${sessionScope.validParam eq \"false\"}">${not_valid}</c:if>
     <form action="${pageContext.request.contextPath}/controller" method="get">
         <input type="hidden" name="command" value="login-command"/>
         <table>
@@ -30,8 +33,10 @@
             </tr>
         </table>
         <input type="submit" value="${signIn}"/><br>
+        <a href="registration.jsp">${registration}</a><br>
         <a href="index.jsp">${home}</a>
     </form>
+
 </div>
 <div style="float:right;">
     <form action="${pageContext.request.contextPath}/controller" method="post">

@@ -6,6 +6,7 @@ import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.UserService;
 import by.epam.project.hostel.service.exception.ServiceException;
+import by.epam.project.hostel.service.exception.UserEmptyParamServiceException;
 
 public class UserServiceImpl implements UserService {
 
@@ -14,6 +15,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User singIn(String login, String password) throws ServiceException {
         try {
+            if (login == null || login.isEmpty()) {
+                throw new UserEmptyParamServiceException("login is empty");
+            }
+            if (password == null|| password.isEmpty()) {
+                throw new UserEmptyParamServiceException("password is empty");
+            }
             return USER_DAO.signIn(login, password);
         } catch (DAOException e) {
             throw new ServiceException(e);
