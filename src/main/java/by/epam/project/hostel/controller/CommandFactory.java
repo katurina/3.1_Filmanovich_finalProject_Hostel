@@ -6,6 +6,9 @@ import by.epam.project.hostel.controller.command.impl.LoginCommand;
 import by.epam.project.hostel.controller.command.impl.RegistrationCommand;
 
 public class CommandFactory {
+    private static final String LOGIN_COMMAND = "login-command";
+    private static final String REGISTRATION_COMMAND = "registration-command";
+    private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -20,11 +23,11 @@ public class CommandFactory {
 
     public Command getCommand(String commandName) {
         switch (commandName) {
-            case "login-command":
+            case LOGIN_COMMAND:
                 return new LoginCommand();
-            case "registration-command":
+            case REGISTRATION_COMMAND:
                 return new RegistrationCommand();
-            case "change-local-command":
+            case CHANGE_LOCAL_COMMAND:
                 return new ChangeLocalCommand();
         }
         return null;
