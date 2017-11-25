@@ -26,24 +26,26 @@ public class LoginCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
-
+        String page = null;
+        String isValid = null;
         try {
             User user = ServiceFactory.getInstance().getUserService().singIn(login, password);
             request.getSession().setAttribute(USER, user);
-            request.getSession().setAttribute(VALID_PARAM, TRUE);
-            request.getRequestDispatcher(INDEX_JSP).forward(request, response);
+            page = INDEX_JSP;
+            isValid = TRUE;
         } catch (UserEmptyParamServiceException e) {
             e.printStackTrace();
-            request.getSession().setAttribute(VALID_PARAM, LoginCommand.FALSE);
-            try {
-                request.getRequestDispatcher(LOGIN_JSP).forward(request,response);
-            } catch (ServletException | IOException e1) {
-                e1.printStackTrace();
-            }
-        } catch (ServiceException | ServletException | IOException e) {
+            page = LOGIN_JSP;
+            isValid = FALSE;
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
-
+        try {
+            request.getSession().setAttribute(VALID_PARAM, isValid);
+            request.getRequestDispatcher(page).forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

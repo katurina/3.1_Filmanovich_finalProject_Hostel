@@ -21,7 +21,6 @@ public class Controller extends HttpServlet {
             command.execute(request, response);
         } catch (CommandException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 
@@ -33,7 +32,6 @@ public class Controller extends HttpServlet {
             command.execute(request, response);
         } catch (CommandException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 }
