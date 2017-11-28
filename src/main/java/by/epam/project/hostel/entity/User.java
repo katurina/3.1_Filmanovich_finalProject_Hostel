@@ -1,6 +1,10 @@
 package by.epam.project.hostel.entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+    private static final long serialVersionUID = -8053748141053902283L;
 
     private int id;
     private String name;

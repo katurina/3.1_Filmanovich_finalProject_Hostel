@@ -14,7 +14,7 @@ public class UserDAOImpl implements UserDAO {
 
     private static final String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT id,name,surname,login,password,email FROM user WHERE login= ? AND password= ?";
     private static final String INSERT_USER = "INSERT INTO user(name, surname,login, password, email) VALUES (?,?,?,?,?)";
-    private static ConnectionProvider connectionProvider = new ConnectionProvider();
+    private static ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
     public User signIn(String login, String password) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection()) {
