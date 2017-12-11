@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User singIn(String login, String password) throws ServiceException {
         try {
-            if (login == null || login.isEmpty()) {
+            if (login == null || login.isEmpty()) {// валидацию выноси отдельно - в метод или класс, иначе реальная она у тебя замусорит весь код
                 throw new UserEmptyParamServiceException("login is empty");
             }
             if (password == null|| password.isEmpty()) {
@@ -23,13 +23,13 @@ public class UserServiceImpl implements UserService {
             }
             return USER_DAO.signIn(login, password);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e);// свои сообщения - помним про них
         }
     }
 
     @Override
     public void registerUser(String name, String surname, String login, String password, String email) throws ServiceException {
-        try {
+        try {// а валидация куда пропала?
             USER_DAO.registration(name, surname, login, password, email);
         } catch (DAOException e) {
             throw new ServiceException(e);
