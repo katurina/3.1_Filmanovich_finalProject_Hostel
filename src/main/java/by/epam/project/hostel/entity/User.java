@@ -12,8 +12,27 @@ public class User implements Serializable {
     private String login;
     private String password;
     private String email;
+    private Role role;
+    private boolean banned;
+    private int number;
 
     public User() {
+    }
+
+    public User(int id, String name, String surname, String login, String password, String email, Role role, boolean banned, int number) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.banned = banned;
+        this.number = number;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getId() {
@@ -64,6 +83,30 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -78,6 +121,12 @@ public class User implements Serializable {
         if (getId() != user.getId()) {
             return false;
         }
+        if (isBanned() != user.isBanned()) {
+            return false;
+        }
+        if (getNumber() != user.getNumber()) {
+            return false;
+        }
         if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null) {
             return false;
         }
@@ -90,7 +139,10 @@ public class User implements Serializable {
         if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null) {
             return false;
         }
-        return getEmail() != null ? getEmail().equals(user.getEmail()) : user.getEmail() == null;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) {
+            return false;
+        }
+        return getRole() == user.getRole();
     }
 
     @Override
@@ -101,6 +153,13 @@ public class User implements Serializable {
         result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (isBanned() ? 1 : 0);
+        result = 31 * result + getNumber();
         return result;
+    }
+
+    public enum Role {
+        USER, ADMIN;
     }
 }
