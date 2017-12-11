@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionProvider {
+public class ConnectionProvider {// неудачно выбрано место размещения этого класса
 
     private static final ConnectionProvider instance = new ConnectionProvider();
 
@@ -30,7 +30,7 @@ public class ConnectionProvider {
     }
 
 
-    public Connection takeConnection() throws SQLException {
+    public Connection takeConnection() throws SQLException {// нужно написать свой пул соединений, а не выдавать новые коннекшны по запросу
         return DriverManager.getConnection(URL_DB, USER_DB, PASSWORD_DB);
     }
 }
