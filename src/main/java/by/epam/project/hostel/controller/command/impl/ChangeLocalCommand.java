@@ -17,9 +17,11 @@ public class ChangeLocalCommand implements Command {
         request.getSession(true).setAttribute(LOCAL,request.getParameter(LOCAL));
         try {
             String currentPage = String.valueOf(request.getParameter(CURRENT_PAGE));
-            request.getRequestDispatcher(currentPage).forward(request,response);
+            request.getRequestDispatcher(currentPage).forward(request,response);// не всегда такое поможет
+            // результат отображения страницы зависит от выборки данных, которые на нее пришли
+            // п ты просто переходишь на jsp , без перевыборки
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();//а это что тут такое затесалось??
         }
     }
 }
