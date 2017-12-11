@@ -20,7 +20,9 @@ public class Controller extends HttpServlet {
         try {
             command.execute(request, response);
         } catch (CommandException e) {
-            e.printStackTrace();
+            e.printStackTrace();// выучи обработку исключительных ситуаций
+            // осознай, когда ты гасишь исключение - то что взамен ты должен сделать
+            // представь, что это исключение произошло - какой ответ твое веб-приложение пошлет клиенту в этом случае
         }
     }
 
