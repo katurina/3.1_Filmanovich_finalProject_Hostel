@@ -13,12 +13,12 @@
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
 </head>
 <body>
-<div style="float:right;">
+<div style="float:left;">
     <ul>
-        <li><a href="users.jsp">${users}</a></li>
-        <li><a href="hostels.jsp">${hostel}</a></li>
-        <li><a href="guestrooms.jsp">${rooms}</a></li>
-        <li><a href="user_bookings.jsp">${bookings}</a></li>
+        <li><a href="admin/users.jsp">${users}</a></li>
+        <li><a href="admin/hostels.jsp">${hostel}</a></li>
+        <li><a href="admin/guestrooms.jsp">${rooms}</a></li>
+        <li><a href="admin/user_bookings.jsp">${bookings}</a></li>
     </ul>
 </div>
 <div style="float:right;">

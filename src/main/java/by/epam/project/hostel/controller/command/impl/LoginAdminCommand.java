@@ -17,7 +17,7 @@ public class LoginAdminCommand implements Command {
     private static final String PASSWORD = "password";
     private static final String LOGIN = "login";
     private static final String USER = "user";
-    private static final String ADMIN_ENTRY_JSP = "admin_entry.jsp";
+    private static final String ADMIN_ENTRY_JSP = "admin/admin_entry.jsp";
     private static final String VALID_PARAM = "validParam";
 
     @Override

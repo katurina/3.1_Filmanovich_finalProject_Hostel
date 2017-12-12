@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<c:import url="header.jsp"/>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
@@ -34,7 +33,7 @@
         </form>
     </c:when>
     <c:otherwise>
-
+        <c:import url="header.jsp"/>
     </c:otherwise>
 </c:choose>
 </body>

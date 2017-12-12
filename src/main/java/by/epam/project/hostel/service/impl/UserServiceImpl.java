@@ -27,7 +27,11 @@ public class UserServiceImpl implements UserService {
     public User adminSignIn(String login, String password, String role) throws ServiceException {
         validate(login, password);
         validateRole(role);
-        return null;
+        try {
+            return USER_DAO.signIn(login, password);
+        } catch (DAOException e) {
+            throw new ServiceException("admin's signing in failed", e);
+        }
     }
 
     @Override
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService {
             validate(name, surname, login, password, email, number);
             USER_DAO.registration(name, surname, login, password, email, number);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("registration failed", e);
         }
     }
 
