@@ -29,7 +29,8 @@ public class RegistrationCommand implements Command {
             response.sendRedirect(INDEX_JSP);
         } catch (ServiceException | IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);// что??????????????????
+            // ну что за фигню ты здесь понаписывал
         }
     }
 }
