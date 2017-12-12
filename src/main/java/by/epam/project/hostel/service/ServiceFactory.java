@@ -27,7 +27,7 @@ public class ServiceFactory {
         try {
             connectionProvider.init();
         } catch (NoDBDriverFound e) {
-            throw new ServiceInitException("Connection not init", e);
+            throw new ServiceInitException("Connection not init: ", e);
         }
     }
 }

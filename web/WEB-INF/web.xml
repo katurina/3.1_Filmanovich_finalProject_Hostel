@@ -11,6 +11,7 @@
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
+
     <listener>
         <listener-class>by.epam.project.hostel.controller.ApplicationListener</listener-class>
     </listener>

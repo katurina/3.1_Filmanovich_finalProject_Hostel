@@ -11,31 +11,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginCommand implements Command {
-
+public class LoginAdminCommand implements Command {
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
     private static final String PASSWORD = "password";
     private static final String LOGIN = "login";
     private static final String USER = "user";
-    private static final String INDEX_JSP = "index.jsp";
-    private static final String LOGIN_JSP = "login.jsp";
-    private static final String TRUE = "true";
-    private static final String FALSE = "false";
+    private static final String ADMIN_ENTRY_JSP = "admin_entry.jsp";
     private static final String VALID_PARAM = "validParam";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
-        String page = null;
         String isValid = null;
         try {
-            User user = ServiceFactory.getInstance().getUserService().singIn(login, password);
+            User user = ServiceFactory.getInstance().getUserService().adminSignIn(login, password, "admin");
             request.getSession().setAttribute(USER, user);
-            page = INDEX_JSP;
             isValid = TRUE;
         } catch (UserEmptyParamServiceException e) {
             e.printStackTrace();
-            page = LOGIN_JSP;
             isValid = FALSE;
         } catch (ServiceException e) {
 //           todo
@@ -43,11 +38,10 @@ public class LoginCommand implements Command {
         }
         try {
             request.getSession().setAttribute(VALID_PARAM, isValid);
-            request.getRequestDispatcher(page).forward(request, response);
+            request.getRequestDispatcher(ADMIN_ENTRY_JSP).forward(request, response);
         } catch (ServletException | IOException e) {
 //           todo
             e.printStackTrace();
         }
-
     }
 }

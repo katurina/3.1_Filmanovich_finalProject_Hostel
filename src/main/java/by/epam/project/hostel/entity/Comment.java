@@ -1,8 +1,11 @@
 package by.epam.project.hostel.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Comment {
+public class Comment extends Entity implements Serializable{
+    private static final long serialVersionUID = -8053748141053902283L;
+
     private int id;
     private int userId;
     private int guestroomId;
@@ -20,6 +23,10 @@ public class Comment {
         this.comment = comment;
         this.commentDate = commentDate;
         this.rate = rate;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getId() {

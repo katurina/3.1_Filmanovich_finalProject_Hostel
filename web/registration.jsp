@@ -15,6 +15,7 @@
     <fmt:message bundle="${loc}" key="local.user.login" var="login"/>
     <fmt:message bundle="${loc}" key="local.user.password" var="password"/>
     <fmt:message bundle="${loc}" key="local.user.email" var="email"/>
+    <fmt:message bundle="${loc}" key="local.user.number" var="number"/>
     <title>${signUp}</title>
 </head>
 <body>
@@ -40,6 +41,10 @@
             <tr>
                 <td>${email}</td>
                 <td><input name="email"></td>
+            </tr>
+            <tr>
+                <td>${number}</td>
+                <td><input name="number"></td>
             </tr>
         </table>
         <br><input type="submit" value="${signUp}"/>

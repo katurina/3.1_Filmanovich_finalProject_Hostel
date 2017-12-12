@@ -3,7 +3,7 @@ package by.epam.project.hostel.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Booking implements Serializable {
+public class Booking extends Entity implements Serializable {
     private static final long serialVersionUID = -8053748141053902283L;
 
     private int id;
@@ -17,6 +17,19 @@ public class Booking implements Serializable {
     private int guestroomId;
 
     public Booking() {
+    }
+
+    public Booking(double nightPrice, Date startDay, Date lastDay,
+                   boolean payed, Date bookDay, double finalCost,
+                   int userId, int guestroomId) {
+        this.nightPrice = nightPrice;
+        this.startDay = startDay;
+        this.lastDay = lastDay;
+        this.payed = payed;
+        this.bookDay = bookDay;
+        this.finalCost = finalCost;
+        this.userId = userId;
+        this.guestroomId = guestroomId;
     }
 
     public Booking(int id, double nightPrice, Date startDay,

@@ -16,6 +16,7 @@ public class RegistrationCommand implements Command {
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
     private static final String INDEX_JSP = "index.jsp";
+    private static final String NUMBER = "number";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -24,13 +25,12 @@ public class RegistrationCommand implements Command {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
         String email = request.getParameter(EMAIL);
+        String number = request.getParameter(NUMBER);
         try {
-            ServiceFactory.getInstance().getUserService().registerUser(name, surname, login, password, email);
+            ServiceFactory.getInstance().getUserService().registerUser(name, surname, login, password, email, number);
             response.sendRedirect(INDEX_JSP);
         } catch (ServiceException | IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);// что??????????????????
-            // ну что за фигню ты здесь понаписывал
+//todo
         }
     }
 }

@@ -2,7 +2,7 @@ package by.epam.project.hostel.entity;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User extends Entity implements Serializable {
 
     private static final long serialVersionUID = -8053748141053902283L;
 
@@ -14,12 +14,14 @@ public class User implements Serializable {
     private String email;
     private Role role;
     private boolean banned;
-    private int number;
+    private String number;
 
     public User() {
     }
 
-    public User(int id, String name, String surname, String login, String password, String email, Role role, boolean banned, int number) {
+    public User(
+            int id, String name, String surname, String login, String password,
+            String email, Role role, boolean banned, String number) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -29,6 +31,10 @@ public class User implements Serializable {
         this.role = role;
         this.banned = banned;
         this.number = number;
+    }
+
+    public enum Role {
+        USER, ADMIN;
     }
 
     public static long getSerialVersionUID() {
@@ -87,23 +93,31 @@ public class User implements Serializable {
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(String role) {
+        if (role == null) {
+            this.role = Role.USER;
+        } else {
+            this.role = Role.valueOf(role.toUpperCase());
+        }
     }
 
     public boolean isBanned() {
         return banned;
     }
 
-    public void setBanned(boolean banned) {
-        this.banned = banned;
+    public void setBanned(int banned) {
+        if (banned == 0) {
+            this.banned = false;
+        } else {
+            this.banned = true;
+        }
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -124,9 +138,6 @@ public class User implements Serializable {
         if (isBanned() != user.isBanned()) {
             return false;
         }
-        if (getNumber() != user.getNumber()) {
-            return false;
-        }
         if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null) {
             return false;
         }
@@ -142,7 +153,10 @@ public class User implements Serializable {
         if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) {
             return false;
         }
-        return getRole() == user.getRole();
+        if (getRole() != user.getRole()) {
+            return false;
+        }
+        return getNumber() != null ? getNumber().equals(user.getNumber()) : user.getNumber() == null;
     }
 
     @Override
@@ -155,11 +169,7 @@ public class User implements Serializable {
         result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
         result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
         result = 31 * result + (isBanned() ? 1 : 0);
-        result = 31 * result + getNumber();
+        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
         return result;
-    }
-
-    public enum Role {
-        USER, ADMIN;
     }
 }

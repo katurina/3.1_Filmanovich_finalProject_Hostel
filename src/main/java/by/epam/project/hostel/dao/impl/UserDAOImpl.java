@@ -12,8 +12,9 @@ import java.sql.SQLException;
 
 public class UserDAOImpl implements UserDAO {
 
-    private static final String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT id,name,surname,login,password,email FROM user WHERE login= ? AND password= ?";
-    private static final String INSERT_USER = "INSERT INTO user(name, surname,login, password, email) VALUES (?,?,?,?,?)";
+    private static final String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT id,name,surname,login,password,email,role,banned,number FROM user WHERE login= ? AND password= ?";
+    private static final String INSERT_USER = "INSERT INTO user(name, surname,login, password, email,number) VALUES (?,?,?,?,?,?)";
+    private static final String DELETE_BY_LOGIN = "DELETE FROM user WHERE login = ?";
     private static ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
     public User signIn(String login, String password) throws DAOException {
@@ -27,12 +28,12 @@ public class UserDAOImpl implements UserDAO {
             }
             return initUser(rs);
         } catch (SQLException e) {
-            throw new DAOException(e);// не забывай про собственные сообщения в исключениях
+            throw new DAOException("Error from DB: ", e);
         }
     }
 
     @Override
-    public void registration(String name, String surname, String login, String password, String email) throws DAOException {
+    public void registration(String name, String surname, String login, String password, String email, String number) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection()) {
             PreparedStatement ps = connection.prepareStatement(INSERT_USER);
             ps.setString(1, name);
@@ -40,9 +41,20 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(3, login);
             ps.setString(4, password);
             ps.setString(5, email);
+            ps.setString(6, number);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("bad SQL request: ", e);
+        }
+    }
+
+    public void deleteUser(String login) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection()) {
+            PreparedStatement ps = connection.prepareStatement(DELETE_BY_LOGIN);
+            ps.setString(1, login);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("bad delete gateway", e);
         }
     }
 
@@ -54,6 +66,7 @@ public class UserDAOImpl implements UserDAO {
         user.setLogin(rs.getString(4));
         user.setPassword(rs.getString(5));
         user.setEmail(rs.getString(6));
+        user.setNumber(rs.getString(7));
         return user;
     }
 
