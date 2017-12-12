@@ -6,7 +6,7 @@ import by.epam.project.hostel.service.exception.ServiceInitException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class ApplicationListener implements ServletContextListener {
+public class ApplicationListener implements ServletContextListener {// неудачное название
 
 
     @Override
@@ -15,7 +15,7 @@ public class ApplicationListener implements ServletContextListener {
         try {
             serviceFactory.init();
         } catch (ServiceInitException e) {
-            e.printStackTrace();
+            e.printStackTrace();// посмотри логгеры, они не такие и сложные
             throw new RuntimeException(e);
         }
     }
