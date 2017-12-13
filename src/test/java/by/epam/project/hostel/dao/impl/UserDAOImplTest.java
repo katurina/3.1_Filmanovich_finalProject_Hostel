@@ -12,8 +12,10 @@ public class UserDAOImplTest {
 //        todo asset
         userDAO.deleteUser("1");
     }
+
+
     @Test
-    public void adminSignIn(){
+    public void getAllUsers() {
 
     }
 }

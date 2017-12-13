@@ -26,7 +26,7 @@ public class LoginAdminCommand implements Command {
         String password = request.getParameter(PASSWORD);
         String isValid = null;
         try {
-            User user = ServiceFactory.getInstance().getUserService().adminSignIn(login, password, "admin");
+            User user = ServiceFactory.getInstance().getUserService().adminSignIn(login, password);
             request.getSession().setAttribute(USER, user);
             isValid = TRUE;
         } catch (UserEmptyParamServiceException e) {

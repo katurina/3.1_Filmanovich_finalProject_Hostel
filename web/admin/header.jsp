@@ -15,10 +15,10 @@
 <body>
 <div style="float:left;">
     <ul>
-        <li><a href="admin/users.jsp">${users}</a></li>
-        <li><a href="admin/hostels.jsp">${hostel}</a></li>
-        <li><a href="admin/guestrooms.jsp">${rooms}</a></li>
-        <li><a href="admin/user_bookings.jsp">${bookings}</a></li>
+        <li><a href="${pageContext.request.contextPath}users.jsp">${users}</a></li>
+        <li><a href="${pageContext.request.contextPath}hostels.jsp">${hostel}</a></li>
+        <li><a href="${pageContext.request.contextPath}guestrooms.jsp">${rooms}</a></li>
+        <li><a href="${pageContext.request.contextPath}user_bookings.jsp">${bookings}</a></li>
     </ul>
 </div>
 <div style="float:right;">

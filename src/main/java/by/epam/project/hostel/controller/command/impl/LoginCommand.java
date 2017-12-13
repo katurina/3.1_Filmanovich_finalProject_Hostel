@@ -48,6 +48,5 @@ public class LoginCommand implements Command {
 //           todo
             e.printStackTrace();
         }
-
     }
 }

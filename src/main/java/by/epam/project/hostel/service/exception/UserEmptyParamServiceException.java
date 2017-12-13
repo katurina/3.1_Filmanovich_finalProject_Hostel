@@ -1,6 +1,6 @@
 package by.epam.project.hostel.service.exception;
 
-public class UserEmptyParamServiceException extends ServiceException {
+public class UserEmptyParamServiceException extends ValidationException {
     public UserEmptyParamServiceException() {
     }
 
