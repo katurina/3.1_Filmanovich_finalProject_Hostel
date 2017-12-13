@@ -12,8 +12,65 @@
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AdminEntry</servlet-name>
+        <jsp-file>/WEB-INF/admin/admin_entry.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminEntry</servlet-name>
+        <url-pattern>/admin/admin_entry</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminGuestroom</servlet-name>
+        <jsp-file>/WEB-INF/admin/admin_guestrooms.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminGuestroom</servlet-name>
+        <url-pattern>/admin/admin_guestrooms</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminHostel</servlet-name>
+        <jsp-file>/WEB-INF/admin/admin_hostels.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminHostel</servlet-name>
+        <url-pattern>/admin/admin_hostels</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminUsers</servlet-name>
+        <jsp-file>/WEB-INF/admin/admin_users</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminUsers</servlet-name>
+        <url-pattern>/admin/admin_users</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminBookings</servlet-name>
+        <jsp-file>/WEB-INF/admin/admin_user_bookings.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminBookings</servlet-name>
+        <url-pattern>/admin/admin_user_bookings</url-pattern>
+    </servlet-mapping>
+
+
     <listener>
         <listener-class>by.epam.project.hostel.controller.ApplicationListener</listener-class>
     </listener>
+
+    <filter>
+        <filter-name>CheckRole</filter-name>
+        <filter-class>by.epam.project.hostel.controller.filter.CheckRoleFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>CheckRole</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

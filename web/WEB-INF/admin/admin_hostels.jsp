@@ -6,17 +6,10 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
-    <fmt:message bundle="${loc}" key="local.admin.users" var="users"/>
-    <title>${users}</title>
+    <fmt:message bundle="${loc}" key="local.admin.hostels" var="hostel"/>
+    <title>${hostel}</title>
 </head>
 <body>
-<c:choose>
-    <c:when test="${sessionScope.user eq null}">
-        <c:import url="sign_in.jsp"/>
-    </c:when>
-    <c:otherwise>
-        <c:import url="header.jsp"/>
-    </c:otherwise>
-</c:choose>
+<%@include file="/WEB-INF/admin/admin_header.jsp" %>
 </body>
 </html>

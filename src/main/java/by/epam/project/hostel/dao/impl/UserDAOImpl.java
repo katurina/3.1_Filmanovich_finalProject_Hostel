@@ -92,7 +92,9 @@ public class UserDAOImpl implements UserDAO {
         user.setLogin(rs.getString(4));
         user.setPassword(rs.getString(5));
         user.setEmail(rs.getString(6));
-        user.setNumber(rs.getString(7));
+        user.setRole(rs.getString(7));
+        user.setBanned(rs.getInt(8));
+        user.setNumber(rs.getString(9));
         return user;
     }
 

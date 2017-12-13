@@ -13,7 +13,6 @@ import by.epam.project.hostel.service.validation.impl.ValidatorUserImpl;
 public class UserServiceImpl implements UserService {
 
     private static final UserDAO USER_DAO = DAOFactory.getInstance().getUserDAO();
-    private static final String ADMIN = "admin";
     private static final Validator<User> VALIDATOR = new ValidatorUserImpl();
 
 
@@ -21,7 +20,12 @@ public class UserServiceImpl implements UserService {
     public User singIn(String login, String password) throws ServiceException {
         try {
             VALIDATOR.validate(login, password);
-            return USER_DAO.signIn(login, password);
+            User user = USER_DAO.signIn(login, password);
+            if (user != null && User.Role.USER.equals(user.getRole())) {
+                return user;
+            } else {
+                return null;
+            }
         } catch (DAOException e) {
             throw new ValidationException("user validation failed", e);
         }
@@ -32,7 +36,7 @@ public class UserServiceImpl implements UserService {
         VALIDATOR.validate(login, password);
         try {
             User admin = USER_DAO.signIn(login, password);
-            if (admin.getRole().equals(ADMIN)) {
+            if (admin != null && User.Role.ADMIN.equals(admin.getRole())) {
                 return admin;
             } else {
                 return null;

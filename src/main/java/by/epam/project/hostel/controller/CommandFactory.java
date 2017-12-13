@@ -2,6 +2,7 @@ package by.epam.project.hostel.controller;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
+import by.epam.project.hostel.controller.command.impl.LogOutCommand;
 import by.epam.project.hostel.controller.command.impl.LoginAdminCommand;
 import by.epam.project.hostel.controller.command.impl.LoginCommand;
 import by.epam.project.hostel.controller.command.impl.RegistrationCommand;
@@ -33,6 +34,8 @@ public class CommandFactory {
                 return new ChangeLocalCommand();
             case LOGIN_COMMAND_ADMIN:
                 return new LoginAdminCommand();
+            case "logout":
+                return new LogOutCommand();
         }
         return null;
     }

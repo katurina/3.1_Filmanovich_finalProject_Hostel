@@ -12,7 +12,7 @@
     <fmt:message bundle="${loc}" key="local.signIn" var="signIn"/>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/controller" method="get">
+<form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="login-command-admin"/>
     <table>
         <tr>

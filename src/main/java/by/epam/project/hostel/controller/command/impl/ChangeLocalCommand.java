@@ -1,7 +1,6 @@
 package by.epam.project.hostel.controller.command.impl;
 
 import by.epam.project.hostel.controller.command.Command;
-import by.epam.project.hostel.controller.command.impl.exception.BadGetWayException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ public class ChangeLocalCommand implements Command {
             // результат отображения страницы зависит от выборки данных, которые на нее пришли
             // п ты просто переходишь на jsp , без перевыборки
         } catch (ServletException | IOException e) {
-            throw new BadGetWayException("something go wrong");//а это что тут такое затесалось??
+            e.printStackTrace();
         }
     }
 }

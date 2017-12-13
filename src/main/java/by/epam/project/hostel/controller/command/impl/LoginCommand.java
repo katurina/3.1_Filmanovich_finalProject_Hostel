@@ -30,9 +30,14 @@ public class LoginCommand implements Command {
         String isValid = null;
         try {
             User user = ServiceFactory.getInstance().getUserService().singIn(login, password);
-            request.getSession().setAttribute(USER, user);
-            page = INDEX_JSP;
-            isValid = TRUE;
+            if (user != null) {
+                request.getSession().setAttribute(USER, user);
+                page = INDEX_JSP;
+                isValid = TRUE;
+            } else {
+                page = LOGIN_JSP;
+                isValid = FALSE;
+            }
         } catch (UserEmptyParamServiceException e) {
             e.printStackTrace();
             page = LOGIN_JSP;

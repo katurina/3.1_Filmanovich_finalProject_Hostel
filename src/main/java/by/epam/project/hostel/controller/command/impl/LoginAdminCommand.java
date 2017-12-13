@@ -11,34 +11,41 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.ADMIN_ENTRY;
+import static by.epam.project.hostel.controller.constant.Constant.ADMIN_SIGN_IN;
+import static by.epam.project.hostel.controller.constant.Constant.FALSE;
+import static by.epam.project.hostel.controller.constant.Constant.LOGIN;
+import static by.epam.project.hostel.controller.constant.Constant.PASSWORD;
+import static by.epam.project.hostel.controller.constant.Constant.TRUE;
+import static by.epam.project.hostel.controller.constant.Constant.USER;
+import static by.epam.project.hostel.controller.constant.Constant.VALID_PARAM;
+
 public class LoginAdminCommand implements Command {
-    private static final String TRUE = "true";
-    private static final String FALSE = "false";
-    private static final String PASSWORD = "password";
-    private static final String LOGIN = "login";
-    private static final String USER = "user";
-    private static final String ADMIN_ENTRY_JSP = "admin/admin_entry.jsp";
-    private static final String VALID_PARAM = "validParam";
+
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
-        String isValid = null;
+        String isValid = FALSE;
+        String forwardPage = ADMIN_ENTRY;
         try {
             User user = ServiceFactory.getInstance().getUserService().adminSignIn(login, password);
-            request.getSession().setAttribute(USER, user);
-            isValid = TRUE;
+            if (user != null) {
+                request.getSession().setAttribute(USER, user);
+                isValid = TRUE;
+            } else {
+                forwardPage = ADMIN_SIGN_IN;
+            }
         } catch (UserEmptyParamServiceException e) {
             e.printStackTrace();
-            isValid = FALSE;
         } catch (ServiceException e) {
 //           todo
             e.printStackTrace();
         }
         try {
             request.getSession().setAttribute(VALID_PARAM, isValid);
-            request.getRequestDispatcher(ADMIN_ENTRY_JSP).forward(request, response);
+            request.getRequestDispatcher(forwardPage).forward(request, response);
         } catch (ServletException | IOException e) {
 //           todo
             e.printStackTrace();

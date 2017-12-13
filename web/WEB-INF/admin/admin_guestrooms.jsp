@@ -10,13 +10,7 @@
     <title>${rooms}</title>
 </head>
 <body>
-<c:choose>
-    <c:when test="${sessionScope.user eq null}">
-        <c:import url="sign_in.jsp"/>
-    </c:when>
-    <c:otherwise>
-        <c:import url="header.jsp"/>
-    </c:otherwise>
-</c:choose>
+<%@include file="/WEB-INF/admin/admin_header.jsp" %>
+
 </body>
 </html>
