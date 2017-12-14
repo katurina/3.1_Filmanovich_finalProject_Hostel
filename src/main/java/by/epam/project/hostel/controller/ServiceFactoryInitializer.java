@@ -2,12 +2,15 @@ package by.epam.project.hostel.controller;
 
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceInitException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class ApplicationListener implements ServletContextListener {// неудачное название
+public class ServiceFactoryInitializer implements ServletContextListener {
 
+    private static final Logger LOGGER = LogManager.getLogger(ServiceFactoryInitializer.class);
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -15,8 +18,7 @@ public class ApplicationListener implements ServletContextListener {// неуд�
         try {
             serviceFactory.init();
         } catch (ServiceInitException e) {
-            e.printStackTrace();// посмотри логгеры, они не такие и сложные
-            throw new RuntimeException(e);
+            LOGGER.error("service wasn't init", e);
         }
     }
 

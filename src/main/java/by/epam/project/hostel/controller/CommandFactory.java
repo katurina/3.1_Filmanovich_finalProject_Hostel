@@ -2,9 +2,10 @@ package by.epam.project.hostel.controller;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
-import by.epam.project.hostel.controller.command.impl.LogOutCommand;
+import by.epam.project.hostel.controller.command.impl.EditUserCommand;
 import by.epam.project.hostel.controller.command.impl.LoginAdminCommand;
 import by.epam.project.hostel.controller.command.impl.LoginCommand;
+import by.epam.project.hostel.controller.command.impl.LogoutCommand;
 import by.epam.project.hostel.controller.command.impl.RegistrationCommand;
 
 public class CommandFactory {
@@ -12,6 +13,7 @@ public class CommandFactory {
     private static final String REGISTRATION_COMMAND = "registration-command";
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
     private static final String LOGIN_COMMAND_ADMIN = "login-command-admin";
+    private static final String LOGOUT = "logout";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -34,8 +36,10 @@ public class CommandFactory {
                 return new ChangeLocalCommand();
             case LOGIN_COMMAND_ADMIN:
                 return new LoginAdminCommand();
-            case "logout":
-                return new LogOutCommand();
+            case LOGOUT:
+                return new LogoutCommand();
+            case "edit-user":
+                return new EditUserCommand();
         }
         return null;
     }

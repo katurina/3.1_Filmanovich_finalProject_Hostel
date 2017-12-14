@@ -1,9 +1,8 @@
 package by.epam.project.hostel.dao.impl;
 
-import by.epam.project.hostel.dao.ConnectionProvider;
 import by.epam.project.hostel.dao.UserDAO;
 import by.epam.project.hostel.dao.exception.DAOException;
-import by.epam.project.hostel.dao.pagination.impl.PaginationImpl;
+import by.epam.project.hostel.dao.pagination.impl.PageWrapper;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.entity.pagination.Page;
 
@@ -14,15 +13,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.epam.project.hostel.dao.pagination.Constant.MAX_ENTRIES_PER_PAGE;
+
+
 public class UserDAOImpl implements UserDAO {
 
     private static final String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT id,name,surname,login,password,email,role,banned,number FROM user WHERE login= ? AND password= ?";
     private static final String INSERT_USER = "INSERT INTO user(name, surname,login, password, email,number) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_BY_LOGIN = "DELETE FROM user WHERE login = ?";
-    private static final String SELECT_ALL_FROM_USER = "SELECT id, name,surname,login,password,email,number,banned FROM user";
-    private static ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-    private volatile static List<User> users = new ArrayList<>();
+    private static final String SELECT_USER_LIMIT = "SELECT id, name,surname,login,password,email,number,banned FROM user LIMIT ?,?";
 
+    @Override
     public User signIn(String login, String password) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection()) {
             PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN_AND_PASSWORD);
@@ -32,9 +33,9 @@ public class UserDAOImpl implements UserDAO {
             if (!rs.next()) {
                 return null;
             }
-            return initUser(rs);
+            return createUser(rs);
         } catch (SQLException e) {
-            throw new DAOException("Error from DB: ", e);
+            throw new DAOException("Error during user sign in: ", e);
         }
     }
 
@@ -54,6 +55,7 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    @Override
     public void deleteUser(String login) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection()) {
             PreparedStatement ps = connection.prepareStatement(DELETE_BY_LOGIN);
@@ -65,26 +67,23 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Page<User> getAllUsers(int page) throws DAOException {
+    public Page<User> getPageWithUsers(int pageNumber) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection()) {
-            updateListUsers(connection);
-            PaginationImpl<User> userPagination = new PaginationImpl<>();
-            return userPagination.getAllPageInformation(users, page);
-//            todo
+            PreparedStatement ps = connection.prepareStatement(SELECT_USER_LIMIT);
+            ps.setInt(1, pageNumber);
+            ps.setInt(2, MAX_ENTRIES_PER_PAGE);
+            ResultSet rs = ps.executeQuery();
+            List<User> users = new ArrayList<>();
+            while (rs.next()) {
+                users.add(createUser(rs));
+            }
+            return PageWrapper.wrapList(users, pageNumber, getTotalRowCount("user"));
         } catch (SQLException e) {
-            throw new DAOException("can't get users from database");
+            throw new DAOException("can't get users from database", e);
         }
     }
 
-    private void updateListUsers(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(SELECT_ALL_FROM_USER);
-        ResultSet rs = ps.executeQuery();
-        while (!rs.next()) {
-            users.add(initUser(rs));
-        }
-    }
-
-    private User initUser(ResultSet rs) throws SQLException {
+    private User createUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getInt(1));
         user.setName(rs.getString(2));

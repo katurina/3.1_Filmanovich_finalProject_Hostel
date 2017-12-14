@@ -1,7 +1,7 @@
 package by.epam.project.hostel.service;
 
-import by.epam.project.hostel.dao.ConnectionProvider;
-import by.epam.project.hostel.dao.exception.NoDBDriverFound;
+import by.epam.project.hostel.dao.connetionDB.ConnectionProvider;
+import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.service.exception.ServiceInitException;
 import by.epam.project.hostel.service.impl.UserServiceImpl;
 
@@ -25,9 +25,9 @@ public class ServiceFactory {
 
     public void init() throws ServiceInitException {
         try {
-            connectionProvider.init();
-        } catch (NoDBDriverFound e) {
-            throw new ServiceInitException("Connection not init: ", e);
+            connectionProvider.initPoolData();
+        } catch (ConnectionPoolException e) {
+            throw new ServiceInitException("ConnectionPool not initialized: ", e);
         }
     }
 }

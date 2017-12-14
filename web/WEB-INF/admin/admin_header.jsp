@@ -10,6 +10,8 @@
     <fmt:message bundle="${loc}" key="local.admin.guestrooms" var="rooms"/>
     <fmt:message bundle="${loc}" key="local.admin.booking" var="bookings"/>
     <fmt:message bundle="${loc}" key="local.admin.logout" var="logout"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+
 </head>
 <body>
 <div style="float:left;">

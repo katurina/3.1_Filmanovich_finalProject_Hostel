@@ -17,11 +17,6 @@ public class Controller extends HttpServlet {
         String commandName = request.getParameter(COMMAND);
         Command command = CommandFactory.getInstance().getCommand(commandName);
         command.execute(request, response);
-
-        // выучи обработку исключительных ситуаций
-        // осознай, когда ты гасишь исключение - то что взамен ты должен сделать
-        // представь, что это исключение произошло - какой ответ твое веб-приложение пошлет клиенту в этом случае
-
     }
 
     @Override

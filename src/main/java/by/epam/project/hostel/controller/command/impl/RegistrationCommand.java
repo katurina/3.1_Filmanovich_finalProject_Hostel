@@ -3,20 +3,24 @@ package by.epam.project.hostel.controller.command.impl;
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.INDEX_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.User.EMAIL;
+import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
+import static by.epam.project.hostel.controller.constant.Constant.User.NAME;
+import static by.epam.project.hostel.controller.constant.Constant.User.NUMBER;
+import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
+import static by.epam.project.hostel.controller.constant.Constant.User.SURNAME;
+
 public class RegistrationCommand implements Command {
 
-    private static final String NAME = "name";
-    private static final String SURNAME = "surname";
-    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-    private static final String EMAIL = "email";
-    private static final String INDEX_JSP = "index.jsp";
-    private static final String NUMBER = "number";
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -30,7 +34,7 @@ public class RegistrationCommand implements Command {
             ServiceFactory.getInstance().getUserService().registerUser(name, surname, login, password, email, number);
             response.sendRedirect(INDEX_JSP);
         } catch (ServiceException | IOException e) {
-//todo
+            LOGGER.error("error during registration", e);
         }
     }
 }

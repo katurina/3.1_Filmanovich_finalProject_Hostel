@@ -5,22 +5,26 @@ import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.exception.UserEmptyParamServiceException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.FALSE;
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.INDEX_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.LOGIN_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.VALID_PARAM;
+import static by.epam.project.hostel.controller.constant.Constant.TRUE;
+import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
+import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
+import static by.epam.project.hostel.controller.constant.Constant.User.USER;
+
 public class LoginCommand implements Command {
 
-    private static final String PASSWORD = "password";
-    private static final String LOGIN = "login";
-    private static final String USER = "user";
-    private static final String INDEX_JSP = "index.jsp";
-    private static final String LOGIN_JSP = "login.jsp";
-    private static final String TRUE = "true";
-    private static final String FALSE = "false";
-    private static final String VALID_PARAM = "validParam";
+    private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,19 +43,17 @@ public class LoginCommand implements Command {
                 isValid = FALSE;
             }
         } catch (UserEmptyParamServiceException e) {
-            e.printStackTrace();
+            LOGGER.error("error during login command", e);
             page = LOGIN_JSP;
             isValid = FALSE;
         } catch (ServiceException e) {
-//           todo
-            e.printStackTrace();
+            LOGGER.error("error during login command", e);
         }
         try {
             request.getSession().setAttribute(VALID_PARAM, isValid);
             request.getRequestDispatcher(page).forward(request, response);
         } catch (ServletException | IOException e) {
-//           todo
-            e.printStackTrace();
+            LOGGER.error("error during forward in login command", e);
         }
     }
 }

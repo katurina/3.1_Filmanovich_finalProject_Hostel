@@ -42,7 +42,7 @@
 
     <servlet>
         <servlet-name>AdminUsers</servlet-name>
-        <jsp-file>/WEB-INF/admin/admin_users</jsp-file>
+        <jsp-file>/WEB-INF/admin/admin_users.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminUsers</servlet-name>
@@ -60,7 +60,7 @@
 
 
     <listener>
-        <listener-class>by.epam.project.hostel.controller.ApplicationListener</listener-class>
+        <listener-class>by.epam.project.hostel.controller.ServiceFactoryInitializer</listener-class>
     </listener>
 
     <filter>

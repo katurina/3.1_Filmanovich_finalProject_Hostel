@@ -1,6 +1,8 @@
 package by.epam.project.hostel.controller.command.impl;
 
 import by.epam.project.hostel.controller.command.Command;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,9 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_SIGN_IN;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
-public class LogOutCommand implements Command {
+public class LogoutCommand implements Command {
+
+    private static final Logger LOGGER = LogManager.getLogger(LogoutCommand.class);
 
 
     @Override
@@ -20,9 +25,9 @@ public class LogOutCommand implements Command {
             session.removeAttribute(USER);
         }
         try {
-            response.sendRedirect("admin_sign_in.jsp");
+            response.sendRedirect(ADMIN_SIGN_IN);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("error during sendRedirect in logoutcommand", e);
         }
     }
 }
