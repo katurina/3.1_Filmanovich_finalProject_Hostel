@@ -19,6 +19,10 @@
 </head>
 <body>
 <%@include file="/WEB-INF/admin/admin_header.jsp" %>
+<jsp:include page="${pageContext.request.contextPath}/controller">
+    <jsp:param name="command" value="get-users-command"/>
+</jsp:include>
+<br>
 <table>
     <thead>
     <tr>
@@ -34,8 +38,8 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="user" items="${requestScope.users}">
-        <input type="hidden" name="command" value="edit-user">
+    <c:forEach var="user" items="${requestScope.page.entity}">
+        <input type="hidden" name="command" value="edit-user-command">
         <input type="hidden" name="id" value="${user.id}">
         <tr>
             <td>${user.id}</td>

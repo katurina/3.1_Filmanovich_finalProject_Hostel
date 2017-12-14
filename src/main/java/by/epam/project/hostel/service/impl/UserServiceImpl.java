@@ -4,6 +4,7 @@ import by.epam.project.hostel.dao.DAOFactory;
 import by.epam.project.hostel.dao.UserDAO;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.User;
+import by.epam.project.hostel.entity.pagination.Page;
 import by.epam.project.hostel.service.UserService;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
@@ -43,6 +44,15 @@ public class UserServiceImpl implements UserService {
             }
         } catch (DAOException e) {
             throw new ServiceException("admin's signing in failed", e);
+        }
+    }
+
+    @Override
+    public Page<User> getUsersPage(int currentPage) throws ServiceException {
+        try {
+            return USER_DAO.getPageWithUsers(currentPage);
+        } catch (DAOException e) {
+            throw new ServiceException("fetching user's page failed, current page: " + currentPage, e);
         }
     }
 

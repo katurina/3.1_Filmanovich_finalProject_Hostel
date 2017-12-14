@@ -27,7 +27,7 @@ public class CheckRoleFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         User user = (User) httpRequest.getSession().getAttribute(USER);
-        if (user != null && String.valueOf(user.getRole()).equals(ADMIN)) {
+        if (user != null && User.Role.ADMIN.equals(user.getRole())) {
             chain.doFilter(request, response);
         } else {
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -13,7 +13,7 @@
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="login-command-admin"/>
+    <input type="hidden" name="command" value="login-admin-command"/>
     <table>
         <tr>
             <td>${login}:</td>

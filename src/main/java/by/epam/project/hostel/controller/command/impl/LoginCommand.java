@@ -4,7 +4,6 @@ import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceException;
-import by.epam.project.hostel.service.exception.UserEmptyParamServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -28,24 +27,17 @@ public class LoginCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        String login = request.getParameter(LOGIN);
-        String password = request.getParameter(PASSWORD);
-        String page = null;
-        String isValid = null;
+        String page = LOGIN_JSP;
+        String isValid = FALSE;
         try {
+            String login = request.getParameter(LOGIN);
+            String password = request.getParameter(PASSWORD);
             User user = ServiceFactory.getInstance().getUserService().singIn(login, password);
             if (user != null) {
                 request.getSession().setAttribute(USER, user);
                 page = INDEX_JSP;
                 isValid = TRUE;
-            } else {
-                page = LOGIN_JSP;
-                isValid = FALSE;
             }
-        } catch (UserEmptyParamServiceException e) {
-            LOGGER.error("error during login command", e);
-            page = LOGIN_JSP;
-            isValid = FALSE;
         } catch (ServiceException e) {
             LOGGER.error("error during login command", e);
         }

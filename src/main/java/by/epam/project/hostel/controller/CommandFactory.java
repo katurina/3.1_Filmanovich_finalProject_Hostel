@@ -3,6 +3,7 @@ package by.epam.project.hostel.controller;
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
 import by.epam.project.hostel.controller.command.impl.EditUserCommand;
+import by.epam.project.hostel.controller.command.impl.GetUsersCommand;
 import by.epam.project.hostel.controller.command.impl.LoginAdminCommand;
 import by.epam.project.hostel.controller.command.impl.LoginCommand;
 import by.epam.project.hostel.controller.command.impl.LogoutCommand;
@@ -12,8 +13,9 @@ public class CommandFactory {
     private static final String LOGIN_COMMAND = "login-command";
     private static final String REGISTRATION_COMMAND = "registration-command";
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
-    private static final String LOGIN_COMMAND_ADMIN = "login-command-admin";
+    private static final String LOGIN_ADMIN_COMMAND = "login-admin-command";
     private static final String LOGOUT = "logout";
+    public static final String EDIT_USER_COMMAND = "edit-user-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -34,12 +36,14 @@ public class CommandFactory {
                 return new RegistrationCommand();
             case CHANGE_LOCAL_COMMAND:
                 return new ChangeLocalCommand();
-            case LOGIN_COMMAND_ADMIN:
+            case LOGIN_ADMIN_COMMAND:
                 return new LoginAdminCommand();
             case LOGOUT:
                 return new LogoutCommand();
-            case "edit-user":
+            case EDIT_USER_COMMAND:
                 return new EditUserCommand();
+            case "get-users-command":
+                return new GetUsersCommand();
         }
         return null;
     }

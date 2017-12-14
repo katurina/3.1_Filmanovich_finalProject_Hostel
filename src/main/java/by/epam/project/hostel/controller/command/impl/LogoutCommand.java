@@ -27,7 +27,7 @@ public class LogoutCommand implements Command {
         try {
             response.sendRedirect(ADMIN_SIGN_IN);
         } catch (IOException e) {
-            LOGGER.error("error during sendRedirect in logoutcommand", e);
+            LOGGER.error("error during sendRedirect in logout command", e);
         }
     }
 }

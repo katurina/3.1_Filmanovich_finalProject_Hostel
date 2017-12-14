@@ -1,6 +1,8 @@
 package by.epam.project.hostel.controller.constant;
 
 public final class Constant {
+    public static final String PAGE = "page";
+
     private Constant() {
     }
 
@@ -9,7 +11,7 @@ public final class Constant {
 
 
     public class User {
-        public static final String ID ="id" ;
+        public static final String ID = "id";
 
         private User() {
         }
@@ -26,6 +28,9 @@ public final class Constant {
     public class PageJSP {
         private PageJSP() {
         }
+
+        public static final String LOCAL = "local";
+        public static final String CURRENT_PAGE = "current-page";
 
         public static final String INDEX_JSP = "index.jsp";
         public static final String ADMIN_ENTRY = "admin/admin_entry";

@@ -14,7 +14,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.NClob;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLClientInfoException;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
@@ -88,48 +87,6 @@ public final class ConnectionProvider {
             throw new ConnectionPoolException("Error connection to the data sources.", e);
         }
         return connection;
-    }
-
-    public void closeConnection(Connection con, Statement st, ResultSet rs) {
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Error closing connection.", e);
-        }
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Error closing connection.", e);
-        }
-
-        try {
-            if (st != null) {
-                st.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Error closing connection.", e);
-        }
-    }
-
-    public void closeConnection(Connection con, Statement st) {
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Error closing connection.", e);
-        }
-        try {
-            if (st != null) {
-                st.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Error closing connection.", e);
-        }
     }
 
     private void clearConnectionQueue() {

@@ -27,11 +27,11 @@ public class LoginAdminCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter(LOGIN);
-        String password = request.getParameter(PASSWORD);
         String isValid = FALSE;
         String forwardPage = ADMIN_SIGN_IN;
         try {
+            String login = request.getParameter(LOGIN);
+            String password = request.getParameter(PASSWORD);
             User user = ServiceFactory.getInstance().getUserService().adminSignIn(login, password);
             if (user != null) {
                 request.getSession().setAttribute(USER, user);
@@ -43,8 +43,8 @@ public class LoginAdminCommand implements Command {
         }
         try {
             request.getSession().setAttribute(VALID_PARAM, isValid);
-            request.getRequestDispatcher(forwardPage).forward(request, response);
-        } catch (ServletException | IOException e) {
+            response.sendRedirect(forwardPage);
+        } catch ( IOException e) {
             LOGGER.error("error during forward in LoginAdminCommand", e);
         }
     }
