@@ -15,6 +15,8 @@
     <fmt:message bundle="${loc}" key="local.user.email" var="email"/>
     <fmt:message bundle="${loc}" key="local.user.banned" var="banned"/>
     <fmt:message bundle="${loc}" key="local.admin.edit" var="edit"/>
+    <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
+    <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <title>${users}</title>
 </head>
 <body>
@@ -27,10 +29,10 @@
     <thead>
     <tr>
         <td>ID</td>
-        <th>${login}</th>
         <th>${name}</th>
-        <th>${email}</th>
         <th>${surname}</th>
+        <th>${login}</th>
+        <th>${email}</th>
         <th>${number}</th>
         <th>${role}</th>
         <th>${banned}</th>
@@ -39,6 +41,7 @@
     </thead>
     <tbody>
     <c:forEach var="user" items="${requestScope.page.entity}">
+        <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="edit-user-command">
         <input type="hidden" name="id" value="${user.id}">
         <tr>
@@ -47,8 +50,6 @@
             <td>${user.surname}</td>
             <td>${user.login}</td>
             <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td>${user.banned}</td>
             <td>${user.number}</td>
             <td>
                 <c:choose>
@@ -76,5 +77,19 @@
     </c:forEach>
     </tbody>
 </table>
+<div style="float:right;">
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="current-page" value="/admin/admin_users">
+        <input type="hidden" name="command" value="change-local-command">
+        <input type="hidden" name="local" value="ru"/>
+        <input type="submit" value="${ru_button}"/>
+    </form>
+    <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="current-page" value="/admin/admin_users">
+        <input type="hidden" name="command" value="change-local-command">
+        <input type="hidden" name="local" value="en"/>
+        <input type="submit" value="${en_button}">
+    </form>
+</div>
 </body>
 </html>

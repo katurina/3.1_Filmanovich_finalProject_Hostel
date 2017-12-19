@@ -11,5 +11,7 @@ public interface UserDAO extends EntityDAO{
 
     Page<User> getPageWithUsers(int page) throws DAOException;
 
+    void editUser(int id, String role, int banned) throws DAOException;
+
     void registration(String name, String surname, String login, String password, String email, String number) throws DAOException;
 }

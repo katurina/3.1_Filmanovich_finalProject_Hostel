@@ -12,4 +12,6 @@ public interface UserService {
     Page<User> getUsersPage(int currentPage) throws ServiceException;
 
     void registerUser(String name, String surname, String login, String password, String email, String number) throws ServiceException;
+
+    void updateUser(int id, String role, int banned) throws ServiceException;
 }

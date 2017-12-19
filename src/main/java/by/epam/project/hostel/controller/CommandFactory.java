@@ -16,6 +16,7 @@ public class CommandFactory {
     private static final String LOGIN_ADMIN_COMMAND = "login-admin-command";
     private static final String LOGOUT = "logout";
     public static final String EDIT_USER_COMMAND = "edit-user-command";
+    public static final String GET_USERS_COMMAND = "get-users-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -42,7 +43,7 @@ public class CommandFactory {
                 return new LogoutCommand();
             case EDIT_USER_COMMAND:
                 return new EditUserCommand();
-            case "get-users-command":
+            case GET_USERS_COMMAND:
                 return new GetUsersCommand();
         }
         return null;

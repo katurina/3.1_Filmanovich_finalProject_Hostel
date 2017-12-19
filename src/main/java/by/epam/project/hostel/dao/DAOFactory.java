@@ -6,6 +6,10 @@ public class DAOFactory {
     private final static DAOFactory instance = new DAOFactory();
     private UserDAO userDAO = new UserDAOImpl();
 
+    static{
+
+    }
+
     private DAOFactory() {
     }
 

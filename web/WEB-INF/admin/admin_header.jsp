@@ -23,6 +23,5 @@
         <li><a href="${pageContext.request.contextPath}/controller?command=logout">${logout}</a></li>
     </ul>
 </div>
-<c:import url="/ru_en_buttons.jsp"/>
 </body>
 </html>

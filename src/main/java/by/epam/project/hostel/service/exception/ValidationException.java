@@ -1,6 +1,8 @@
 package by.epam.project.hostel.service.exception;
 
 public class ValidationException extends ServiceException {
+
+
     public ValidationException() {
     }
 

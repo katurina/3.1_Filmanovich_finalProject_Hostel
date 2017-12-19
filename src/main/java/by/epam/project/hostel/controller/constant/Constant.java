@@ -16,6 +16,8 @@ public final class Constant {
         private User() {
         }
 
+        public static final String ROLE = "role";
+        public static final String BANNED = "banned";
         public static final String NAME = "name";
         public static final String SURNAME = "surname";
         public static final String LOGIN = "login";
@@ -31,6 +33,7 @@ public final class Constant {
 
         public static final String LOCAL = "local";
         public static final String CURRENT_PAGE = "current-page";
+        public static final String ADMIN_ADMIN_USERS = "/admin/admin_users";
 
         public static final String INDEX_JSP = "index.jsp";
         public static final String ADMIN_ENTRY = "admin/admin_entry";

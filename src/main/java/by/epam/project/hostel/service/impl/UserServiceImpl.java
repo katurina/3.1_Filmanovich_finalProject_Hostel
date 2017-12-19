@@ -58,11 +58,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(String name, String surname, String login, String password, String email, String number) throws ServiceException {
+
+        VALIDATOR.validate(name, surname, login, password, email, number);
+
         try {
-            VALIDATOR.validate(name, surname, login, password, email, number);
             USER_DAO.registration(name, surname, login, password, email, number);
         } catch (DAOException e) {
             throw new ServiceException("registration failed", e);
+        }
+    }
+
+    @Override
+    public void updateUser(int id, String role, int banned) throws ServiceException {
+        ValidatorUserImpl validatorUser = new ValidatorUserImpl();
+        try {
+            validatorUser.validateID(id);
+            validatorUser.validateBanned(banned);
+            validatorUser.validateRole(role);
+            USER_DAO.editUser(id, role, banned);
+        } catch (ValidationException | DAOException e) {
+            throw new ServiceException("updateUser failed", e);
         }
     }
 

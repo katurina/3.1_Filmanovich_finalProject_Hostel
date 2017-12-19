@@ -24,7 +24,7 @@ public class GetUsersCommand implements Command {
         ServiceFactory instance = ServiceFactory.getInstance();
         UserService userService = instance.getUserService();
         try {
-            Page<User> usersPage = userService.getUsersPage(1);
+            Page<User> usersPage = userService.getUsersPage(0);
             request.setAttribute(Constant.PAGE, usersPage);
         } catch (ServiceException e) {
             LOGGER.error("error during getting page with users", e);
