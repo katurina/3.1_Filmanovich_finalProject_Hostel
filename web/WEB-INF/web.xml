@@ -22,6 +22,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>UserAccount</servlet-name>
+        <jsp-file>/WEB-INF/account.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserAccount</servlet-name>
+        <url-pattern>/account</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>AdminGuestroom</servlet-name>
         <jsp-file>/WEB-INF/admin/admin_guestrooms.jsp</jsp-file>
     </servlet>
@@ -67,7 +76,7 @@
         <filter-name>CheckRole</filter-name>
         <filter-class>by.epam.project.hostel.controller.filter.CheckRoleFilter</filter-class>
     </filter>
-    
+
     <filter-mapping>
         <filter-name>CheckRole</filter-name>
         <url-pattern>/admin/*</url-pattern>

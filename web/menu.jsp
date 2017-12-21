@@ -6,18 +6,14 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<div class="nav nav-tabs nav-stacked" style="background: #999999; width:50px; height: 100vh">
+<div class="nav nav-tabs nav-stacked"
+     style="background: #999999; width:50px; display: block; height: 100vh; list-style-type: none; position: fixed;">
     <div style="height: calc(100vh - 100px);">
         <li><a href="index.jsp">
             <div style="margin: 5px"><img src="img/toolbar/home.png" alt="home" width="40px" height="40px"></div>
@@ -51,11 +47,32 @@
             <div style="margin: 5px"><img src="img/toolbar/question.png" alt="question" width="40px" height="40px">
             </div>
         </a></li>
-        <li><a href="">
-            <div style="margin: 5px">
-                <img src="img/toolbar/account.png" alt="account" width="40px" height="40px">
-            </div>
-        </a></li>
+
+        <c:choose>
+            <c:when test="${sessionScope.user eq null}">
+                <li>
+                    <a href="login.jsp">
+                        <div style="margin: 5px">
+                            <img src="img/toolbar/account.png" alt="account" width="40px" height="40px">
+                        </div>
+                    </a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <c:choose>
+                    <c:when test="${sessionScope.user.role =='ADMIN'}">
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a href="account">
+                                <div style="margin: 5px">
+                                    <img src="img/toolbar/account.png" alt="account" width="40px" height="40px">
+                                </div>
+                            </a></li>
+                    </c:otherwise>
+                </c:choose>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 </body>

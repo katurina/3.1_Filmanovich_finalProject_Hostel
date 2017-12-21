@@ -35,7 +35,6 @@
         </table>
         <input type="submit" value="${signIn}"/><br>
         <a href="registration.jsp">${registration}</a><br>
-        <a href="login_registration.jsp">${home}</a>
     </form>
 
 </div>
