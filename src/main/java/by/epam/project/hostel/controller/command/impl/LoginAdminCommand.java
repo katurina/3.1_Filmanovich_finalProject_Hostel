@@ -4,8 +4,8 @@ import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +44,7 @@ public class LoginAdminCommand implements Command {
         try {
             request.getSession().setAttribute(VALID_PARAM, isValid);
             response.sendRedirect(forwardPage);
-        } catch ( IOException e) {
+        } catch (IOException e) {
             LOGGER.error("error during forward in LoginAdminCommand", e);
         }
     }

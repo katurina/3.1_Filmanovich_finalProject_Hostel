@@ -4,8 +4,8 @@ import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +20,7 @@ import static by.epam.project.hostel.controller.constant.Constant.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
+
 
 public class LoginCommand implements Command {
 

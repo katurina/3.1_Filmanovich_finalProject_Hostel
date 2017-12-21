@@ -2,8 +2,8 @@ package by.epam.project.hostel.controller;
 
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceInitException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

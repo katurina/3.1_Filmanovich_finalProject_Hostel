@@ -1,6 +1,6 @@
 package by.epam.project.hostel.dao;
 
-import by.epam.project.hostel.dao.connetionDB.ConnectionProvider;
+import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.DAOException;
 
 import java.sql.Connection;

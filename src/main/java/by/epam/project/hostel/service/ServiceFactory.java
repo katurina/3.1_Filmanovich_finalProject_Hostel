@@ -1,6 +1,6 @@
 package by.epam.project.hostel.service;
 
-import by.epam.project.hostel.dao.connetionDB.ConnectionProvider;
+import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.service.exception.ServiceInitException;
 import by.epam.project.hostel.service.impl.UserServiceImpl;

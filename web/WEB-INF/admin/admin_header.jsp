@@ -21,6 +21,20 @@
         <li><a href="${pageContext.request.contextPath}/admin/admin_guestrooms">${rooms}</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/admin_user_bookings">${bookings}</a></li>
         <li><a href="${pageContext.request.contextPath}/controller?command=logout">${logout}</a></li>
+        <li>
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="change-local-command">
+                <input type="hidden" name="local" value="ru"/>
+                <input type="submit" value="${ru_button}"/>
+            </form>
+        </li>
+        <li>
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="change-local-command">
+                <input type="hidden" name="local" value="en"/>
+                <input type="submit" value="${en_button}">
+            </form>
+        </li>
     </ul>
 </div>
 </body>

@@ -16,7 +16,7 @@ public class ValidatorUserImpl implements Validator<User> {
 
     public void validateID(int id) throws ValidationException {
         if (id < 1) {
-            throw new ValidationException("erroe during validation id: " + id);
+            throw new ValidationException("error during validation id: " + id);
         }
     }
 

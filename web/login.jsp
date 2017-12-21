@@ -16,6 +16,7 @@
     <fmt:message bundle="${loc}" key="local.not.valid.password.login" var="not_valid"/>
     <fmt:message bundle="${loc}" key="local.registration" var="registration"/>
     <title>${login}</title>
+    <c:set scope="session" var="url" value="login.jsp"/>
 </head>
 <body>
 <div style="float: left">
@@ -34,23 +35,10 @@
         </table>
         <input type="submit" value="${signIn}"/><br>
         <a href="registration.jsp">${registration}</a><br>
-        <a href="index.jsp">${home}</a>
+        <a href="login_registration.jsp">${home}</a>
     </form>
 
 </div>
-<div style="float:right;">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="login.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="ru"/>
-        <input type="submit" value="${ru_button}"/>
-    </form>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="login.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="en"/>
-        <input type="submit" value="${en_button}">
-    </form>
-</div>
+<c:import url="ru_en_buttons.jsp"/>
 </body>
 </html>

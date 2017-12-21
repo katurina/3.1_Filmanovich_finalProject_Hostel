@@ -12,6 +12,8 @@
     <fmt:message bundle="${loc}" key="local.signIn" var="signIn"/>
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
+    <title>${signIn}</title>
+    <c:set scope="session" var="url" value="admin_sign_in.jsp"/>
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/controller" method="post">
@@ -28,19 +30,6 @@
     </table>
     <input type="submit" value="${signIn}"/><br>
 </form>
-<div style="float:right;">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="admin_sign_in.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="ru"/>
-        <input type="submit" value="${ru_button}"/>
-    </form>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="admin_sign_in.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="en"/>
-        <input type="submit" value="${en_button}">
-    </form>
-</div>
+
 </body>
 </html>

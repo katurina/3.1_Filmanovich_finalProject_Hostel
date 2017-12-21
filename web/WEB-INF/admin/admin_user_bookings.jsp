@@ -10,22 +10,10 @@
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <title>${booking}</title>
+    <c:set scope="session" var="url" value="/admin/admin_user_bookings"/>
 </head>
 <body>
 <%@include file="/WEB-INF/admin/admin_header.jsp" %>
-<div style="float:right;">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="/admin/admin_user_bookings">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="ru"/>
-        <input type="submit" value="${ru_button}"/>
-    </form>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="login.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="en"/>
-        <input type="submit" value="${en_button}">
-    </form>
-</div>
+
 </body>
 </html>

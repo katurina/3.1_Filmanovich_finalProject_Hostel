@@ -1,9 +1,9 @@
-package by.epam.project.hostel.dao.connetionDB;
+package by.epam.project.hostel.dao.db.connection;
 
 
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Array;
 import java.sql.Blob;

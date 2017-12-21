@@ -18,6 +18,7 @@
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <title>${users}</title>
+    <c:set scope="session" var="url" value="/admin/admin_users"/>
 </head>
 <body>
 <%@include file="/WEB-INF/admin/admin_header.jsp" %>
@@ -64,10 +65,10 @@
             <td>
                 <c:choose>
                     <c:when test="${user.banned}">
-                        <input type="checkbox" name="banned" value="true" checked/>
+                        <input type="checkbox" name="banned" value="1" checked/>
                     </c:when>
                     <c:otherwise>
-                        <input type="checkbox" name="banned" value="true"/>
+                        <input type="checkbox" name="banned" value="1"/>
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -77,19 +78,6 @@
     </c:forEach>
     </tbody>
 </table>
-<div style="float:right;">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="/admin/admin_users">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="ru"/>
-        <input type="submit" value="${ru_button}"/>
-    </form>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="/admin/admin_users">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="en"/>
-        <input type="submit" value="${en_button}">
-    </form>
-</div>
+
 </body>
 </html>

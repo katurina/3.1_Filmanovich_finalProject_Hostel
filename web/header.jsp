@@ -6,10 +6,8 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
-    <title>Hostel</title>
-    <c:set scope="session" var="url" value="index.jsp"/>
 </head>
 <body>
-<c:import url="menu.jsp"/>
+
 </body>
 </html>

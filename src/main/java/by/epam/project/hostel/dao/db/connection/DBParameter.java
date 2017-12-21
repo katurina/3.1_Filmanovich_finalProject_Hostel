@@ -1,4 +1,4 @@
-package by.epam.project.hostel.dao.connetionDB;
+package by.epam.project.hostel.dao.db.connection;
 
 public class DBParameter {
     private DBParameter() {

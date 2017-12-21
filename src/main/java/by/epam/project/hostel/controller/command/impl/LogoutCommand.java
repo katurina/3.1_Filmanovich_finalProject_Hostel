@@ -1,8 +1,8 @@
 package by.epam.project.hostel.controller.command.impl;
 
 import by.epam.project.hostel.controller.command.Command;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

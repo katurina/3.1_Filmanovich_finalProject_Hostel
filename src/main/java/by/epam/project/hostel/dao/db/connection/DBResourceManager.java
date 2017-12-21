@@ -1,4 +1,4 @@
-package by.epam.project.hostel.dao.connetionDB;
+package by.epam.project.hostel.dao.db.connection;
 
 import java.util.ResourceBundle;
 

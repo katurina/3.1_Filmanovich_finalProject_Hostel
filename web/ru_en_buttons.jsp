@@ -11,18 +11,18 @@
 </head>
 <body>
 <div style="float:right;">
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="login.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="ru"/>
-        <input type="submit" value="${ru_button}"/>
-    </form>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="current-page" value="login.jsp">
-        <input type="hidden" name="command" value="change-local-command">
-        <input type="hidden" name="local" value="en"/>
-        <input type="submit" value="${en_button}">
-    </form>
+    <footer>
+        <form action="${pageContext.request.contextPath}/controller" method="post">
+            <input type="hidden" name="command" value="change-local-command">
+            <input type="hidden" name="local" value="ru"/>
+            <input type="submit" value="${ru_button}"/>
+        </form>
+        <form action="${pageContext.request.contextPath}/controller" method="post">
+            <input type="hidden" name="command" value="change-local-command">
+            <input type="hidden" name="local" value="en"/>
+            <input type="submit" value="${en_button}">
+        </form>
+    </footer>
 </div>
 </body>
 </html>

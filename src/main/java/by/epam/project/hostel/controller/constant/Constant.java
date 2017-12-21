@@ -11,11 +11,11 @@ public final class Constant {
 
 
     public class User {
-        public static final String ID = "id";
 
         private User() {
         }
 
+        public static final String ID = "id";
         public static final String ROLE = "role";
         public static final String BANNED = "banned";
         public static final String NAME = "name";
@@ -35,7 +35,7 @@ public final class Constant {
         public static final String CURRENT_PAGE = "current-page";
         public static final String ADMIN_ADMIN_USERS = "/admin/admin_users";
 
-        public static final String INDEX_JSP = "index.jsp";
+        public static final String INDEX_JSP = "login_registration.jsp";
         public static final String ADMIN_ENTRY = "admin/admin_entry";
         public static final String VALID_PARAM = "validParam";
         public static final String ADMIN_SIGN_IN = "admin_sign_in.jsp";

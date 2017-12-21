@@ -7,7 +7,8 @@ import by.epam.project.hostel.entity.pagination.Page;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.UserService;
 import by.epam.project.hostel.service.exception.ServiceException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,8 @@ import java.io.IOException;
 
 
 public class GetUsersCommand implements Command {
-    private static final Logger LOGGER = Logger.getLogger(GetUsersCommand.class);
+
+    private static final Logger LOGGER = LogManager.getLogger(GetUsersCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
