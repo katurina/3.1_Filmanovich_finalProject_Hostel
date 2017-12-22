@@ -13,7 +13,7 @@
 <body>
 
 <div class="nav nav-tabs nav-stacked"
-     style="background: #999999; width:50px; display: block; height: 100vh; list-style-type: none; position: fixed;">
+     style="background: #9eaeee; width:50px; display: block; height: 100vh; list-style-type: none; position: fixed;">
     <div style="height: calc(100vh - 100px);">
         <li><a href="index.jsp">
             <div style="margin: 5px"><img src="img/toolbar/home.png" alt="home" width="40px" height="40px"></div>
