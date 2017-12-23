@@ -15,7 +15,7 @@ import java.io.IOException;
 import static by.epam.project.hostel.controller.constant.Constant.FALSE;
 import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_ENTRY;
 import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_SIGN_IN;
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.VALID_PARAM;
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
@@ -42,7 +42,7 @@ public class LoginAdminCommand implements Command {
             LOGGER.error("error during linging admin command", e);
         }
         try {
-            request.getSession().setAttribute(VALID_PARAM, isValid);
+            request.getSession().setAttribute(ERROR, isValid);
             response.sendRedirect(forwardPage);
         } catch (IOException e) {
             LOGGER.error("error during forward in LoginAdminCommand", e);

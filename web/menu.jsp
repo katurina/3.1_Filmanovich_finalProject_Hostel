@@ -61,54 +61,44 @@
                                  height="40px">
                         </button>
                         <!-- The Modal -->
-                        <div id="id01" class="modal" style="z-index: 999999;">
+                        <c:choose>
+                            <c:when test="${requestScope.errorParam eq true}">
+                                ${'<div id="id01" class="modal" style="z-index: 999999;display: block">'}
+                            </c:when>
+                            <c:otherwise>
+                                ${'<div id="id01" class="modal" style="z-index: 999999;">'}
+                            </c:otherwise>
+                        </c:choose>
                         <span onclick=" document.getElementById('id01').style.display='none'" class="close"
                               title="Close Modal">&times;</span>
 
-                            <!-- Modal Content -->
-                            <form class="modal-content animate"
-                                  action="${pageContext.request.contextPath}/controller"
-                                  method="get">
-                                <input type="hidden" name="command" value="login-command"/>
+                        <!-- Modal Content -->
+                        <form class="modal-content animate"
+                              action="${pageContext.request.contextPath}/controller"
+                              method="get">
+                            <input type="hidden" name="command" value="login-command"/>
 
-                                <div class="container">
-                                    <label><b>Login</b></label>
-                                    <input type="text" placeholder="Enter Username" name="login" required>
+                            <div class="container">
+                                <label><b>Login</b></label>
+                                <input type="text" placeholder="Enter Username" name="login" required>
 
-                                    <label><b>Password</b></label>
-                                    <input type="password" placeholder="Enter Password" name="password" required>
-                                    <button type="submit">Login</button>
+                                <label><b>Password</b></label>
+                                <input type="password" placeholder="Enter Password" name="password" required>
+                                <button type="submit">Login</button>
 
-                                </div>
+                            </div>
 
-                                <div class="container" style="background-color:#f1f1f1">
-                                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
-                                            class="cancelbtn">
-                                        Cancel
-                                    </button>
-                                    <span class="psw">Forgot <a href="#">password?</a></span>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="container" style="background-color:#f1f1f1">
+                                <button type="button"
+                                        onclick="document.getElementById('id01').style.display='none'"
+                                        class="cancelbtn">
+                                    Cancel
+                                </button>
+                                <span class="psw">Forgot <a href="#">password?</a></span>
+                            </div>
+                        </form>
+                            ${'</div>'}
                     </div>
-                        <%--<div style="float: left">--%>
-                        <%--<form action="${pageContext.request.contextPath}/controller" method="get">--%>
-                        <%--<input type="hidden" name="command" value="login-command"/>--%>
-                        <%--<table>--%>
-                        <%--<tr>--%>
-                        <%--<td>${login}:</td>--%>
-                        <%--<td><input name="login"/></td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                        <%--<td>${password}:</td>--%>
-                        <%--<td><input name="password"/></td>--%>
-                        <%--</tr>--%>
-                        <%--</table>--%>
-                        <%--<input type="submit" value="${signIn}"/><br>--%>
-                        <%--<a href="registration.jsp">${registration}</a><br>--%>
-                        <%--</form>--%>
-
-                        <%--</div>--%>
 
                 </li>
             </c:when>
