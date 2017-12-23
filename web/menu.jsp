@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <style>
+        <%@include file="/css/style.css"%>
+    </style>
 </head>
 <body>
 
-<div class="nav nav-tabs nav-stacked"
-     style="background: #9eaeee; width:50px; display: block; height: 100vh; list-style-type: none; position: fixed;">
+<div class="nav nav-tabs nav-stacked" style="z-index: 100">
     <div style="height: calc(100vh - 100px);">
         <li><a href="index.jsp">
             <div style="margin: 5px"><img src="img/toolbar/home.png" alt="home" width="40px" height="40px"></div>
@@ -45,17 +47,69 @@
     <div style="height: 100px">
         <li><a href="">
             <div style="margin: 5px"><img src="img/toolbar/question.png" alt="question" width="40px" height="40px">
+
             </div>
         </a></li>
 
         <c:choose>
             <c:when test="${sessionScope.user eq null}">
                 <li>
-                    <a href="login.jsp">
-                        <div style="margin: 5px">
-                            <img src="img/toolbar/account.png" alt="account" width="40px" height="40px">
+
+                    <div style="margin: 5px">
+                        <button onclick="document.getElementById('id01').style.display='block'">
+                            <img src="img/toolbar/account.png" alt="account" width="40px"
+                                 height="40px">
+                        </button>
+                        <!-- The Modal -->
+                        <div id="id01" class="modal" style="z-index: 999999;">
+                        <span onclick=" document.getElementById('id01').style.display='none'" class="close"
+                              title="Close Modal">&times;</span>
+
+                            <!-- Modal Content -->
+                            <form class="modal-content animate"
+                                  action="${pageContext.request.contextPath}/controller"
+                                  method="get">
+                                <input type="hidden" name="command" value="login-command"/>
+
+                                <div class="container">
+                                    <label><b>Username</b></label>
+                                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                                    <label><b>Password</b></label>
+                                    <input type="password" placeholder="Enter Password" name="psw" required>
+                                    <button type="submit">Login</button>
+
+                                </div>
+
+                                <div class="container" style="background-color:#f1f1f1">
+                                    <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                                            class="cancelbtn">
+                                        Cancel
+                                    </button>
+                                    <span class="psw">Forgot <a href="#">password?</a></span>
+                                </div>
+                            </form>
                         </div>
-                    </a>
+                    </div>
+                        <%--<div style="float: left">--%>
+                        <%--<form action="${pageContext.request.contextPath}/controller" method="get">--%>
+                        <%--<input type="hidden" name="command" value="login-command"/>--%>
+                        <%--<table>--%>
+                        <%--<tr>--%>
+                        <%--<td>${login}:</td>--%>
+                        <%--<td><input name="login"/></td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                        <%--<td>${password}:</td>--%>
+                        <%--<td><input name="password"/></td>--%>
+                        <%--</tr>--%>
+                        <%--</table>--%>
+                        <%--<input type="submit" value="${signIn}"/><br>--%>
+                        <%--<a href="registration.jsp">${registration}</a><br>--%>
+                        <%--</form>--%>
+
+                        <%--</div>--%>
+
                 </li>
             </c:when>
             <c:otherwise>
@@ -75,5 +129,16 @@
         </c:choose>
     </div>
 </div>
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>

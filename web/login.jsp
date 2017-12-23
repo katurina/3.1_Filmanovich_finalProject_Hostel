@@ -16,28 +16,16 @@
     <fmt:message bundle="${loc}" key="local.not.valid.password.login" var="not_valid"/>
     <fmt:message bundle="${loc}" key="local.registration" var="registration"/>
     <title>${login}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <c:set scope="session" var="url" value="login.jsp"/>
+    <style>
+        <%@include file="/css/style.css"%>
+    </style>
 </head>
 <body>
-<div style="float: left">
-    <c:if test="${sessionScope.validParam eq \"false\"}">${not_valid}</c:if>
-    <form action="${pageContext.request.contextPath}/controller" method="get">
-        <input type="hidden" name="command" value="login-command"/>
-        <table>
-            <tr>
-                <td>${login}:</td>
-                <td><input name="login"/></td>
-            </tr>
-            <tr>
-                <td>${password}:</td>
-                <td><input name="password"/></td>
-            </tr>
-        </table>
-        <input type="submit" value="${signIn}"/><br>
-        <a href="registration.jsp">${registration}</a><br>
-    </form>
+<!-- Button to open the modal login form -->
 
-</div>
-<c:import url="ru_en_buttons.jsp"/>
 </body>
 </html>
