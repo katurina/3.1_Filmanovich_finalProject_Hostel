@@ -6,15 +6,11 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
-    <fmt:message bundle="${loc}" key="local.account" var="account"/>
-    <fmt:message bundle="${loc}" key="local.user.my.bookings" var="myBookings"/>
-    <title>${account}</title>
-    <c:set scope="session" var="url" value="account"/>
+    <fmt:message bundle="${loc}" key="local.admin.booking" var="bookings"/>
+    <title>${bookings}</title>
 </head>
 <body>
-<c:import url="/menu.jsp"/>
-<c:import url="/WEB-INF/user_account/user_head_account.jsp"/>
-
+<c:import url="user_head_account.jsp"/>
 
 </body>
 </html>

@@ -67,7 +67,23 @@
         <url-pattern>/admin/admin_user_bookings</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserBookings</servlet-name>
+        <jsp-file>/WEB-INF/user_account/my_bookings.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserBookings</servlet-name>
+        <url-pattern>/bookings</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserSettings</servlet-name>
+        <jsp-file>/WEB-INF/user_account/user_edit_sittings.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserSettings</servlet-name>
+        <url-pattern>/settings</url-pattern>
+    </servlet-mapping>
 
     <listener>
         <listener-class>by.epam.project.hostel.controller.ServiceFactoryInitializer</listener-class>

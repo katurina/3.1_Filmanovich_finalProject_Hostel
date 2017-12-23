@@ -137,7 +137,17 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    }
+    };
+
+    $(document).ready(function () {
+        $('input[name=login]').click(function () {
+            $('#errorLogM').fadeOut();
+        });
+
+        $('input[name=password]').click(function () {
+            $('#errorLogM').fadeOut();
+        })
+    });
 </script>
 </body>
 </html>
