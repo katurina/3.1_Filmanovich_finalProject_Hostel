@@ -6,6 +6,12 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
+    <fmt:message bundle="${loc}" key="local.title.login" var="login"/>
+    <fmt:message bundle="${loc}" key="local.password" var="password"/>
+    <fmt:message bundle="${loc}" key="local.user.cancel" var="cancel"/>
+    <fmt:message bundle="${loc}" key="local.forget" var="forget"/>
+    <fmt:message bundle="${loc}" key="local.not.valid.password.login" var="errorLoginMessage"/>
+    <fmt:message bundle="${loc}" key="local.user.login.noun" var="lognoun"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -62,7 +68,7 @@
                         </button>
                         <!-- The Modal -->
                         <c:choose>
-                            <c:when test="${requestScope.errorParam eq true}">
+                            <c:when test="${errorParam eq true}">
                                 ${'<div id="id01" class="modal" style="z-index: 999999;display: block">'}
                             </c:when>
                             <c:otherwise>
@@ -77,14 +83,17 @@
                               action="${pageContext.request.contextPath}/controller"
                               method="get">
                             <input type="hidden" name="command" value="login-command"/>
-
                             <div class="container">
-                                <label><b>Login</b></label>
+                                <c:if test="${errorParam eq true}">
+                                    <label id="errorLogM" style="color: #f44336"><b>${errorLoginMessage}</b></label>
+                                    <br>
+                                </c:if>
+                                <label><b>${lognoun}</b></label>
                                 <input type="text" placeholder="Enter Username" name="login" required>
 
-                                <label><b>Password</b></label>
+                                <label><b>${password}</b></label>
                                 <input type="password" placeholder="Enter Password" name="password" required>
-                                <button type="submit">Login</button>
+                                <button type="submit">${login}</button>
 
                             </div>
 
@@ -92,9 +101,9 @@
                                 <button type="button"
                                         onclick="document.getElementById('id01').style.display='none'"
                                         class="cancelbtn">
-                                    Cancel
+                                        ${cancel}
                                 </button>
-                                <span class="psw">Forgot <a href="#">password?</a></span>
+                                <span class="psw">${forget} <a href="#">${password}?</a></span>
                             </div>
                         </form>
                             ${'</div>'}

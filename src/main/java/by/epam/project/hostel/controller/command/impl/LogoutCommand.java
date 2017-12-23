@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_SIGN_IN;
+import static by.epam.project.hostel.controller.constant.Constant.PageJSP.INDEX_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class LogoutCommand implements Command {
@@ -25,7 +25,7 @@ public class LogoutCommand implements Command {
             session.removeAttribute(USER);
         }
         try {
-            response.sendRedirect(ADMIN_SIGN_IN);
+            response.sendRedirect(INDEX_JSP);
         } catch (IOException e) {
             LOGGER.error("error during sendRedirect in logout command", e);
         }
