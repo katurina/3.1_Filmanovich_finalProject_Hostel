@@ -14,7 +14,6 @@ import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.FALSE;
 import static by.epam.project.hostel.controller.constant.Constant.PageJSP.INDEX_JSP;
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.LOGIN_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.PageJSP.VALID_PARAM;
 import static by.epam.project.hostel.controller.constant.Constant.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
@@ -28,7 +27,6 @@ public class LoginCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        String page = LOGIN_JSP;
         String isValid = FALSE;
         try {
             String login = request.getParameter(LOGIN);
@@ -36,7 +34,6 @@ public class LoginCommand implements Command {
             User user = ServiceFactory.getInstance().getUserService().singIn(login, password);
             if (user != null) {
                 request.getSession().setAttribute(USER, user);
-                page = INDEX_JSP;
                 isValid = TRUE;
             }
         } catch (ServiceException e) {
@@ -44,7 +41,7 @@ public class LoginCommand implements Command {
         }
         try {
             request.getSession().setAttribute(VALID_PARAM, isValid);
-            request.getRequestDispatcher(page).forward(request, response);
+            request.getRequestDispatcher(INDEX_JSP).forward(request, response);
         } catch (ServletException | IOException e) {
             LOGGER.error("error during forward in login command", e);
         }
