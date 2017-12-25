@@ -9,10 +9,16 @@
     <fmt:message bundle="${loc}" key="local.user.my.bookings" var="bookings"/>
     <fmt:message bundle="${loc}" key="local.user.settings" var="settings"/>
     <fmt:message bundle="${loc}" key="local.admin.logout" var="logout"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        <%@include file="/css/style.css"%>
+    </style>
 </head>
 <body>
 <div style="margin-left:50px">
-    <div style="width: 100%;">
+    <div class="head-navbar">
         <li>
             <a href="${pageContext.request.contextPath}/bookings">${bookings}</a>
         </li>

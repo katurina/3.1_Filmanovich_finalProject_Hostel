@@ -70,6 +70,14 @@ public class Guestroom extends Entity implements Serializable {
         this.tv = tv;
     }
 
+    public void setTv(int tv) {
+        if (tv == 0) {
+            this.tv = false;
+        } else if (tv == 1) {
+            this.tv = true;
+        }
+    }
+
     public boolean isWifi() {
         return wifi;
     }
@@ -78,12 +86,28 @@ public class Guestroom extends Entity implements Serializable {
         this.wifi = wifi;
     }
 
+    public void setWifi(int wifi) {
+        if (wifi == 0) {
+            this.wifi = false;
+        } else if (wifi == 1) {
+            this.wifi = true;
+        }
+    }
+
     public boolean isBath() {
         return bath;
     }
 
     public void setBath(boolean bath) {
         this.bath = bath;
+    }
+
+    public void setBath(int bath) {
+        if (bath == 0) {
+            this.bath = false;
+        } else if (bath == 1) {
+            this.bath = true;
+        }
     }
 
     public int getCapacity() {

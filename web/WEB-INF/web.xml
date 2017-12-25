@@ -86,7 +86,7 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>by.epam.project.hostel.controller.ServiceFactoryInitializer</listener-class>
+        <listener-class>by.epam.project.hostel.controller.listener.SessionListener</listener-class>
     </listener>
 
     <filter>

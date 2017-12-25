@@ -1,4 +1,4 @@
-package by.epam.project.hostel.dao.pagination;
+package by.epam.project.hostel.pagination;
 
 
 import by.epam.project.hostel.entity.pagination.Page;

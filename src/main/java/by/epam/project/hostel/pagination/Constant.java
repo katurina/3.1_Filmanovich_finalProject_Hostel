@@ -1,4 +1,4 @@
-package by.epam.project.hostel.dao.pagination;
+package by.epam.project.hostel.pagination;
 
 public class Constant {
     private Constant() {

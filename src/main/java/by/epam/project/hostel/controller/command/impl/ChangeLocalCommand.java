@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.LOCAL;
+import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 
 public class ChangeLocalCommand implements Command {
 

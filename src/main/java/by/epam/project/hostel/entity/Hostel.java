@@ -7,25 +7,24 @@ public class Hostel extends Entity implements Serializable {
 
     private int id;
     private int stars;
+    private String name;
     private String country;
     private String city;
     private String description;
-    private int hostelId;
     private String imgPath;
     private String address;
 
     public Hostel() {
     }
 
-    public Hostel(
-            int id, int stars, String country, String city,
-            String description, int hostelId, String imgPath, String address) {
+    public Hostel(int id, int stars, String name, String country, String city,
+                  String description, String imgPath, String address) {
         this.id = id;
         this.stars = stars;
+        this.name = name;
         this.country = country;
         this.city = city;
         this.description = description;
-        this.hostelId = hostelId;
         this.imgPath = imgPath;
         this.address = address;
     }
@@ -50,6 +49,14 @@ public class Hostel extends Entity implements Serializable {
         this.stars = stars;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -72,14 +79,6 @@ public class Hostel extends Entity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getHostelId() {
-        return hostelId;
-    }
-
-    public void setHostelId(int hostelId) {
-        this.hostelId = hostelId;
     }
 
     public String getImgPath() {
@@ -115,7 +114,7 @@ public class Hostel extends Entity implements Serializable {
         if (getStars() != hostel.getStars()) {
             return false;
         }
-        if (getHostelId() != hostel.getHostelId()) {
+        if (getName() != null ? !getName().equals(hostel.getName()) : hostel.getName() != null) {
             return false;
         }
         if (getCountry() != null ? !getCountry().equals(hostel.getCountry()) : hostel.getCountry() != null) {
@@ -137,10 +136,10 @@ public class Hostel extends Entity implements Serializable {
     public int hashCode() {
         int result = getId();
         result = 31 * result + getStars();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
         result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
         result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + getHostelId();
         result = 31 * result + (getImgPath() != null ? getImgPath().hashCode() : 0);
         result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
         return result;

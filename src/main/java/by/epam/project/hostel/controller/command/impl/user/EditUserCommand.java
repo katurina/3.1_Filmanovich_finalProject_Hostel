@@ -1,4 +1,4 @@
-package by.epam.project.hostel.controller.command.impl;
+package by.epam.project.hostel.controller.command.impl.user;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.constant.Constant;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_ADMIN_USERS;
+import static by.epam.project.hostel.controller.constant.Constant.Page.ADMIN_ADMIN_USERS;
 import static by.epam.project.hostel.controller.constant.Constant.User.BANNED;
 import static by.epam.project.hostel.controller.constant.Constant.User.ROLE;
 
@@ -21,17 +21,19 @@ import static by.epam.project.hostel.controller.constant.Constant.User.ROLE;
 public class EditUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
+    private static final String USER = "USER";
+    private static final String NOT_BANNED = "0";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.valueOf(request.getParameter(Constant.User.ID));
         String role = request.getParameter(ROLE);
         if (role == null) {
-            role = "USER";
+            role = USER;
         }
         String banned = request.getParameter(BANNED);
         if (banned == null) {
-            banned = "0";
+            banned = NOT_BANNED;
         }
         ServiceFactory instance = ServiceFactory.getInstance();
         UserService userService = instance.getUserService();

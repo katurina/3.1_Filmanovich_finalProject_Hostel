@@ -1,4 +1,4 @@
-package by.epam.project.hostel.controller.command.impl;
+package by.epam.project.hostel.controller.command.impl.user;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.entity.User;
@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.FALSE;
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_ENTRY;
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ADMIN_SIGN_IN;
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.ERROR;
+import static by.epam.project.hostel.controller.constant.Constant.Page.ADMIN_ENTRY;
+import static by.epam.project.hostel.controller.constant.Constant.Page.ADMIN_SIGN_IN;
+import static by.epam.project.hostel.controller.constant.Constant.Page.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;

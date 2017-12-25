@@ -2,12 +2,13 @@ package by.epam.project.hostel.controller;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
-import by.epam.project.hostel.controller.command.impl.EditUserCommand;
-import by.epam.project.hostel.controller.command.impl.GetUsersCommand;
-import by.epam.project.hostel.controller.command.impl.LoginAdminCommand;
-import by.epam.project.hostel.controller.command.impl.LoginCommand;
-import by.epam.project.hostel.controller.command.impl.LogoutCommand;
-import by.epam.project.hostel.controller.command.impl.RegistrationCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
+import by.epam.project.hostel.controller.command.impl.user.EditUserCommand;
+import by.epam.project.hostel.controller.command.impl.user.GetUsersCommand;
+import by.epam.project.hostel.controller.command.impl.user.LoginAdminCommand;
+import by.epam.project.hostel.controller.command.impl.user.LoginCommand;
+import by.epam.project.hostel.controller.command.impl.user.LogoutCommand;
+import by.epam.project.hostel.controller.command.impl.user.RegistrationCommand;
 
 public class CommandFactory {
     private static final String LOGIN_COMMAND = "login-command";
@@ -15,8 +16,9 @@ public class CommandFactory {
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
     private static final String LOGIN_ADMIN_COMMAND = "login-admin-command";
     private static final String LOGOUT = "logout";
-    public static final String EDIT_USER_COMMAND = "edit-user-command";
-    public static final String GET_USERS_COMMAND = "get-users-command";
+    private static final String EDIT_USER_COMMAND = "edit-user-command";
+    private static final String GET_USERS_COMMAND = "get-users-command";
+    private static final String VIEW_HOSTEL = "view-hostel";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -45,6 +47,8 @@ public class CommandFactory {
                 return new EditUserCommand();
             case GET_USERS_COMMAND:
                 return new GetUsersCommand();
+            case VIEW_HOSTEL:
+                return new GetHostelCommand();
         }
         return null;
     }

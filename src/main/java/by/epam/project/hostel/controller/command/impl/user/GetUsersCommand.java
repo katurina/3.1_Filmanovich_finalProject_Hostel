@@ -1,4 +1,4 @@
-package by.epam.project.hostel.controller.command.impl;
+package by.epam.project.hostel.controller.command.impl.user;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.constant.Constant;
@@ -28,6 +28,8 @@ public class GetUsersCommand implements Command {
         try {
             Page<User> usersPage = userService.getUsersPage(0);
             request.setAttribute(Constant.PAGE, usersPage);
+            //requestScope.page
+            //requst.getAttribute("page)
         } catch (ServiceException e) {
             LOGGER.error("error during getting page with users", e);
         }

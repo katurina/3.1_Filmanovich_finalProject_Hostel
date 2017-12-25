@@ -55,7 +55,6 @@ button:hover {
     background-color: #f44336;
 }
 
-
 /* Center the image and position the close button */
 .imgcontainer {
     text-align: center;
@@ -120,6 +119,30 @@ span.psw {
 .animate {
     -webkit-animation: animatezoom 0.6s;
     animation: animatezoom 0.6s
+}
+
+.head-navbar {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    background: #9eaeee;
+    text-align: center;
+}
+
+.head-navbar > li {
+    display: inline;
+}
+
+.head-navbar > li > a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin: 10px;
+}
+
+.head-navbar > li > a:hover {
+    background-color: #0066FF;
 }
 
 @-webkit-keyframes animatezoom {

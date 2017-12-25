@@ -16,7 +16,6 @@ import java.io.IOException;
 public class CheckRoleFilter implements Filter {
 
     private static final String USER = "user";
-    private static final String ADMIN = "ADMIN";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

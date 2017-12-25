@@ -27,8 +27,16 @@ public final class Constant {
         public static final String USER = "user";
     }
 
-    public class PageJSP {
-        private PageJSP() {
+    public class Hostel {
+        private Hostel() {
+        }
+
+        public static final String HOSTEL = "hostel";
+        public static final String ID = "id";
+    }
+
+    public class Page {
+        private Page() {
         }
 
         public static final String LOCAL = "local";
@@ -40,6 +48,14 @@ public final class Constant {
         public static final String ERROR = "errorParam";
         public static final String ADMIN_SIGN_IN = "admin_sign_in.jsp";
         public static final String LOGIN_JSP = "login.jsp";
+    }
+
+    public class Language {
+        private Language() {
+        }
+
+        public static final String RU = "ru";
+        private static final String EN = "en";
     }
 
 

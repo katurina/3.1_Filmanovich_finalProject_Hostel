@@ -1,4 +1,4 @@
-package by.epam.project.hostel.controller.command.impl;
+package by.epam.project.hostel.controller.command.impl.user;
 
 import by.epam.project.hostel.controller.command.Command;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.PageJSP.INDEX_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class LogoutCommand implements Command {
