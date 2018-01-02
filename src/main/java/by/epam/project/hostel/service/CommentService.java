@@ -1,4 +1,4 @@
 package by.epam.project.hostel.service;
 
-public interface CommentService{
+public interface CommentService extends EntityService {
 }

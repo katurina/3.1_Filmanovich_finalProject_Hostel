@@ -4,7 +4,6 @@ import by.epam.project.hostel.service.exception.EmptyParamServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 
 public interface Validator<T> {
-    void validate(T entity) throws EmptyParamServiceException;
 
     default void validate(String... param) throws EmptyParamServiceException {
         if (param != null) {
@@ -21,6 +20,12 @@ public interface Validator<T> {
     default void validateID(int id) throws ValidationException {
         if (id < 0) {
             throw new ValidationException("error during validation id: " + id);
+        }
+    }
+
+    default void validateCurrentPage(int currentPage) throws ValidationException {
+        if (currentPage < 1) {
+            throw new ValidationException("error during validation currentPage: " + currentPage);
         }
     }
 

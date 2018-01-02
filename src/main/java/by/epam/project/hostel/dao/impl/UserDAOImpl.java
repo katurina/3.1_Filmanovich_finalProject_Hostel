@@ -16,7 +16,7 @@ import java.util.List;
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
 
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
@@ -63,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void registration(String name, String surname, String login, String password, String email, String number) throws DAOException {
+    public void register(String name, String surname, String login, String password, String email, String number) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(INSERT_USER)) {
             ps.setString(1, name);
@@ -92,7 +92,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getPageWithUsers(int pageNumber) throws DAOException {
+    public List<User> getUsers(int pageNumber) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_USER_LIMIT)) {
             ps.setInt(1, pageNumber);
@@ -125,4 +125,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
+    @Override
+    protected String getTableName() {
+        return "user";
+    }
 }

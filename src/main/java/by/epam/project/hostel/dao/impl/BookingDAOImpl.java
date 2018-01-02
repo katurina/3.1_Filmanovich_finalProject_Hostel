@@ -16,7 +16,7 @@ import java.util.List;
 
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
-public class BookingDAOImpl implements BookingDAO {
+public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
     private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
 
@@ -24,6 +24,7 @@ public class BookingDAOImpl implements BookingDAO {
     public void bookRoom(double nightPrice, Date startDay, Date lastDay, boolean payed, Date bookDay, double finalCost, int userId, int guestroomId) {
 
     }
+
 
     @Override
     public List<Booking> getUserBookings(int userId, int currentPage) throws DAOException {
@@ -56,4 +57,10 @@ public class BookingDAOImpl implements BookingDAO {
         booking.setFinalCost(rs.getDouble(8));
         return booking;
     }
+
+    @Override
+    protected String getTableName() {
+        return "bookings";
+    }
+
 }

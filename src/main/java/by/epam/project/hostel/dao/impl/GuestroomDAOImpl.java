@@ -15,7 +15,7 @@ import java.util.List;
 
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
-public class GuestroomDAOImpl implements GuestroomDAO {
+public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
 
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
     private static final String SELECT_ROOMS_BY_HOSTEL_ID_LIMIT = "SELECT  guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description FROM guestrooms INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id INNER JOIN language l ON t.language_id = l.id WHERE l.language=? AND hostel_id=? LIMIT ?,?";
@@ -78,5 +78,10 @@ public class GuestroomDAOImpl implements GuestroomDAO {
         guestroom.setCapacity(rs.getInt(6));
         guestroom.setDescription(rs.getString(7));
         return guestroom;
+    }
+
+    @Override
+    protected String getTableName() {
+        return "guestrooms";
     }
 }

@@ -1,5 +1,5 @@
 package by.epam.project.hostel.service;
 
-public interface GuestroomService {
+public interface GuestroomService extends EntityService {
 
 }

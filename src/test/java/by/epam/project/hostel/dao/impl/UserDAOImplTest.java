@@ -8,7 +8,7 @@ public class UserDAOImplTest {
     @Test
     public void registration() throws DAOException {
         UserDAOImpl userDAO = new UserDAOImpl();
-        userDAO.registration("1", "1", "1", "1", "1", "1");
+        userDAO.register("1", "1", "1", "1", "1", "1");
 //        todo asset
         userDAO.deleteUser("1");
     }

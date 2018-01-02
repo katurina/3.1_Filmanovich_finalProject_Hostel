@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class HostelDAOImpl implements HostelDAO {
+public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
 
@@ -65,5 +65,10 @@ public class HostelDAOImpl implements HostelDAO {
         hostel.setAddress(rs.getString(7));
         hostel.setId(rs.getInt(8));
         return hostel;
+    }
+
+    @Override
+    protected String getTableName() {
+        return "hostel";
     }
 }

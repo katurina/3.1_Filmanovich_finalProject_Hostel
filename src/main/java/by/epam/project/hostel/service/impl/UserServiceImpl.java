@@ -4,17 +4,18 @@ import by.epam.project.hostel.dao.DAOFactory;
 import by.epam.project.hostel.dao.UserDAO;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.User;
-import by.epam.project.hostel.entity.pagination.Page;
 import by.epam.project.hostel.service.UserService;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 import by.epam.project.hostel.service.validation.Validator;
-import by.epam.project.hostel.service.validation.impl.ValidatorUserImpl;
+import by.epam.project.hostel.service.validation.impl.UserValidatorImpl;
+
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
     private static final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
-    private static final Validator<User> validator = new ValidatorUserImpl();
+    private static final Validator<User> validator = new UserValidatorImpl();
 
 
     @Override
@@ -48,9 +49,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUsersPage(int currentPage) throws ServiceException {
+    public List<User> getUsers(int currentPage) throws ServiceException {
         try {
-            return userDAO.getPageWithUsers(currentPage);
+            return userDAO.getUsers(currentPage);
         } catch (DAOException e) {
             throw new ServiceException("fetching user's page failed, current page: " + currentPage, e);
         }
@@ -58,11 +59,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(String name, String surname, String login, String password, String email, String number) throws ServiceException {
-
         validator.validate(name, surname, login, password, email, number);
-
         try {
-            userDAO.registration(name, surname, login, password, email, number);
+            userDAO.register(name, surname, login, password, email, number);
         } catch (DAOException e) {
             throw new ServiceException("registration failed", e);
         }
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(int id, String role, int banned) throws ServiceException {
-        ValidatorUserImpl validatorUser = new ValidatorUserImpl();
+        UserValidatorImpl validatorUser = new UserValidatorImpl();
         try {
             validatorUser.validateID(id);
             validatorUser.validateBanned(banned);
@@ -81,5 +80,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
+    @Override
+    public int getTotalRowCount() throws ServiceException {
+        try {
+            return userDAO.getTotalRowCount();
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting user's total row count", e);
+        }
+    }
 }

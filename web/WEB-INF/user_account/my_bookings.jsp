@@ -24,6 +24,7 @@
 <c:import url="/menu.jsp"/>
 <div id="page-content-wrapper">
     <c:import url="/WEB-INF/user_account/user_head_account.jsp"/>
+
 </div>
 </body>
 </html>
