@@ -19,7 +19,7 @@ public interface Validator<T> {
     }
 
     default void validateID(int id) throws ValidationException {
-        if (id < 1) {
+        if (id < 0) {
             throw new ValidationException("error during validation id: " + id);
         }
     }

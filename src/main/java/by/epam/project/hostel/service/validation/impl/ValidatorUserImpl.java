@@ -8,6 +8,9 @@ import by.epam.project.hostel.service.validation.Validator;
 
 public class ValidatorUserImpl implements Validator<User> {
 
+    private static final String ADMIN = "ADMIN";
+    private static final String USER = "USER";
+
     @Override
     public void validate(User entity) throws EmptyParamServiceException {
 //        todo
@@ -20,7 +23,7 @@ public class ValidatorUserImpl implements Validator<User> {
     }
 
     public void validateRole(String role) throws ValidationException {
-        if (!role.toUpperCase().equals("ADMIN") && !role.toUpperCase().equals("USER")) {
+        if (!role.toUpperCase().equals(ADMIN) && !role.toUpperCase().equals(USER)) {
             throw new ValidationException("error during validation user role");
         }
 

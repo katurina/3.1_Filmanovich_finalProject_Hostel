@@ -14,15 +14,6 @@ table {
     width: 100%;
 }
 
-.nav {
-    background: #9eaeee;
-    width: 50px;
-    display: block;
-    height: 100vh;
-    list-style-type: none;
-    position: fixed;
-}
-
 /* Full-width input fields */
 input[type=text], input[type=password] {
     width: 100%;
@@ -187,4 +178,8 @@ th {
     .container {
         width: 100%;
     }
+}
+
+body {
+    background-color: #583e7e;
 }

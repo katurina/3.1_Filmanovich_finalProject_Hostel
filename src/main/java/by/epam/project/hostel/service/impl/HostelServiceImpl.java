@@ -9,13 +9,13 @@ import by.epam.project.hostel.service.validation.Validator;
 import by.epam.project.hostel.service.validation.impl.ValidatorHostelImpl;
 
 public class HostelServiceImpl implements HostelService {
-    private static final Validator<Hostel> VALIDATOR = new ValidatorHostelImpl();
+    private static final Validator<Hostel> validator = new ValidatorHostelImpl();
 
     @Override
     public Hostel getHostelById(int id, String language) throws ValidationException {
         try {
-            VALIDATOR.validateID(id);
-            VALIDATOR.validate(language);
+            validator.validateID(id);
+            validator.validate(language);
             return DAOFactory.getInstance().getHostelDAO().getHostelById(id, language);
         } catch (DAOException e) {
             throw new ValidationException("error during validation getting hostel by id", e);

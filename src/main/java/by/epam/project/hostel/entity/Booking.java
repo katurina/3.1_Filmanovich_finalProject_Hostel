@@ -19,9 +19,10 @@ public class Booking extends Entity implements Serializable {
     public Booking() {
     }
 
-    public Booking(double nightPrice, Date startDay, Date lastDay,
-                   boolean payed, Date bookDay, double finalCost,
-                   int userId, int guestroomId) {
+    public Booking(
+            double nightPrice, Date startDay, Date lastDay,
+            boolean payed, Date bookDay, double finalCost,
+            int userId, int guestroomId) {
         this.nightPrice = nightPrice;
         this.startDay = startDay;
         this.lastDay = lastDay;
@@ -32,10 +33,11 @@ public class Booking extends Entity implements Serializable {
         this.guestroomId = guestroomId;
     }
 
-    public Booking(int id, double nightPrice, Date startDay,
-                   Date lastDay, boolean payed,
-                   Date bookDay, double finalCost,
-                   int userId, int guestroomId) {
+    public Booking(
+            int id, double nightPrice, Date startDay,
+            Date lastDay, boolean payed,
+            Date bookDay, double finalCost,
+            int userId, int guestroomId) {
         this.id = id;
         this.nightPrice = nightPrice;
         this.startDay = startDay;
@@ -89,6 +91,14 @@ public class Booking extends Entity implements Serializable {
 
     public void setPayed(boolean payed) {
         this.payed = payed;
+    }
+
+    public void setPayed(int payed) {
+        if (payed == 0) {
+            this.payed = false;
+        } else if (payed == 1) {
+            this.payed = true;
+        }
     }
 
     public Date getBookDay() {

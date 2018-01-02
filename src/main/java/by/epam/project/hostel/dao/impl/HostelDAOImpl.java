@@ -17,6 +17,7 @@ public class HostelDAOImpl implements HostelDAO {
 
 
     private static final String SELECT_HOSTEL_BY_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE l.language = ? AND hostel.id = ?";
+    private static final String SELECT_HOSTEL_BY_ROOM_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id  INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ? AND l.language = ?";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -31,7 +32,25 @@ public class HostelDAOImpl implements HostelDAO {
                 return createHostel(rs);
             }
         } catch (SQLException | ConnectionPoolException e) {
-            throw new DAOException("error during get hostel by id", e);
+            throw new DAOException("error during getting hostel by id", e);
+        }
+    }
+
+    @Override
+    public Hostel getHostelByRoomId(int id, String language) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_HOSTEL_BY_ROOM_ID)) {
+            ps.setInt(1, id);
+            ps.setString(2, language);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return createHostel(rs);
+            }
+
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during get hostel by room id", e);
         }
     }
 

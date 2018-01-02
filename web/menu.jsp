@@ -2,132 +2,110 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<html>
-<head>
-    <fmt:setLocale value="${sessionScope.local}"/>
-    <fmt:setBundle basename="localization.local" var="loc"/>
-    <fmt:message bundle="${loc}" key="local.title.login" var="login"/>
-    <fmt:message bundle="${loc}" key="local.password" var="password"/>
-    <fmt:message bundle="${loc}" key="local.user.cancel" var="cancel"/>
-    <fmt:message bundle="${loc}" key="local.forget" var="forget"/>
-    <fmt:message bundle="${loc}" key="local.not.valid.password.login" var="errorLoginMessage"/>
-    <fmt:message bundle="${loc}" key="local.user.login.noun" var="lognoun"/>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <style>
-        <%@include file="/css/style.css"%>
-    </style>
-</head>
-<body>
+<fmt:setLocale value="${sessionScope.local}"/>
+<fmt:setBundle basename="localization.local" var="loc"/>
+<fmt:message bundle="${loc}" key="local.title.login" var="login"/>
+<fmt:message bundle="${loc}" key="local.password" var="password"/>
+<fmt:message bundle="${loc}" key="local.user.cancel" var="cancel"/>
+<fmt:message bundle="${loc}" key="local.forget" var="forget"/>
+<fmt:message bundle="${loc}" key="local.not.valid.password.login" var="errorLoginMessage"/>
+<fmt:message bundle="${loc}" key="local.user.login.noun" var="lognoun"/>
+<fmt:message bundle="${loc}" key="local.title.hotel" var="hotel"/>
+<fmt:message bundle="${loc}" key="local.home.page" var="home"/>
+<fmt:message bundle="${loc}" key="local.menu.search" var="search"/>
+<fmt:message bundle="${loc}" key="local.account" var="account"/>
+<fmt:message bundle="${loc}" key="local.menu.questions" var="faq"/>
 
-<div class="nav nav-tabs nav-stacked" style="z-index: 100">
-    <div style="height: calc(100vh - 100px);">
-        <li><a href="index.jsp">
-            <div style="margin: 5px"><img src="img/toolbar/home.png" alt="home" width="40px" height="40px"></div>
-        </a></li>
-        <li><a href="#">
-            <div style="margin: 5px"><img src="img/toolbar/search.png" alt="home" width="40px" height="40px"></div>
-        </a></li>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+    <ul class="nav sidebar-nav">
+        <li class="sidebar-brand">
+            <a href="#">
+                ${hotel}
+            </a>
+        </li>
         <li>
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-                <input type="hidden" name="command" value="change-local-command">
-                <input type="hidden" name="local" value="ru"/>
-                <div style="margin: 8px">
-                    <input type="image" style="border: solid 0 #000000; width: 34px;height: 30px"
+            <a href="#"><i class="fa fa-fw fa-home"></i> ${home}</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-fw fa-search"></i> ${search}</a>
+        </li>
+        <li>
+            <div style="padding-left: 30px">
+                <form action="${pageContext.request.contextPath}/controller" method="post"
+                      style="display: inline-block; margin: auto">
+                    <input type="hidden" name="command" value="change-local-command">
+                    <input type="hidden" name="local" value="en"/>
+                    <input type="image" style="width: 30px;height: 30px"
+                           src="${pageContext.request.contextPath}/img/toolbar/en.png"/>
+                </form>
+                <form action="${pageContext.request.contextPath}/controller" method="post"
+                      style="display: inline-block; margin: auto">
+                    <input type="hidden" name="command" value="change-local-command">
+                    <input type="hidden" name="local" value="ru"/>
+                    <input type="image" style="width: 30px;height: 30px"
                            src="${pageContext.request.contextPath}/img/toolbar/ru.png"/>
-                </div>
-            </form>
+                </form>
+            </div>
         </li>
         <li>
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-                <input type="hidden" name="command" value="change-local-command">
-                <input type="hidden" name="local" value="en"/>
-                <div style="margin: 8px">
-                    <input type="image" style="border: solid 0 #000000; width: 34px;height: 30px"
-                           src="${pageContext.request.contextPath}/img/toolbar/en.jpg"/>
+            <a href="#"><i class="fa fa-fw fa-question-circle"></i> ${faq}</a>
+        </li>
+        <li>
+            <c:choose>
+                <c:when test="${sessionScope.user eq null}">
+                    <a href="#" onclick="document.getElementById('id01').style.display='block'"><i
+                            class="fa fa-fw fa-user-circle-o"></i> ${account}</a>
+                </c:when>
+                <c:when test="${sessionScope.user.role =='ADMIN'}">
+
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/account"><i
+                            class="fa fa-fw fa-user-circle-o"></i> ${account}</a>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${errorParam eq true}">
+                    ${'<div id="id01" class="modal" style="z-index: 999999; display: block">'}
+                </c:when>
+                <c:otherwise>
+                    ${'<div id="id01" class="modal" style="z-index: 999999;">'}
+                </c:otherwise>
+            </c:choose>
+            <span onclick=" document.getElementById('id01').style.display='none'" class="close"
+                  title="Close Modal">&times;</span>
+            <form class="modal-content animate"
+                  action="${pageContext.request.contextPath}/controller"
+                  method="post">
+                <input type="hidden" name="command" value="login-command"/>
+                <div class="container">
+                    <c:if test="${errorParam eq true}">
+                        <label id="errorLogM" style="color: #f44336"><b>${errorLoginMessage}</b></label>
+                        <br>
+                    </c:if>
+                    <label><b>${lognoun}</b></label>
+                    <input type="text" placeholder="Enter Username" name="login" required>
+
+                    <label><b>${password}</b></label>
+                    <input type="password" placeholder="Enter Password" name="password" required>
+                    <button type="submit">${login}</button>
+
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button"
+                            onclick="document.getElementById('id01').style.display='none'"
+                            class="cancelbtn">
+                        ${cancel}
+                    </button>
+                    <span class="psw">${forget} <a href="#" style="padding: 0">${password}?</a></span>
                 </div>
             </form>
+            ${'</div>'}
         </li>
-    </div>
-    <div style="height: 100px">
-        <li><a href="">
-            <div style="margin: 5px"><img src="img/toolbar/question.png" alt="question" width="40px" height="40px">
-
-            </div>
-        </a></li>
-
-        <c:choose>
-            <c:when test="${sessionScope.user eq null}">
-                <li>
-
-                    <div style="margin: 5px">
-                        <button onclick="document.getElementById('id01').style.display='block'">
-                            <img src="img/toolbar/account.png" alt="account" width="40px"
-                                 height="40px">
-                        </button>
-                        <!-- The Modal -->
-                        <c:choose>
-                            <c:when test="${errorParam eq true}">
-                                ${'<div id="id01" class="modal" style="z-index: 999999;display: block">'}
-                            </c:when>
-                            <c:otherwise>
-                                ${'<div id="id01" class="modal" style="z-index: 999999;">'}
-                            </c:otherwise>
-                        </c:choose>
-                        <span onclick=" document.getElementById('id01').style.display='none'" class="close"
-                              title="Close Modal">&times;</span>
-
-                        <!-- Modal Content -->
-                        <form class="modal-content animate"
-                              action="${pageContext.request.contextPath}/controller"
-                              method="get">
-                            <input type="hidden" name="command" value="login-command"/>
-                            <div class="container">
-                                <c:if test="${errorParam eq true}">
-                                    <label id="errorLogM" style="color: #f44336"><b>${errorLoginMessage}</b></label>
-                                    <br>
-                                </c:if>
-                                <label><b>${lognoun}</b></label>
-                                <input type="text" placeholder="Enter Username" name="login" required>
-
-                                <label><b>${password}</b></label>
-                                <input type="password" placeholder="Enter Password" name="password" required>
-                                <button type="submit">${login}</button>
-
-                            </div>
-
-                            <div class="container" style="background-color:#f1f1f1">
-                                <button type="button"
-                                        onclick="document.getElementById('id01').style.display='none'"
-                                        class="cancelbtn">
-                                        ${cancel}
-                                </button>
-                                <span class="psw">${forget} <a href="#">${password}?</a></span>
-                            </div>
-                        </form>
-                            ${'</div>'}
-                    </div>
-
-                </li>
-            </c:when>
-            <c:otherwise>
-                <c:choose>
-                    <c:when test="${sessionScope.user.role =='ADMIN'}">
-                    </c:when>
-                    <c:otherwise>
-                        <li>
-                            <a href="account">
-                                <div style="margin: 5px">
-                                    <img src="img/toolbar/account.png" alt="account" width="40px" height="40px">
-                                </div>
-                            </a></li>
-                    </c:otherwise>
-                </c:choose>
-            </c:otherwise>
-        </c:choose>
-    </div>
-</div>
+    </ul>
+</nav>
 <script>
     // Get the modal
     var modal = document.getElementById('id01');
@@ -149,5 +127,3 @@
         })
     });
 </script>
-</body>
-</html>

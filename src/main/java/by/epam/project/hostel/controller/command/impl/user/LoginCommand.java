@@ -38,7 +38,7 @@ public class LoginCommand implements Command {
             LOGGER.error("error during login command", e);
         }
         try {
-            request.getSession().setAttribute(ERROR, error);
+            request.setAttribute(ERROR, error);
             request.getRequestDispatcher(INDEX_JSP).forward(request, response);
         } catch (ServletException | IOException e) {
             LOGGER.error("error during forward in login command", e);

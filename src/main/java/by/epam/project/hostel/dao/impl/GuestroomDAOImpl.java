@@ -5,8 +5,6 @@ import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Guestroom;
-import by.epam.project.hostel.entity.pagination.Page;
-import by.epam.project.hostel.pagination.PageWrapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.epam.project.hostel.pagination.Constant.MAX_ENTRIES_PER_PAGE;
+import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 public class GuestroomDAOImpl implements GuestroomDAO {
 
@@ -24,7 +22,7 @@ public class GuestroomDAOImpl implements GuestroomDAO {
     private static final String SELECT_IMAGES_PATH = "SELECT file FROM picture WHERE guestrooms_id = ?";
 
     @Override
-    public Page<Guestroom> getGuestroomsByHostelId(int id, String language, int page) throws DAOException {
+    public List<Guestroom> getGuestroomsByHostelId(int id, String language, int page) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_ROOMS_BY_HOSTEL_ID_LIMIT)) {
             ps.setString(1, language);
@@ -39,7 +37,7 @@ public class GuestroomDAOImpl implements GuestroomDAO {
                 for (Guestroom guestroom : guestrooms) {
                     guestroom.setImgPath(getGuestroomImage(guestroom.getId(), connection));
                 }
-                return PageWrapper.wrapList(guestrooms, page, getNumberOfPages(guestrooms));
+                return guestrooms;
             }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting guestrooms by hostel id = " + id + ", page = " + page, e);

@@ -10,13 +10,12 @@ import java.sql.Statement;
 
 public interface EntityDAO {
 
-
     default int getTotalRowCount(String tableName) throws DAOException {
-        String SELECT_COUNT = "SELECT COUNT(*) FROM";
+        String selectCount = "SELECT COUNT(*) FROM";
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
         try (Connection connection = connectionProvider.takeConnection()) {
             Statement ps = connection.createStatement();
-            ResultSet rs = ps.executeQuery(SELECT_COUNT + tableName);
+            ResultSet rs = ps.executeQuery(selectCount + tableName);
             rs.next();
             return rs.getInt(1);
         } catch (SQLException e) {

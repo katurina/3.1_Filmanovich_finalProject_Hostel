@@ -5,8 +5,6 @@ import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.User;
-import by.epam.project.hostel.entity.pagination.Page;
-import by.epam.project.hostel.pagination.PageWrapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.epam.project.hostel.pagination.Constant.MAX_ENTRIES_PER_PAGE;
+import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 
 public class UserDAOImpl implements UserDAO {
@@ -94,7 +92,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Page<User> getPageWithUsers(int pageNumber) throws DAOException {
+    public List<User> getPageWithUsers(int pageNumber) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_USER_LIMIT)) {
             ps.setInt(1, pageNumber);
@@ -104,7 +102,7 @@ public class UserDAOImpl implements UserDAO {
                 while (rs.next()) {
                     users.add(createUser(rs));
                 }
-                return PageWrapper.wrapList(users, pageNumber, getTotalRowCount("user"));
+                return users;
             }
 
         } catch (SQLException e) {

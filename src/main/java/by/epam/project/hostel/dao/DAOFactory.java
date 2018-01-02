@@ -1,6 +1,7 @@
 package by.epam.project.hostel.dao;
 
 import by.epam.project.hostel.dao.impl.BookingDAOImpl;
+import by.epam.project.hostel.dao.impl.CommentDAOImpl;
 import by.epam.project.hostel.dao.impl.GuestroomDAOImpl;
 import by.epam.project.hostel.dao.impl.HostelDAOImpl;
 import by.epam.project.hostel.dao.impl.UserDAOImpl;
@@ -12,6 +13,7 @@ public class DAOFactory {
     private HostelDAO hostelDAO = new HostelDAOImpl();
     private GuestroomDAO guestroomDAO = new GuestroomDAOImpl();
     private BookingDAO bookingDAO = new BookingDAOImpl();
+    private CommentDAO commentDAO = new CommentDAOImpl();
 
     private DAOFactory() {
     }
@@ -34,6 +36,10 @@ public class DAOFactory {
 
     public BookingDAO getBookingDAO() {
         return bookingDAO;
+    }
+
+    public CommentDAO getCommentDAO() {
+        return commentDAO;
     }
 }
 

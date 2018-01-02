@@ -13,15 +13,15 @@ import by.epam.project.hostel.service.validation.impl.ValidatorUserImpl;
 
 public class UserServiceImpl implements UserService {
 
-    private static final UserDAO USER_DAO = DAOFactory.getInstance().getUserDAO();
-    private static final Validator<User> VALIDATOR = new ValidatorUserImpl();
+    private static final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+    private static final Validator<User> validator = new ValidatorUserImpl();
 
 
     @Override
     public User singIn(String login, String password) throws ServiceException {
         try {
-            VALIDATOR.validate(login, password);
-            User user = USER_DAO.signIn(login, password);
+            validator.validate(login, password);
+            User user = userDAO.signIn(login, password);
             if (user != null && User.Role.USER.equals(user.getRole())) {
                 return user;
             } else {
@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User adminSignIn(String login, String password) throws ServiceException {
-        VALIDATOR.validate(login, password);
+        validator.validate(login, password);
         try {
-            User admin = USER_DAO.signIn(login, password);
+            User admin = userDAO.signIn(login, password);
             if (admin != null && User.Role.ADMIN.equals(admin.getRole())) {
                 return admin;
             } else {
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> getUsersPage(int currentPage) throws ServiceException {
         try {
-            return USER_DAO.getPageWithUsers(currentPage);
+            return userDAO.getPageWithUsers(currentPage);
         } catch (DAOException e) {
             throw new ServiceException("fetching user's page failed, current page: " + currentPage, e);
         }
@@ -59,10 +59,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(String name, String surname, String login, String password, String email, String number) throws ServiceException {
 
-        VALIDATOR.validate(name, surname, login, password, email, number);
+        validator.validate(name, surname, login, password, email, number);
 
         try {
-            USER_DAO.registration(name, surname, login, password, email, number);
+            userDAO.registration(name, surname, login, password, email, number);
         } catch (DAOException e) {
             throw new ServiceException("registration failed", e);
         }
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
             validatorUser.validateID(id);
             validatorUser.validateBanned(banned);
             validatorUser.validateRole(role);
-            USER_DAO.editUser(id, role, banned);
+            userDAO.editUser(id, role, banned);
         } catch (ValidationException | DAOException e) {
             throw new ServiceException("updateUser failed", e);
         }
