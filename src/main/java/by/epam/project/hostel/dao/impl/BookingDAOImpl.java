@@ -49,12 +49,12 @@ public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
         Booking booking = new Booking();
         booking.setId(rs.getInt(1));
         booking.setGuestroomId(rs.getInt(2));
-        booking.setNightPrice(rs.getDouble(3));
+        booking.setNightPrice(rs.getBigDecimal(3));
         booking.setStartDay(rs.getDate(4));
         booking.setLastDay(rs.getDate(5));
         booking.setPayed(rs.getInt(6));
         booking.setBookDay(rs.getDate(7));
-        booking.setFinalCost(rs.getDouble(8));
+        booking.setFinalCost(rs.getBigDecimal(8));
         return booking;
     }
 
