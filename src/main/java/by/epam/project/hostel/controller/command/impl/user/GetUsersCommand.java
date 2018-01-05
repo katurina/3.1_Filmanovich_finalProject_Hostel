@@ -19,18 +19,18 @@ import java.util.List;
 public class GetUsersCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(GetUsersCommand.class);
-    private static final String CURRENT_PAGE = "current-page";
 
+    //    todo current page
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         ServiceFactory instance = ServiceFactory.getInstance();
         UserService userService = instance.getUserService();
         try {
-            int currentPage = Integer.valueOf(request.getParameter(CURRENT_PAGE));
+            int currentPage = Integer.valueOf(request.getParameter(Constant.Page.CURRENT_PAGE));
             List<User> users = userService.getUsers(currentPage);
             int totalRowCount = userService.getTotalRowCount();
             Page<User> usersPage = PageWrapper.wrapList(users, currentPage, totalRowCount);
-            request.setAttribute(Constant.PAGE, usersPage);
+            request.setAttribute(Constant.Page.PAGE, usersPage);
         } catch (ServiceException e) {
             LOGGER.error("error during getting page with users", e);
         }

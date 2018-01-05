@@ -23,7 +23,7 @@
 
     <servlet>
         <servlet-name>UserAccount</servlet-name>
-        <jsp-file>/WEB-INF/account.jsp</jsp-file>
+        <jsp-file>/WEB-INF/user/account.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserAccount</servlet-name>
@@ -69,7 +69,7 @@
 
     <servlet>
         <servlet-name>UserBookings</servlet-name>
-        <jsp-file>/WEB-INF/user_account/my_bookings.jsp</jsp-file>
+        <jsp-file>/WEB-INF/user/user_bookings.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserBookings</servlet-name>
@@ -78,7 +78,7 @@
 
     <servlet>
         <servlet-name>UserSettings</servlet-name>
-        <jsp-file>/WEB-INF/user_account/user_edit_sittings.jsp</jsp-file>
+        <jsp-file>/WEB-INF/user/user_edit_sittings.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserSettings</servlet-name>

@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<div style="margin-left:50px">
+<div>
     <div class="head-navbar">
         <li>
             <a href="${pageContext.request.contextPath}/bookings">${bookings}</a>
