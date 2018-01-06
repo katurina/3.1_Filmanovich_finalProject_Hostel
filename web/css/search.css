@@ -1,0 +1,15 @@
+.hide-search-button {
+    visibility: visible;
+    width: 100%;
+}
+
+.search {
+    display: none;
+    width: 100%;
+    background: lightcyan;
+}
+
+.criteria {
+    margin: 0 0.5% 0.5% 0;
+    padding: 0.5%;
+}

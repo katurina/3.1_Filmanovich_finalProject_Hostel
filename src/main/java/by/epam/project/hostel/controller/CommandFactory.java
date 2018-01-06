@@ -22,6 +22,8 @@ public class CommandFactory {
     private static final String GET_USERS_COMMAND = "get-users-command";
     private static final String VIEW_HOSTEL = "view-hostel-command";
     private static final String GET_BOOKINGS_COMMAND = "get-bookings-command";
+    private static final String VIEW_GUESTROOM_COMMAND = "view-guestroom-command";
+    private static final String GET_DESIRED_GUESTROOMS_COMMAND = "get-desired-guestrooms-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -54,8 +56,10 @@ public class CommandFactory {
                 return new GetHostelCommand();
             case GET_BOOKINGS_COMMAND:
                 return new GetBookingsCommand();
-            case "view-guestroom-command":
+            case VIEW_GUESTROOM_COMMAND:
                 return new GetGuestroomCommand();
+            case GET_DESIRED_GUESTROOMS_COMMAND:
+                return new GetDesiredGuestroomsCommand();
         }
         return null;
     }

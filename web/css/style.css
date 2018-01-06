@@ -72,6 +72,12 @@ span.psw {
     height: 10px;
 }
 
+.search {
+    display: none;
+    width: 100%;
+    background: lightcyan;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
