@@ -116,4 +116,16 @@ public class Comment extends Entity implements Serializable{
         result = 31 * result + getRate();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", guestroomId=" + guestroomId +
+                ", comment='" + comment + '\'' +
+                ", commentDate=" + commentDate +
+                ", rate=" + rate +
+                '}';
+    }
 }

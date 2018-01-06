@@ -56,7 +56,9 @@
                 <input type="hidden" name="command" value="get-bookings-command">
                 <input type="hidden" name="id" value="${booking.id}">
                 <tr>
-                    <td>${booking.guestroomId}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/guestroom.jsp?id=${booking.guestroomId}">${booking.guestroomId}</a>
+                    </td>
                     <td>${booking.nightPrice}</td>
                     <td>${booking.startDay}</td>
                     <td>${booking.lastDay}</td>
@@ -74,6 +76,9 @@
         </c:forEach>
         </tbody>
     </table>
+    <c:forEach var="page" items="${requestScope.page.currentPage}">
+        <a href="${pageContext.request.contextPath}/bookings?current-page=${page}">${page}</a>
+    </c:forEach>
 </div>
 </body>
 </html>

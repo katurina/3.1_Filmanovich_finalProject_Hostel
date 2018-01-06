@@ -37,6 +37,7 @@ public final class Constant {
     public class Page {
         private Page() {
         }
+
         public static final String PAGE = "page";
         public static final String LOCAL = "local";
         public static final String CURRENT_PAGE = "current-page";
@@ -57,4 +58,8 @@ public final class Constant {
     }
 
 
+    public class Guestroom {
+        public static final String ID = "id";
+        public static final String GUESTROOM = "guestroom";
+    }
 }

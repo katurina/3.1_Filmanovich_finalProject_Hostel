@@ -12,7 +12,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 
 public class ChangeLocalCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(ChangeLocalCommand.class);
+    private static final Logger logger = LogManager.getLogger(ChangeLocalCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -22,7 +22,7 @@ public class ChangeLocalCommand implements Command {
         try {
             response.sendRedirect(currentPage);
         } catch (IOException e) {
-            LOGGER.error("error during changing local",e);
+            logger.error("error during changing local",e);
         }
     }
 }

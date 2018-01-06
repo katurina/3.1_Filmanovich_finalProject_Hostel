@@ -185,4 +185,19 @@ public class Booking extends Entity implements Serializable {
         result = 31 * result + getGuestroomId();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", nightPrice=" + nightPrice +
+                ", startDay=" + startDay +
+                ", lastDay=" + lastDay +
+                ", payed=" + payed +
+                ", bookDay=" + bookDay +
+                ", finalCost=" + finalCost +
+                ", userId=" + userId +
+                ", guestroomId=" + guestroomId +
+                '}';
+    }
 }

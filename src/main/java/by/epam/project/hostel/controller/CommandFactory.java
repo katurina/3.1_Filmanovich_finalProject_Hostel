@@ -3,6 +3,7 @@ package by.epam.project.hostel.controller;
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
 import by.epam.project.hostel.controller.command.impl.user.EditUserCommand;
 import by.epam.project.hostel.controller.command.impl.user.GetUsersCommand;
@@ -16,10 +17,10 @@ public class CommandFactory {
     private static final String REGISTRATION_COMMAND = "registration-command";
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
     private static final String LOGIN_ADMIN_COMMAND = "login-admin-command";
-    private static final String LOGOUT = "logout";
+    private static final String LOGOUT = "logout-command";
     private static final String EDIT_USER_COMMAND = "edit-user-command";
     private static final String GET_USERS_COMMAND = "get-users-command";
-    private static final String VIEW_HOSTEL = "view-hostel";
+    private static final String VIEW_HOSTEL = "view-hostel-command";
     private static final String GET_BOOKINGS_COMMAND = "get-bookings-command";
     private static CommandFactory instance = null;
 
@@ -53,6 +54,8 @@ public class CommandFactory {
                 return new GetHostelCommand();
             case GET_BOOKINGS_COMMAND:
                 return new GetBookingsCommand();
+            case "view-guestroom-command":
+                return new GetGuestroomCommand();
         }
         return null;
     }

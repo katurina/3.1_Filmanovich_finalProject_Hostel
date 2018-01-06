@@ -144,4 +144,18 @@ public class Hostel extends Entity implements Serializable {
         result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Hostel{" +
+                "id=" + id +
+                ", stars=" + stars +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", description='" + description + '\'' +
+                ", imgPath='" + imgPath + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

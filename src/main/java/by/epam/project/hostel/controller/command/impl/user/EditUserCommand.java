@@ -20,7 +20,7 @@ import static by.epam.project.hostel.controller.constant.Constant.User.ROLE;
 
 public class EditUserCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
+    private static final Logger logger = LogManager.getLogger(EditUserCommand.class);
     private static final String USER = "USER";
     private static final String NOT_BANNED = "0";
 
@@ -41,7 +41,7 @@ public class EditUserCommand implements Command {
             userService.updateUser(id, role, Integer.valueOf(banned));
             response.sendRedirect(ADMIN_ADMIN_USERS);
         } catch (ServiceException e) {
-            LOGGER.error("error during editing user", e);
+            logger.error("error during editing user", e);
         }
     }
 

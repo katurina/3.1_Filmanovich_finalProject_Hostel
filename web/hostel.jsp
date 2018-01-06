@@ -10,7 +10,7 @@
     <title>${hotel}</title>
     <c:set scope="session" var="url" value="hostel.jsp"/>
     <jsp:include page="${pageContext.request.contextPath}/controller">
-        <jsp:param name="command" value="view-hostel"/>
+        <jsp:param name="command" value="view-hostel-command"/>
         <jsp:param name="id" value="${param.id}"/>
     </jsp:include>
 

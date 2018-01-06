@@ -20,7 +20,7 @@ import static by.epam.project.hostel.controller.constant.Constant.User.SURNAME;
 
 public class RegistrationCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
+    private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,7 +34,7 @@ public class RegistrationCommand implements Command {
             ServiceFactory.getInstance().getUserService().registerUser(name, surname, login, password, email, number);
             response.sendRedirect(INDEX_JSP);
         } catch (ServiceException | IOException e) {
-            LOGGER.error("error during registration", e);
+            logger.error("error during registration", e);
         }
     }
 }

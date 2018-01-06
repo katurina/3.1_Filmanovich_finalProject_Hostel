@@ -67,6 +67,11 @@ span.psw {
     padding-top: 16px;
 }
 
+.properties > li > img {
+    width: 10px;
+    height: 10px;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */

@@ -17,7 +17,7 @@ import java.io.IOException;
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 
 public class GetHostelCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
+    private static final Logger logger = LogManager.getLogger(EditUserCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class GetHostelCommand implements Command {
             Hostel hostel = ServiceFactory.getInstance().getHostelService().getHostelById(id, language);
             request.setAttribute(Constant.Hostel.HOSTEL, hostel);
         } catch (ValidationException e) {
-            LOGGER.error("error during getting hostel", e);
+            logger.error("error during getting hostel", e);
         }
 
 

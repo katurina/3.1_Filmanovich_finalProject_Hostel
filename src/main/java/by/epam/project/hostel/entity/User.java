@@ -172,4 +172,19 @@ public class User extends Entity implements Serializable {
         result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", banned=" + banned +
+                ", number='" + number + '\'' +
+                '}';
+    }
 }

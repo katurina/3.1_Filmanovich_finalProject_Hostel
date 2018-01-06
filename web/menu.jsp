@@ -20,15 +20,12 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
     <ul class="nav sidebar-nav">
         <li class="sidebar-brand">
-            <a href="#">
+            <a href="${pageContext.request.contextPath}/index.jsp">
                 ${hotel}
             </a>
         </li>
         <li>
-            <a href="#"><i class="fa fa-fw fa-home"></i> ${home}</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-search"></i> ${search}</a>
+            <a href="${pageContext.request.contextPath}/search.jsp"><i class="fa fa-fw fa-search"></i> ${search}</a>
         </li>
         <li>
             <div style="padding-left: 30px">
@@ -49,7 +46,7 @@
             </div>
         </li>
         <li>
-            <a href="#"><i class="fa fa-fw fa-question-circle"></i> ${faq}</a>
+            <a href="${pageContext.request.contextPath}/faq.jsp"><i class="fa fa-fw fa-question-circle"></i> ${faq}</a>
         </li>
         <li>
             <c:choose>

@@ -17,6 +17,7 @@
     <fmt:message bundle="${loc}" key="local.admin.edit" var="edit"/>
     <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
+    <fmt:message bundle="${loc}" key="local.text.form" var="from"/>
     <title>${users}</title>
     <c:set scope="session" var="url" value="/admin/admin_users"/>
 </head>
@@ -43,41 +44,51 @@
     <tbody>
     <c:forEach var="user" items="${requestScope.page.entity}">
         <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="edit-user-command">
-        <input type="hidden" name="id" value="${user.id}">
-        <tr>
-            <td>${user.id}</td>
-            <td>${user.name}</td>
-            <td>${user.surname}</td>
-            <td>${user.login}</td>
-            <td>${user.email}</td>
-            <td>${user.number}</td>
-            <td>
-                <c:choose>
-                    <c:when test="${user.role eq 'ADMIN'}">
-                        <input type="checkbox" name="role" value="ADMIN" checked/>
-                    </c:when>
-                    <c:otherwise>
-                        <input type="checkbox" name="role" value="ADMIN"/>
-                    </c:otherwise>
-                </c:choose>
-            </td>
-            <td>
-                <c:choose>
-                    <c:when test="${user.banned}">
-                        <input type="checkbox" name="banned" value="1" checked/>
-                    </c:when>
-                    <c:otherwise>
-                        <input type="checkbox" name="banned" value="1"/>
-                    </c:otherwise>
-                </c:choose>
-            </td>
-            <td><input type="submit" value="${edit}"/></td>
-        </tr>
+            <input type="hidden" name="command" value="edit-user-command">
+            <input type="hidden" name="id" value="${user.id}">
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.surname}</td>
+                <td>${user.login}</td>
+                <td>${user.email}</td>
+                <td>${user.number}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${user.role eq 'ADMIN'}">
+                            <input type="checkbox" name="role" value="ADMIN" checked/>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="checkbox" name="role" value="ADMIN"/>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${user.banned}">
+                            <input type="checkbox" name="banned" value="1" checked/>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="checkbox" name="banned" value="1"/>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td><input type="submit" value="${edit}"/></td>
+            </tr>
         </form>
     </c:forEach>
     </tbody>
 </table>
-
+<div class="pagination">
+    <c:if test="${requestScope.page.currentPage gt 1}">
+        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=1"><<</a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=${requestScope.page.currentPage - 1}"><</a>&#8195;
+    </c:if>
+    &#8195;${requestScope.page.currentPage} ${from} ${requestScope.page.numberOfPages}&#8195;
+    <c:if test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
+        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=${requestScope.page.currentPage + 1}">></a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=${requestScope.page.numberOfPages}">>></a>
+    </c:if>
+</div>
 </body>
 </html>

@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
 
 public final class ConnectionProvider {
 
-    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger();
     private static ConnectionProvider instance = new ConnectionProvider();
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConQueue;
@@ -94,7 +94,7 @@ public final class ConnectionProvider {
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            LOGGER.error("Error clearing connection queue.", e);
+            logger.error("Error clearing connection queue.", e);
         }
     }
 

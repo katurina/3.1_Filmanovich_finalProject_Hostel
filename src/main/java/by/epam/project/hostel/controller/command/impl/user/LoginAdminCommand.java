@@ -23,7 +23,7 @@ import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class LoginAdminCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginAdminCommand.class);
+    private static final Logger logger = LogManager.getLogger(LoginAdminCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,13 +39,13 @@ public class LoginAdminCommand implements Command {
                 forwardPage = ADMIN_ENTRY;
             }
         } catch (ServiceException e) {
-            LOGGER.error("error during linging admin command", e);
+            logger.error("error during linging admin command", e);
         }
         try {
             request.getSession().setAttribute(ERROR, isValid);
             response.sendRedirect(forwardPage);
         } catch (IOException e) {
-            LOGGER.error("error during forward in LoginAdminCommand", e);
+            logger.error("error during forward in LoginAdminCommand", e);
         }
     }
 }

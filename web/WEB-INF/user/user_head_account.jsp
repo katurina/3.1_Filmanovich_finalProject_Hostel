@@ -26,7 +26,7 @@
             <a href="${pageContext.request.contextPath}/settings">${settings}</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/controller?command=logout">${logout}</a>
+            <a href="${pageContext.request.contextPath}/controller?command=logout-command">${logout}</a>
         </li>
     </div>
 </div>

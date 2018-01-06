@@ -188,4 +188,19 @@ public class Guestroom extends Entity implements Serializable {
         result = 31 * result + (getImgPath() != null ? getImgPath().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Guestroom{" +
+                "id=" + id +
+                ", hostelId=" + hostelId +
+                ", nightPrice=" + nightPrice +
+                ", tv=" + tv +
+                ", wifi=" + wifi +
+                ", bath=" + bath +
+                ", capacity=" + capacity +
+                ", description='" + description + '\'' +
+                ", imgPath=" + imgPath +
+                '}';
+    }
 }

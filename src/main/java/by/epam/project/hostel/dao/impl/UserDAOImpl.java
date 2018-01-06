@@ -95,7 +95,7 @@ public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
     public List<User> getUsers(int pageNumber) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_USER_LIMIT)) {
-            ps.setInt(1, pageNumber - 1);
+            ps.setInt(1, (pageNumber - 1) * MAX_ENTRIES_PER_PAGE);
             ps.setInt(2, MAX_ENTRIES_PER_PAGE);
             try (ResultSet rs = ps.executeQuery()) {
                 List<User> users = new ArrayList<>();

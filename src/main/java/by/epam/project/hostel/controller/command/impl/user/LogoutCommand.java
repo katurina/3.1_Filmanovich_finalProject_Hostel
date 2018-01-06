@@ -15,7 +15,7 @@ import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class LogoutCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(LogoutCommand.class);
+    private static final Logger logger = LogManager.getLogger(LogoutCommand.class);
 
 
     @Override
@@ -27,7 +27,7 @@ public class LogoutCommand implements Command {
         try {
             response.sendRedirect(INDEX_JSP);
         } catch (IOException e) {
-            LOGGER.error("error during sendRedirect in logout command", e);
+            logger.error("error during sendRedirect in logout command", e);
         }
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 
 
 public class GetBookingsCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
+    private static final Logger logger = LogManager.getLogger(EditUserCommand.class);
     private static final BookingService bookingService = ServiceFactory.getInstance().getBookingService();
 
     //    todo current page
@@ -27,14 +27,15 @@ public class GetBookingsCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute(Constant.User.USER);
         int userId = user.getId();
-        int currentPage = 1/*Integer.valueOf(request.getParameter(Constant.Page.CURRENT_PAGE))*/;
+        int currentPage = request.getParameter(Constant.Page.CURRENT_PAGE) == null ?
+                1 : Integer.valueOf(request.getParameter(Constant.Page.CURRENT_PAGE));
         try {
             List<Booking> userBooking = bookingService.getUserBooking(userId, currentPage);
             int totalRowCount = bookingService.getTotalRowCount();
             Page<Booking> page = PageWrapper.wrapList(userBooking, currentPage, totalRowCount);
-            request.setAttribute(Constant.Page.PAGE,page);
+            request.setAttribute(Constant.Page.PAGE, page);
         } catch (ServiceException e) {
-            LOGGER.error("error during getting user bookings", e);
+            logger.error("error during getting user bookings", e);
         }
     }
 }

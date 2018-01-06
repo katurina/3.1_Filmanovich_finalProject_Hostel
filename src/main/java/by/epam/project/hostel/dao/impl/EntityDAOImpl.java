@@ -9,19 +9,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public abstract class EntityDAOImpl implements EntityDAO{
+public abstract class EntityDAOImpl implements EntityDAO {
 
     public int getTotalRowCount() throws DAOException {
-        String selectCount = "SELECT COUNT(*) FROM";
+        String selectCount = "SELECT COUNT(*) FROM " + getTableName();
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
         try (Connection connection = connectionProvider.takeConnection()) {
             Statement ps = connection.createStatement();
-            ResultSet rs = ps.executeQuery(selectCount + getTableName());
+            ResultSet rs = ps.executeQuery(selectCount);
             rs.next();
             return rs.getInt(1);
         } catch (SQLException e) {
             throw new DAOException("Error during getting total count from table " + getTableName(), e);
         }
     }
-   protected abstract String getTableName();
+
+    protected abstract String getTableName();
 }

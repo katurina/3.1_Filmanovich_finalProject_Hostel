@@ -40,4 +40,12 @@ public class Page<T> {
         this.entity = entity;
     }
 
+    @Override
+    public String toString() {
+        return "Page{" +
+                "currentPage=" + currentPage +
+                ", numberOfPages=" + numberOfPages +
+                ", entity=" + entity +
+                '}';
+    }
 }
