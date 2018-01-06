@@ -87,9 +87,7 @@
                     <label><b>${password}</b></label>
                     <input type="password" placeholder="Enter Password" name="password" required>
                     <button type="submit">${login}</button>
-
                 </div>
-
                 <div class="container" style="background-color:#f1f1f1">
                     <button type="button"
                             onclick="document.getElementById('id01').style.display='none'"

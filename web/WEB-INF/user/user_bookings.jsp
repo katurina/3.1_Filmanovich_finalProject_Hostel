@@ -18,6 +18,7 @@
     <fmt:message bundle="${loc}" key="local.booking.pay.booking" var="pay"/>
     <fmt:message bundle="${loc}" key="local.booking.payed.true" var="isPayed"/>
     <fmt:message bundle="${loc}" key="local.booking.payed.false" var="notPayed"/>
+    <fmt:message bundle="${loc}" key="local.text.form" var="from"/>
     <title>${bookings}</title>
     <c:set scope="session" var="url" value="/bookings"/>
     <style>
@@ -76,9 +77,17 @@
         </c:forEach>
         </tbody>
     </table>
-    <c:forEach var="page" items="${requestScope.page.currentPage}">
-        <a href="${pageContext.request.contextPath}/bookings?current-page=${page}">${page}</a>
-    </c:forEach>
+    <div class="pagination">
+        <c:if test="${requestScope.page.currentPage gt 1}">
+            <a href="${pageContext.request.contextPath}/bookings?current-page=1"><<</a>&#8195;
+            <a href="${pageContext.request.contextPath}/bookings?current-page=${requestScope.page.currentPage - 1}"><</a>&#8195;
+        </c:if>
+        &#8195;${requestScope.page.currentPage} ${from} ${requestScope.page.numberOfPages}&#8195;
+        <c:if test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
+            <a href="${pageContext.request.contextPath}/bookings?current-page=${requestScope.page.currentPage + 1}">></a>&#8195;
+            <a href="${pageContext.request.contextPath}/bookings?current-page=${requestScope.page.numberOfPages}">>></a>
+        </c:if>
+    </div>
 </div>
 </body>
 </html>

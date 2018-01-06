@@ -27,7 +27,7 @@ public class LoginAdminCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String isValid = FALSE;
+        String error = TRUE;
         String forwardPage = ADMIN_SIGN_IN;
         try {
             String login = request.getParameter(LOGIN);
@@ -35,14 +35,14 @@ public class LoginAdminCommand implements Command {
             User user = ServiceFactory.getInstance().getUserService().adminSignIn(login, password);
             if (user != null) {
                 request.getSession().setAttribute(USER, user);
-                isValid = TRUE;
+                error = FALSE;
                 forwardPage = ADMIN_ENTRY;
             }
         } catch (ServiceException e) {
             logger.error("error during linging admin command", e);
         }
         try {
-            request.getSession().setAttribute(ERROR, isValid);
+            request.getSession().setAttribute(ERROR, error);
             response.sendRedirect(forwardPage);
         } catch (IOException e) {
             logger.error("error during forward in LoginAdminCommand", e);

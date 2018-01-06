@@ -31,7 +31,7 @@ public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_BOOKINGS_BY_USER_ID_LIMIT)) {
             ps.setInt(1, userId);
-            ps.setInt(2, currentPage-1);
+            ps.setInt(2, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
             ps.setInt(3, MAX_ENTRIES_PER_PAGE);
             try (ResultSet rs = ps.executeQuery()) {
                 List<Booking> bookings = new ArrayList<>();

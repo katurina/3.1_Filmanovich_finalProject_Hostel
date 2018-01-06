@@ -23,6 +23,7 @@ public class LogoutCommand implements Command {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute(USER);
+//            session.setAttribute("");
         }
         try {
             response.sendRedirect(INDEX_JSP);
