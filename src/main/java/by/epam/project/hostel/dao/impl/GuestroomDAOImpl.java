@@ -5,12 +5,15 @@ import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Guestroom;
+import by.epam.project.hostel.entity.search.SearchGuestroomsParams;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
@@ -28,7 +31,7 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
              PreparedStatement ps = connection.prepareStatement(SELECT_ROOMS_BY_HOSTEL_ID_LIMIT)) {
             ps.setString(1, language);
             ps.setInt(2, id);
-            ps.setInt(3, page);
+            ps.setInt(3, (page - 1) * MAX_ENTRIES_PER_PAGE);
             ps.setInt(4, MAX_ENTRIES_PER_PAGE);
             try (ResultSet rs = ps.executeQuery()) {
                 List<Guestroom> guestrooms = new ArrayList<>();
@@ -65,8 +68,36 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
     }
 
     @Override
+    public List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = getSQLSelect(connection, searchParams)) {
+
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting guestroom by searching params = " + searchParams.toString(), e);
+        }
+    }
+
+
+    @Override
     protected String getTableName() {
         return "guestrooms";
+    }
+
+    private PreparedStatement getSQLSelect(Connection connection, SearchGuestroomsParams searchParams) throws SQLException {
+        StringBuilder selectByParams = new StringBuilder("SELECT  guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description,  hostel_id FROM guestrooms  INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id  INNER JOIN language l ON t.language_id = l.id WHERE language = ? ");
+
+        String sorting = searchParams.getSorting();
+        Date dateFrom = searchParams.getDateFrom();
+        Date dateTo = searchParams.getDateTo();
+        BigDecimal nightPriceFrom = searchParams.getNightPriceFrom();
+        BigDecimal nightPriceTo = searchParams.getNightPriceTo();
+        Boolean wifi = searchParams.getWifi();
+        Boolean tv = searchParams.getTv();
+        Boolean shower = searchParams.getShower();
+
+
+
+        return connection.prepareStatement(selectByParams.toString());
     }
 
     private int getNumberOfPages(List<Guestroom> guestrooms) {

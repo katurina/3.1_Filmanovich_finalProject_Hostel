@@ -23,14 +23,11 @@ public class GetHostelCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.valueOf(request.getParameter(Constant.Hostel.ID));
         String language = (String) request.getSession().getAttribute(LOCAL);
-
         try {
             Hostel hostel = ServiceFactory.getInstance().getHostelService().getHostelById(id, language);
             request.setAttribute(Constant.Hostel.HOSTEL, hostel);
         } catch (ValidationException e) {
             logger.error("error during getting hostel", e);
         }
-
-
     }
 }

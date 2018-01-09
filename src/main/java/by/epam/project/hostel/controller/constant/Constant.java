@@ -40,7 +40,7 @@ public final class Constant {
 
         public static final String PAGE = "page";
         public static final String LOCAL = "local";
-        public static final String CURRENT_PAGE = "current-page";
+        public static final String CURRENT_PAGE = "page";
         public static final String ADMIN_ADMIN_USERS = "/admin/admin_users";
         public static final String INDEX_JSP = "index.jsp";
         public static final String ADMIN_ENTRY = "admin/admin_entry";
@@ -61,5 +61,17 @@ public final class Constant {
     public class Guestroom {
         public static final String ID = "id";
         public static final String GUESTROOM = "guestroom";
+        public static final String SORT = "sort";
+    }
+
+    public class SearchParams {
+        public static final String NIGHT_PRICE_FROM = "price-from";
+        public static final String NIGHT_PRICE_TO = "price-to";
+        public static final String DATE_FROM = "date-from";
+        public static final String DATE_TO = "date-to";
+        public static final String WIFI = "wifi";
+        public static final String TV = "tv";
+        public static final String SHOWER = "shower";
+
     }
 }

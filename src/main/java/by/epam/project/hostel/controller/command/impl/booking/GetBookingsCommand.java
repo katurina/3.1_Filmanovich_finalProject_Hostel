@@ -17,18 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
+
 
 public class GetBookingsCommand implements Command {
     private static final Logger logger = LogManager.getLogger(EditUserCommand.class);
     private static final BookingService bookingService = ServiceFactory.getInstance().getBookingService();
 
-    //    todo current page
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute(Constant.User.USER);
         int userId = user.getId();
-        int currentPage = request.getParameter(Constant.Page.CURRENT_PAGE) == null ?
-                1 : Integer.valueOf(request.getParameter(Constant.Page.CURRENT_PAGE));
+        String pageParam = request.getParameter(CURRENT_PAGE);
+        int currentPage = (pageParam == null || pageParam.isEmpty()) ? 1 : Integer.valueOf(pageParam);
         try {
             List<Booking> userBooking = bookingService.getUserBooking(userId, currentPage);
             int totalRowCount = bookingService.getTotalRowCount();

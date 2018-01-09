@@ -4,6 +4,11 @@ import by.epam.project.hostel.dao.CommentDAO;
 
 public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO{
 
+    /**
+     *
+     *
+     * @return
+     */
     @Override
     protected String getTableName() {
         return "comments";

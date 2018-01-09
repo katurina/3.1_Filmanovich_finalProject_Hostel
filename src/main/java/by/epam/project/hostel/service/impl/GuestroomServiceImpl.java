@@ -4,10 +4,13 @@ import by.epam.project.hostel.dao.DAOFactory;
 import by.epam.project.hostel.dao.GuestroomDAO;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Guestroom;
+import by.epam.project.hostel.entity.search.SearchGuestroomsParams;
 import by.epam.project.hostel.service.GuestroomService;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.validation.Validator;
 import by.epam.project.hostel.service.validation.impl.GuestroomValidatorImpl;
+
+import java.util.List;
 
 public class GuestroomServiceImpl implements GuestroomService {
 
@@ -23,6 +26,14 @@ public class GuestroomServiceImpl implements GuestroomService {
         } catch (DAOException e) {
             throw new ServiceException("error during getting guestroom by id = " + id, e);
         }
+    }
+
+    @Override
+    public List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws ServiceException {
+        validator.validate(language);
+        validator.validateCurrentPage(currentPage);
+        ((GuestroomValidatorImpl)validator).validateSearchParams(searchParams);
+        return guestroomDAO.getGuestroomBySearchParam(currentPage,searchParams,language);
     }
 
     @Override

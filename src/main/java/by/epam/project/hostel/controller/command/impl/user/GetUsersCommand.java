@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
+
 
 public class GetUsersCommand implements Command {
 
@@ -26,8 +28,8 @@ public class GetUsersCommand implements Command {
         ServiceFactory instance = ServiceFactory.getInstance();
         UserService userService = instance.getUserService();
         try {
-            int currentPage = request.getParameter(Constant.Page.CURRENT_PAGE) == null ?
-                    1 : Integer.valueOf(request.getParameter(Constant.Page.CURRENT_PAGE));
+            String page = request.getParameter(CURRENT_PAGE);
+            int currentPage = (page == null || page.isEmpty()) ? 1 : Integer.valueOf(page);
             List<User> users = userService.getUsers(currentPage);
             int totalRowCount = userService.getTotalRowCount();
             Page<User> usersPage = PageWrapper.wrapList(users, currentPage, totalRowCount);

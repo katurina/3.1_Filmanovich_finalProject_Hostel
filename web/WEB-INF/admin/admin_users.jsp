@@ -19,12 +19,13 @@
     <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.text.form" var="from"/>
     <title>${users}</title>
-    <c:set scope="session" var="url" value="/admin/admin_users"/>
+    <c:set scope="session" var="url" value="/admin/admin_users?page=${param.page}"/>
 </head>
 <body>
 <%@include file="/WEB-INF/admin/admin_header.jsp" %>
 <jsp:include page="${pageContext.request.contextPath}/controller">
     <jsp:param name="command" value="get-users-command"/>
+    <jsp:param name="page" value="${param.page}"/>
 </jsp:include>
 <br>
 <table>
@@ -81,13 +82,13 @@
 </table>
 <div class="pagination">
     <c:if test="${requestScope.page.currentPage gt 1}">
-        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=1"><<</a>&#8195;
-        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=${requestScope.page.currentPage - 1}"><</a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_users?page=1"><<</a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_users?page=${requestScope.page.currentPage - 1}"><</a>&#8195;
     </c:if>
     &#8195;${requestScope.page.currentPage} ${from} ${requestScope.page.numberOfPages}&#8195;
     <c:if test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
-        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=${requestScope.page.currentPage + 1}">></a>&#8195;
-        <a href="${pageContext.request.contextPath}/admin/admin_users?current-page=${requestScope.page.numberOfPages}">>></a>
+        <a href="${pageContext.request.contextPath}/admin/admin_users?page=${requestScope.page.currentPage + 1}">></a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_users?page=${requestScope.page.numberOfPages}">>></a>
     </c:if>
 </div>
 </body>

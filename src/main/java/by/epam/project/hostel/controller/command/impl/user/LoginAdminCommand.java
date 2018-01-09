@@ -39,7 +39,7 @@ public class LoginAdminCommand implements Command {
                 forwardPage = ADMIN_ENTRY;
             }
         } catch (ServiceException e) {
-            logger.error("error during linging admin command", e);
+            logger.error("error during longing admin command", e);
         }
         try {
             request.getSession().setAttribute(ERROR, error);
