@@ -2,17 +2,17 @@ package by.epam.project.hostel.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Booking extends Entity implements Serializable {
     private static final long serialVersionUID = -8053748141053902283L;
 
     private int id;
     private BigDecimal nightPrice;
-    private Date startDay;
-    private Date lastDay;
+    private LocalDate startDay;
+    private LocalDate lastDay;
     private boolean payed;
-    private Date bookDay;
+    private LocalDate bookDay;
     private BigDecimal finalCost;
     private int userId;
     private int guestroomId;
@@ -21,8 +21,8 @@ public class Booking extends Entity implements Serializable {
     }
 
     public Booking(
-            BigDecimal nightPrice, Date startDay, Date lastDay,
-            boolean payed, Date bookDay, BigDecimal finalCost,
+            BigDecimal nightPrice, LocalDate startDay, LocalDate lastDay,
+            boolean payed, LocalDate bookDay, BigDecimal finalCost,
             int userId, int guestroomId) {
         this.nightPrice = nightPrice;
         this.startDay = startDay;
@@ -35,9 +35,9 @@ public class Booking extends Entity implements Serializable {
     }
 
     public Booking(
-            int id, BigDecimal nightPrice, Date startDay,
-            Date lastDay, boolean payed,
-            Date bookDay, BigDecimal finalCost,
+            int id, BigDecimal nightPrice, LocalDate startDay,
+            LocalDate lastDay, boolean payed,
+            LocalDate bookDay, BigDecimal finalCost,
             int userId, int guestroomId) {
         this.id = id;
         this.nightPrice = nightPrice;
@@ -70,19 +70,19 @@ public class Booking extends Entity implements Serializable {
         this.nightPrice = nightPrice;
     }
 
-    public Date getStartDay() {
+    public LocalDate getStartDay() {
         return startDay;
     }
 
-    public void setStartDay(Date startDay) {
+    public void setStartDay(LocalDate startDay) {
         this.startDay = startDay;
     }
 
-    public Date getLastDay() {
+    public LocalDate getLastDay() {
         return lastDay;
     }
 
-    public void setLastDay(Date lastDay) {
+    public void setLastDay(LocalDate lastDay) {
         this.lastDay = lastDay;
     }
 
@@ -102,11 +102,11 @@ public class Booking extends Entity implements Serializable {
         }
     }
 
-    public Date getBookDay() {
+    public LocalDate getBookDay() {
         return bookDay;
     }
 
-    public void setBookDay(Date bookDay) {
+    public void setBookDay(LocalDate bookDay) {
         this.bookDay = bookDay;
     }
 

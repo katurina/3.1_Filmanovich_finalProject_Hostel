@@ -32,8 +32,12 @@ public class GuestroomServiceImpl implements GuestroomService {
     public List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws ServiceException {
         validator.validate(language);
         validator.validateCurrentPage(currentPage);
-        ((GuestroomValidatorImpl)validator).validateSearchParams(searchParams);
-        return guestroomDAO.getGuestroomBySearchParam(currentPage,searchParams,language);
+        searchParams = ((GuestroomValidatorImpl) validator).validateSearchParams(searchParams);
+        try {
+            return guestroomDAO.getGuestroomBySearchParam(currentPage, searchParams, language);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting guestrooms by search params", e);
+        }
     }
 
     @Override
@@ -42,6 +46,16 @@ public class GuestroomServiceImpl implements GuestroomService {
             return guestroomDAO.getTotalRowCount();
         } catch (DAOException e) {
             throw new ServiceException("error during getting guestroom's total row count", e);
+        }
+    }
+
+    @Override
+    public Integer getTotalRowCount(SearchGuestroomsParams searchParams,String language) throws ServiceException {
+        searchParams = ((GuestroomValidatorImpl) validator).validateSearchParams(searchParams);
+        try {
+            return guestroomDAO.getTotalRowCount(searchParams,language);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting total row count", e);
         }
     }
 }

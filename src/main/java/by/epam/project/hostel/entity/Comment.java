@@ -1,7 +1,7 @@
 package by.epam.project.hostel.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Comment extends Entity implements Serializable{
     private static final long serialVersionUID = -8053748141053902283L;
@@ -10,13 +10,13 @@ public class Comment extends Entity implements Serializable{
     private int userId;
     private int guestroomId;
     private String comment;
-    private Date commentDate;
+    private LocalDate commentDate;
     private int rate;
 
     public Comment() {
     }
 
-    public Comment(int id, int userId, int guestroomId, String comment, Date commentDate, int rate) {
+    public Comment(int id, int userId, int guestroomId, String comment, LocalDate commentDate, int rate) {
         this.id = id;
         this.userId = userId;
         this.guestroomId = guestroomId;
@@ -61,11 +61,11 @@ public class Comment extends Entity implements Serializable{
         this.comment = comment;
     }
 
-    public Date getCommentDate() {
+    public LocalDate getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(Date commentDate) {
+    public void setCommentDate(LocalDate commentDate) {
         this.commentDate = commentDate;
     }
 

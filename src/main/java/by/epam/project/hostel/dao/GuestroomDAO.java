@@ -13,4 +13,5 @@ public interface GuestroomDAO extends EntityDAO {
 
     List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws DAOException;
 
+    Integer getTotalRowCount(SearchGuestroomsParams searchParams, String language) throws DAOException;
 }

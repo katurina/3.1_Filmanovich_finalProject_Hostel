@@ -2,25 +2,30 @@ package by.epam.project.hostel.entity.search;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SearchGuestroomsParams implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String sorting;
+    private String sorting = "none";
     private BigDecimal nightPriceFrom;
     private BigDecimal nightPriceTo;
-    private Date dateFrom;
-    private Date dateTo;
-    private Boolean wifi;
-    private Boolean tv;
-    private Boolean shower;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
+    private Boolean wifi = false;
+    private Boolean tv = false;
+    private Boolean shower = false;
+    private Integer capacityFrom;
+    private Integer capacityTo;
+    private String city;
+    private String order = "ascending";
 
     public SearchGuestroomsParams() {
     }
 
-    public SearchGuestroomsParams(BigDecimal nightPriceFrom, BigDecimal nightPriceTo, Date dateFrom, Date dateTo, Boolean wifi, Boolean tv, Boolean shower, String sorting) {
+    public SearchGuestroomsParams(String sorting, BigDecimal nightPriceFrom, BigDecimal nightPriceTo, LocalDate dateFrom, LocalDate dateTo, Boolean wifi, Boolean tv, Boolean shower, Integer capacityFrom, Integer capacityTo, String city, String order) {
+        this.sorting = sorting;
         this.nightPriceFrom = nightPriceFrom;
         this.nightPriceTo = nightPriceTo;
         this.dateFrom = dateFrom;
@@ -28,11 +33,22 @@ public class SearchGuestroomsParams implements Serializable {
         this.wifi = wifi;
         this.tv = tv;
         this.shower = shower;
-        this.sorting = sorting;
+        this.capacityFrom = capacityFrom;
+        this.capacityTo = capacityTo;
+        this.city = city;
+        this.order = order;
     }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public String getSorting() {
+        return sorting;
+    }
+
+    public void setSorting(String sorting) {
+        this.sorting = sorting;
     }
 
     public BigDecimal getNightPriceFrom() {
@@ -51,19 +67,19 @@ public class SearchGuestroomsParams implements Serializable {
         this.nightPriceTo = nightPriceTo;
     }
 
-    public Date getDateFrom() {
+    public LocalDate getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Date dateFrom) {
+    public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Date getDateTo() {
+    public LocalDate getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Date dateTo) {
+    public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
     }
 
@@ -91,12 +107,36 @@ public class SearchGuestroomsParams implements Serializable {
         this.shower = shower;
     }
 
-    public String getSorting() {
-        return sorting;
+    public Integer getCapacityFrom() {
+        return capacityFrom;
     }
 
-    public void setSorting(String sorting) {
-        this.sorting = sorting;
+    public void setCapacityFrom(Integer capacityFrom) {
+        this.capacityFrom = capacityFrom;
+    }
+
+    public Integer getCapacityTo() {
+        return capacityTo;
+    }
+
+    public void setCapacityTo(Integer capacityTo) {
+        this.capacityTo = capacityTo;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 
     @Override
@@ -110,6 +150,9 @@ public class SearchGuestroomsParams implements Serializable {
 
         SearchGuestroomsParams that = (SearchGuestroomsParams) o;
 
+        if (getSorting() != null ? !getSorting().equals(that.getSorting()) : that.getSorting() != null) {
+            return false;
+        }
         if (getNightPriceFrom() != null ? !getNightPriceFrom().equals(that.getNightPriceFrom()) : that.getNightPriceFrom() != null) {
             return false;
         }
@@ -131,33 +174,50 @@ public class SearchGuestroomsParams implements Serializable {
         if (getShower() != null ? !getShower().equals(that.getShower()) : that.getShower() != null) {
             return false;
         }
-        return getSorting() != null ? getSorting().equals(that.getSorting()) : that.getSorting() == null;
+        if (getCapacityFrom() != null ? !getCapacityFrom().equals(that.getCapacityFrom()) : that.getCapacityFrom() != null) {
+            return false;
+        }
+        if (getCapacityTo() != null ? !getCapacityTo().equals(that.getCapacityTo()) : that.getCapacityTo() != null) {
+            return false;
+        }
+        if (getCity() != null ? !getCity().equals(that.getCity()) : that.getCity() != null) {
+            return false;
+        }
+        return getOrder() != null ? getOrder().equals(that.getOrder()) : that.getOrder() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getNightPriceFrom() != null ? getNightPriceFrom().hashCode() : 0;
+        int result = getSorting() != null ? getSorting().hashCode() : 0;
+        result = 31 * result + (getNightPriceFrom() != null ? getNightPriceFrom().hashCode() : 0);
         result = 31 * result + (getNightPriceTo() != null ? getNightPriceTo().hashCode() : 0);
         result = 31 * result + (getDateFrom() != null ? getDateFrom().hashCode() : 0);
         result = 31 * result + (getDateTo() != null ? getDateTo().hashCode() : 0);
         result = 31 * result + (getWifi() != null ? getWifi().hashCode() : 0);
         result = 31 * result + (getTv() != null ? getTv().hashCode() : 0);
         result = 31 * result + (getShower() != null ? getShower().hashCode() : 0);
-        result = 31 * result + (getSorting() != null ? getSorting().hashCode() : 0);
+        result = 31 * result + (getCapacityFrom() != null ? getCapacityFrom().hashCode() : 0);
+        result = 31 * result + (getCapacityTo() != null ? getCapacityTo().hashCode() : 0);
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + (getOrder() != null ? getOrder().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "SearchGuestroomsParams{" +
-                "nightPriceFrom=" + nightPriceFrom +
+                "sorting='" + sorting + '\'' +
+                ", nightPriceFrom=" + nightPriceFrom +
                 ", nightPriceTo=" + nightPriceTo +
                 ", dateFrom=" + dateFrom +
                 ", dateTo=" + dateTo +
                 ", wifi=" + wifi +
                 ", tv=" + tv +
                 ", shower=" + shower +
-                ", sorting='" + sorting + '\'' +
+                ", capacityFrom=" + capacityFrom +
+                ", capacityTo=" + capacityTo +
+                ", city='" + city + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 }

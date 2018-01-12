@@ -65,13 +65,15 @@ public final class Constant {
     }
 
     public class SearchParams {
-        public static final String NIGHT_PRICE_FROM = "price-from";
-        public static final String NIGHT_PRICE_TO = "price-to";
-        public static final String DATE_FROM = "date-from";
-        public static final String DATE_TO = "date-to";
+        public static final String NIGHT_PRICE_FROM = "priceFrom";
+        public static final String NIGHT_PRICE_TO = "priceTo";
+        public static final String DATE_FROM = "dateFrom";
+        public static final String DATE_TO = "dateTo";
         public static final String WIFI = "wifi";
         public static final String TV = "tv";
         public static final String SHOWER = "shower";
-
+        public static final String CAPACITY_FROM = "capacityFrom";
+        public static final String CAPACITY_TO = "capacityTo";
+        public static final String CITY = "city";
     }
 }

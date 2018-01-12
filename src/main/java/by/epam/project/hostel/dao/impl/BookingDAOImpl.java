@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
@@ -21,7 +21,7 @@ public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
     private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
 
     @Override
-    public void bookRoom(double nightPrice, Date startDay, Date lastDay, boolean payed, Date bookDay, double finalCost, int userId, int guestroomId) {
+    public void bookRoom(double nightPrice, LocalDate startDay, LocalDate lastDay, boolean payed, LocalDate bookDay, double finalCost, int userId, int guestroomId) {
 
     }
 
@@ -50,10 +50,10 @@ public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
         booking.setId(rs.getInt(1));
         booking.setGuestroomId(rs.getInt(2));
         booking.setNightPrice(rs.getBigDecimal(3));
-        booking.setStartDay(rs.getDate(4));
-        booking.setLastDay(rs.getDate(5));
+        booking.setStartDay(rs.getDate(4).toLocalDate());
+        booking.setLastDay(rs.getDate(5).toLocalDate());
         booking.setPayed(rs.getInt(6));
-        booking.setBookDay(rs.getDate(7));
+        booking.setBookDay(rs.getDate(7).toLocalDate());
         booking.setFinalCost(rs.getBigDecimal(8));
         return booking;
     }
