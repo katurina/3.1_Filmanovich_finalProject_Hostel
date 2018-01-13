@@ -122,11 +122,17 @@
         </div>
         <c:forEach var="room" items="${requestScope.page.entity}">
             <div class="room-hotel">
-                <div class="money">${room.nightPrice}</div>
-                <div class="img-down"><img src="${room.imgPath[0]}"></div>
+                <p>
+                <div class="img-down"><img src="${room.imgPath[0]}" width="100%"></div>
                 <div class="room-description">
-                        ${room.description}
+                    <div class="room-parameters">
+                        <div class="money">${room.nightPrice}$</div>
+                            ${room.capacity}
+                    </div>
+                    <div style="">
+                            ${room.description}</div>
                 </div>
+                </p>
                 <a href="">${book}</a>
                 <a href="guestroom.jsp?id=${room.id}">${guestroom}</a>
                 <span class="clear"></span>

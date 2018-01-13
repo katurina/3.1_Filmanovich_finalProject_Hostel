@@ -10,6 +10,8 @@ import by.epam.project.hostel.service.exception.ValidationException;
 import by.epam.project.hostel.service.validation.Validator;
 import by.epam.project.hostel.service.validation.impl.HostelValidatorImpl;
 
+import java.util.List;
+
 public class HostelServiceImpl implements HostelService {
     private static final Validator<Hostel> validator = new HostelValidatorImpl();
     private static final HostelDAO hostelDAO = DAOFactory.getInstance().getHostelDAO();
@@ -22,6 +24,16 @@ public class HostelServiceImpl implements HostelService {
             return hostelDAO.getHostelById(id, language);
         } catch (DAOException e) {
             throw new ValidationException("error during validation getting hostel by id", e);
+        }
+    }
+
+    @Override
+    public List<Hostel> getHostels(String language) throws ServiceException {
+        validator.validate(language);
+        try {
+            return DAOFactory.getInstance().getHostelDAO().getHostels(language);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting whole hostels");
         }
     }
 

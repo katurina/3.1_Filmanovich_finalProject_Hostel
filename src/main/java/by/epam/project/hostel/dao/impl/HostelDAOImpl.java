@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
@@ -18,6 +20,7 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
 
     private static final String SELECT_HOSTEL_BY_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE l.language = ? AND hostel.id = ?";
     private static final String SELECT_HOSTEL_BY_ROOM_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id  INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ? AND l.language = ?";
+    private static final String SELECT_ALL_HOSTELS = "SELECT stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE language=?";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -51,6 +54,23 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
 
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during get hostel by room id", e);
+        }
+    }
+
+    @Override
+    public List<Hostel> getHostels(String language) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_ALL_HOSTELS)) {
+            ps.setString(1, language);
+            try (ResultSet rs = ps.executeQuery()) {
+                List<Hostel> hostels = new ArrayList<>();
+                while (rs.next()) {
+                    hostels.add(createHostel(rs));
+                }
+                return hostels;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting hostels", e);
         }
     }
 

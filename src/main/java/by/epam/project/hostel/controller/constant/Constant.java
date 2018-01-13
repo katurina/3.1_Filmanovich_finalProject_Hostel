@@ -8,7 +8,8 @@ public final class Constant {
     public class Exception {
         private Exception() {
         }
-public static final String ERROR_LOGIN_PARAM = "errorParam";
+
+        public static final String ERROR_LOGIN_PARAM = "errorParam";
         public static final String ERROR = "error";
         public static final String TRUE = "true";
         public static final String FALSE = "false";
@@ -31,10 +32,12 @@ public static final String ERROR_LOGIN_PARAM = "errorParam";
     }
 
     public class Hostel {
+
         private Hostel() {
         }
 
         public static final String HOSTEL = "hostel";
+        public static final String HOSTELS = "hostels";
         public static final String ID = "id";
     }
 
