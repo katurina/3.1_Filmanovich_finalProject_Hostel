@@ -15,6 +15,8 @@
 <fmt:message bundle="${loc}" key="local.menu.search" var="search"/>
 <fmt:message bundle="${loc}" key="local.account" var="account"/>
 <fmt:message bundle="${loc}" key="local.menu.questions" var="faq"/>
+<fmt:message bundle="${loc}" key="local.menu.or" var="menuor"/>
+<fmt:message bundle="${loc}" key="local.menu.sign.up" var="signup"/>
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
@@ -58,7 +60,7 @@
 
                 </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/account"><i
+                    <a href="${pageContext.request.contextPath}/user/account"><i
                             class="fa fa-fw fa-user-circle-o"></i> ${account}</a>
                 </c:otherwise>
             </c:choose>
@@ -94,7 +96,14 @@
                             class="cancelbtn">
                         ${cancel}
                     </button>
-                    <span class="psw">${forget} <a href="#" style="padding: 0">${password}?</a></span>
+                    <div class="psw" style="float: right">
+                        <a href="${pageContext.request.contextPath}/registration.jsp"
+                           style="padding: 0;    display: unset; color: red;font-weight:bold">${signup}</a></div>
+                    <br>
+                    <div class="psw" style="float: right">${forget}
+                        <a href="#"
+                           style="padding: 0;    display: unset; color: red; font-weight:bold">${password}?</a>
+                    </div>
                 </div>
             </form>
             ${'</div>'}

@@ -16,39 +16,7 @@ public class Booking extends Entity implements Serializable {
     private BigDecimal finalCost;
     private int userId;
     private int guestroomId;
-
-    public Booking() {
-    }
-
-    public Booking(
-            BigDecimal nightPrice, LocalDate startDay, LocalDate lastDay,
-            boolean payed, LocalDate bookDay, BigDecimal finalCost,
-            int userId, int guestroomId) {
-        this.nightPrice = nightPrice;
-        this.startDay = startDay;
-        this.lastDay = lastDay;
-        this.payed = payed;
-        this.bookDay = bookDay;
-        this.finalCost = finalCost;
-        this.userId = userId;
-        this.guestroomId = guestroomId;
-    }
-
-    public Booking(
-            int id, BigDecimal nightPrice, LocalDate startDay,
-            LocalDate lastDay, boolean payed,
-            LocalDate bookDay, BigDecimal finalCost,
-            int userId, int guestroomId) {
-        this.id = id;
-        this.nightPrice = nightPrice;
-        this.startDay = startDay;
-        this.lastDay = lastDay;
-        this.payed = payed;
-        this.bookDay = bookDay;
-        this.finalCost = finalCost;
-        this.userId = userId;
-        this.guestroomId = guestroomId;
-    }
+    private int nightsCount;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -134,6 +102,14 @@ public class Booking extends Entity implements Serializable {
         this.guestroomId = guestroomId;
     }
 
+    public int getNightsCount() {
+        return nightsCount;
+    }
+
+    public void setNightsCount(int nightsCount) {
+        this.nightsCount = nightsCount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -155,6 +131,9 @@ public class Booking extends Entity implements Serializable {
             return false;
         }
         if (getGuestroomId() != booking.getGuestroomId()) {
+            return false;
+        }
+        if (getNightsCount() != booking.getNightsCount()) {
             return false;
         }
         if (getNightPrice() != null ? !getNightPrice().equals(booking.getNightPrice()) : booking.getNightPrice() != null) {
@@ -183,6 +162,7 @@ public class Booking extends Entity implements Serializable {
         result = 31 * result + (getFinalCost() != null ? getFinalCost().hashCode() : 0);
         result = 31 * result + getUserId();
         result = 31 * result + getGuestroomId();
+        result = 31 * result + getNightsCount();
         return result;
     }
 
@@ -198,6 +178,7 @@ public class Booking extends Entity implements Serializable {
                 ", finalCost=" + finalCost +
                 ", userId=" + userId +
                 ", guestroomId=" + guestroomId +
+                ", nightsCount=" + nightsCount +
                 '}';
     }
 }

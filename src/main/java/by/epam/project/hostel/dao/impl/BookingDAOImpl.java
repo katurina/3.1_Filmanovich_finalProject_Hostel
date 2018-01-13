@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
         booking.setPayed(rs.getInt(6));
         booking.setBookDay(rs.getDate(7).toLocalDate());
         booking.setFinalCost(rs.getBigDecimal(8));
+        booking.setNightsCount(Period.between(booking.getStartDay(),booking.getLastDay()).getDays());
         return booking;
     }
 

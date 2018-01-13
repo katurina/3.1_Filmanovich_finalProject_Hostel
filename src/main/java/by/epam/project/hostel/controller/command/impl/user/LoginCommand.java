@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.Page.ERROR;
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_LOGIN_PARAM;
 import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
@@ -38,7 +38,7 @@ public class LoginCommand implements Command {
             logger.error("error during login command", e);
         }
         try {
-            request.setAttribute(ERROR, error);
+            request.setAttribute(ERROR_LOGIN_PARAM, error);
             request.getRequestDispatcher(INDEX_JSP).forward(request, response);
         } catch (ServletException | IOException e) {
             logger.error("error during forward in login command", e);

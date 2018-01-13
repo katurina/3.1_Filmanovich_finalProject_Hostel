@@ -8,21 +8,19 @@
     <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="local.title.hotel" var="hotel"/>
     <title>${hotel}</title>
-    <c:set scope="session" var="url" value="hostel.jsp"/>
+
+
     <jsp:include page="${pageContext.request.contextPath}/controller">
         <jsp:param name="command" value="view-hostel-command"/>
         <jsp:param name="id" value="${param.id}"/>
     </jsp:include>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/menu.css">
     <c:set scope="session" var="url" value="/hostel.jsp?id=${param.id}"/>
 </head>
 <body>

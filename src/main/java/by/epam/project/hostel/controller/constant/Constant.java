@@ -1,14 +1,18 @@
 package by.epam.project.hostel.controller.constant;
 
 public final class Constant {
-
-
     private Constant() {
     }
 
-    public static final String TRUE = "true";
-    public static final String FALSE = "false";
 
+    public class Exception {
+        private Exception() {
+        }
+public static final String ERROR_LOGIN_PARAM = "errorParam";
+        public static final String ERROR = "error";
+        public static final String TRUE = "true";
+        public static final String FALSE = "false";
+    }
 
     public class User {
         private User() {
@@ -35,18 +39,22 @@ public final class Constant {
     }
 
     public class Page {
+
         private Page() {
         }
 
+        public static final String REGISTRATION_JSP = "registration.jsp";
         public static final String PAGE = "page";
         public static final String LOCAL = "local";
         public static final String CURRENT_PAGE = "page";
         public static final String ADMIN_ADMIN_USERS = "/admin/admin_users";
         public static final String INDEX_JSP = "index.jsp";
         public static final String ADMIN_ENTRY = "admin/admin_entry";
-        public static final String ERROR = "errorParam";
         public static final String ADMIN_SIGN_IN = "admin_sign_in.jsp";
         public static final String LOGIN_JSP = "login.jsp";
+        public static final String SEARCH_JSP = "search.jsp";
+
+
     }
 
     public class Language {

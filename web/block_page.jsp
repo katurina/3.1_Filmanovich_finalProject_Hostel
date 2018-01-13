@@ -9,13 +9,6 @@
     <title>Title</title>
 </head>
 <body>
-<c:import url="menu.jsp"/>
-<div id="page-content-wrapper">
-    <h1 style="
-    text-align: center;
-    text-transform: uppercase;
-    margin-top: 0;
-    color: #9eaeee;">${requestScope.hostel.name} </h1>
-</div>
+
 </body>
 </html>

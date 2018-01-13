@@ -16,9 +16,9 @@ public class HostelServiceImpl implements HostelService {
 
     @Override
     public Hostel getHostelById(int id, String language) throws ValidationException {
+        validator.validateID(id);
+        validator.validate(language);
         try {
-            validator.validateID(id);
-            validator.validate(language);
             return hostelDAO.getHostelById(id, language);
         } catch (DAOException e) {
             throw new ValidationException("error during validation getting hostel by id", e);

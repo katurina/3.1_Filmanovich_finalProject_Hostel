@@ -48,8 +48,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/search.css">
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/menu.css">
     <c:set scope="session" var="url"
            value="/search.jsp?page=${param.page}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}"/>
 </head>
@@ -74,6 +74,7 @@
                             <option value="${shanghai}">${shanghai}</option>
                         </select>
                     </div>
+                    <%--todo get parameters and validation--%>
                     <div class="criteria">
                         <div>
                             ${price}

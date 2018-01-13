@@ -20,10 +20,10 @@
 <div>
     <div class="head-navbar">
         <li>
-            <a href="${pageContext.request.contextPath}/bookings">${bookings}</a>
+            <a href="${pageContext.request.contextPath}/user/bookings">${bookings}</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/settings">${settings}</a>
+            <a href="${pageContext.request.contextPath}/user/settings">${settings}</a>
         </li>
         <li>
             <a href="${pageContext.request.contextPath}/controller?command=logout-command">${logout}</a>

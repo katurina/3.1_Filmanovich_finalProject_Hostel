@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.FALSE;
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_LOGIN_PARAM;
+import static by.epam.project.hostel.controller.constant.Constant.Exception.FALSE;
+import static by.epam.project.hostel.controller.constant.Constant.Exception.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.ADMIN_ENTRY;
 import static by.epam.project.hostel.controller.constant.Constant.Page.ADMIN_SIGN_IN;
-import static by.epam.project.hostel.controller.constant.Constant.Page.ERROR;
-import static by.epam.project.hostel.controller.constant.Constant.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
@@ -42,7 +42,7 @@ public class LoginAdminCommand implements Command {
             logger.error("error during longing admin command", e);
         }
         try {
-            request.getSession().setAttribute(ERROR, error);
+            request.getSession().setAttribute(ERROR_LOGIN_PARAM, error);
             response.sendRedirect(forwardPage);
         } catch (IOException e) {
             logger.error("error during forward in LoginAdminCommand", e);

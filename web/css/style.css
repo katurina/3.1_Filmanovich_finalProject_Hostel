@@ -143,6 +143,12 @@ span.psw {
     margin: 10px;
 }
 
+.carousel-inner > .item > img {
+    height: 87%;
+    width:100%;
+    margin: auto;
+}
+
 .head-navbar > li > a:hover {
     background-color: #0066FF;
 }

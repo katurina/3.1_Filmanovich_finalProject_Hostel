@@ -3,8 +3,11 @@ package by.epam.project.hostel.service.impl;
 import by.epam.project.hostel.dao.DAOFactory;
 import by.epam.project.hostel.dao.UserDAO;
 import by.epam.project.hostel.dao.exception.DAOException;
+import by.epam.project.hostel.dao.exception.SuchLoginExistException;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.UserService;
+import by.epam.project.hostel.service.constant.Constants;
+import by.epam.project.hostel.service.exception.LoginDuplicatedException;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 import by.epam.project.hostel.service.validation.Validator;
@@ -62,6 +65,8 @@ public class UserServiceImpl implements UserService {
         validator.validate(name, surname, login, password, email, number);
         try {
             userDAO.register(name, surname, login, password, email, number);
+        } catch (SuchLoginExistException e) {
+            throw new LoginDuplicatedException("such login exist: " + login, e, Constants.ErrorParamMessages.LOGIN_DUPLICATE);
         } catch (DAOException e) {
             throw new ServiceException("registration failed", e);
         }
@@ -69,13 +74,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(int id, String role, int banned) throws ServiceException {
-        UserValidatorImpl validatorUser = new UserValidatorImpl();
+        validator.validateID(id);
+        ((UserValidatorImpl) validator).validateBanned(banned);
+        ((UserValidatorImpl) validator).validateRole(role);
         try {
-            validatorUser.validateID(id);
-            validatorUser.validateBanned(banned);
-            validatorUser.validateRole(role);
             userDAO.editUser(id, role, banned);
-        } catch (ValidationException | DAOException e) {
+        } catch (DAOException e) {
             throw new ServiceException("updateUser failed", e);
         }
     }

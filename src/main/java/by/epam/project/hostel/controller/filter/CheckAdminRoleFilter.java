@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-public class CheckAdmineRoleFilter implements Filter {
+public class CheckAdminRoleFilter implements Filter {
 
     private static final String USER = "user";
 

@@ -27,7 +27,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserAccount</servlet-name>
-        <url-pattern>/account</url-pattern>
+        <url-pattern>/user/account</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -73,7 +73,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserBookings</servlet-name>
-        <url-pattern>/bookings</url-pattern>
+        <url-pattern>/user/bookings</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -82,7 +82,16 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserSettings</servlet-name>
-        <url-pattern>/settings</url-pattern>
+        <url-pattern>/user/settings</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BotDetect Captcha</servlet-name>
+        <servlet-class>com.captcha.botdetect.web.servlet.SimpleCaptchaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BotDetect Captcha</servlet-name>
+        <url-pattern>/botdetectcaptcha</url-pattern>
     </servlet-mapping>
 
     <listener>
@@ -90,12 +99,12 @@
     </listener>
 
     <filter>
-        <filter-name>CheckAdmineRole</filter-name>
-        <filter-class>by.epam.project.hostel.controller.filter.CheckAdmineRoleFilter</filter-class>
+        <filter-name>CheckAdminRole</filter-name>
+        <filter-class>by.epam.project.hostel.controller.filter.CheckAdminRoleFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>CheckAdmineRole</filter-name>
+        <filter-name>CheckAdminRole</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
 
@@ -108,4 +117,14 @@
         <filter-name>CheckUserRole</filter-name>
         <url-pattern>/user/*</url-pattern>
     </filter-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/500.jsp</location>
+    </error-page>
 </web-app>

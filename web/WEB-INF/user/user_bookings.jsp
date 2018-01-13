@@ -20,7 +20,7 @@
     <fmt:message bundle="${loc}" key="local.booking.payed.false" var="notPayed"/>
     <fmt:message bundle="${loc}" key="local.text.form" var="from"/>
     <title>${bookings}</title>
-    <c:set scope="session" var="url" value="/bookings?page=${param.page}"/>
+    <c:set scope="session" var="url" value="/user/bookings?page=${param.page}"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -32,7 +32,7 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/controller">
-    <jsp:param name="command" value="get-bookings-command?page=${param.page}"/>
+    <jsp:param name="command" value="get-bookings-command"/>
 </jsp:include>
 <c:import url="/menu.jsp"/>
 <div id="page-content-wrapper">
@@ -68,7 +68,7 @@
                         <c:otherwise>
                             ${isPayed}</c:otherwise>
                     </c:choose></td>
-                    <td>${booking.bookDay}</td>
+                    <td>${booking.nightsCount}</td>
                     <td>${booking.finalCost}</td>
                 </tr>
             </form>
@@ -77,13 +77,13 @@
     </table>
     <div class="pagination">
         <c:if test="${requestScope.page.currentPage gt 1}">
-            <a href="${pageContext.request.contextPath}/bookings?page=1"><<</a>&#8195;
-            <a href="${pageContext.request.contextPath}/bookings?page=${requestScope.page.currentPage - 1}"><</a>&#8195;
+            <a href="${pageContext.request.contextPath}/user/bookings?page=1"><<</a>&#8195;
+            <a href="${pageContext.request.contextPath}/user/bookings?page=${requestScope.page.currentPage - 1}"><</a>&#8195;
         </c:if>
         &#8195;${requestScope.page.currentPage} ${from} ${requestScope.page.numberOfPages}&#8195;
         <c:if test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
-            <a href="${pageContext.request.contextPath}/bookings?page=${requestScope.page.currentPage + 1}">></a>&#8195;
-            <a href="${pageContext.request.contextPath}/bookings?page=${requestScope.page.numberOfPages}">>></a>
+            <a href="${pageContext.request.contextPath}/user/bookings?page=${requestScope.page.currentPage + 1}">></a>&#8195;
+            <a href="${pageContext.request.contextPath}/user/bookings?page=${requestScope.page.numberOfPages}">>></a>
         </c:if>
     </div>
 </div>
