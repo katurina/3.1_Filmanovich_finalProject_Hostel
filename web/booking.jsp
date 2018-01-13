@@ -16,6 +16,7 @@
     text-transform: uppercase;
     margin-top: 0;
     color: #9eaeee;">${requestScope.hostel.name} </h1>
+    <c:import url="footer.jsp"/>
 </div>
 </body>
 </html>

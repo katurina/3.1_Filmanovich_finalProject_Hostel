@@ -70,6 +70,7 @@
     <div><a href="${pageContext.request.contextPath}/hostel.jsp?id=${requestScope.guestroom.hostelId}">${hotel}</a>
     </div>
     <div></div>
+    <c:import url="footer.jsp"/>
 </div>
 
 </body>

@@ -26,13 +26,16 @@
 <body>
 <c:import url="menu.jsp"/>
 <div id="page-content-wrapper">
-    <h1 style="
+    <div class="page-content">
+        <h1 style="
     text-align: center;
     text-transform: uppercase;
     margin-top: 0;
     color: #9eaeee;">${requestScope.hostel.name} </h1>
-    <img src="${requestScope.hostel.imgPath}"/>
-    <p>${requestScope.hostel.description}</p>
+        <img src="${requestScope.hostel.imgPath}" style=" width: 50%;"/>
+        <p>${requestScope.hostel.description}</p>
+    </div>
+    <c:import url="footer.jsp"/>
 </div>
 </body>
 </html>

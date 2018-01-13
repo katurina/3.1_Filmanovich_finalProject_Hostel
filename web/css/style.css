@@ -111,10 +111,29 @@ span.psw {
     font-weight: bold;
 }
 
+.page-content {
+    padding: 30px;
+    margin: 30px;
+}
+
 .close:hover,
 .close:focus {
     color: red;
     cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #987dbf;
+}
+
+.footer {
+    padding: 20px 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4c266d;
+    color: #f1f1f1;
+    text-align: center;
 }
 
 /* Add Zoom Animation */
@@ -145,7 +164,7 @@ span.psw {
 
 .carousel-inner > .item > img {
     height: 87%;
-    width:100%;
+    width: 100%;
     margin: auto;
 }
 

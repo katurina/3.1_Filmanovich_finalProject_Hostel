@@ -48,7 +48,7 @@
             </div>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/faq.jsp"><i class="fa fa-fw fa-question-circle"></i> ${faq}</a>
+            <a href="#"><i class="fa fa-fw fa-question-circle"></i> ${faq}</a>
         </li>
         <li>
             <c:choose>

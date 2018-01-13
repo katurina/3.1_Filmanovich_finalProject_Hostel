@@ -121,7 +121,7 @@
         </div>
     </c:forEach>
 
-
+    <c:import url="footer.jsp"/>
 </div>
 </body>
 </html>

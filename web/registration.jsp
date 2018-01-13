@@ -82,6 +82,7 @@
                 <input id="captchaCode" type="text" name="captchaCode"/>--%>
         <input type="hidden" name="command" value="registration-command">
     </form>
+    <c:import url="footer.jsp"/>
 </div>
 </body>
 </html>
