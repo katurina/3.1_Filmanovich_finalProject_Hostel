@@ -62,7 +62,7 @@
             <button class="hide-search-button" onclick="showDropdown()">
                 ${searchers}
             </button>
-            <div id="myDropdownSearch" class="search">
+            <div id="myDropdownSearch" class="search-down">
                 <form action="search.jsp" method="get">
                     <input type="hidden" name="command" value="get-required-guestrooms-command">
                     <div class="criteria">

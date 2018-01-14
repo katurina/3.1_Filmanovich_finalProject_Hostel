@@ -19,11 +19,22 @@
     margin: 1%;
     float: left;
 }
+
 tr:nth-child(even) {
     background-color: #987dbf;
 }
+
 .room-description {
     color: #e4d6ff;
+}
+
+input[type=text], input[type=password] {
+    width: auto;
+    padding: 0;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: initial;
 }
 
 .money {
@@ -59,10 +70,19 @@ tr:nth-child(even) {
     text-align: center;
 }
 
-.search {
+.search-down {
     display: none;
     width: 100%;
     background: #887ebe;
+}
+
+input[type=text], input[type=password] {
+     width: auto;
+     padding: 0;
+     margin:  0;
+     display: flex;
+     border: 1px solid #ccc;
+     box-sizing: border-box;
 }
 
 .criteria {

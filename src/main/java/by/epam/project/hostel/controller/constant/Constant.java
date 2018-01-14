@@ -45,7 +45,7 @@ public final class Constant {
 
         private Page() {
         }
-
+        public static final String BLOCK_PAGE_JSP = "/block_page.jsp";
         public static final String REGISTRATION_JSP = "registration.jsp";
         public static final String PAGE = "page";
         public static final String LOCAL = "local";

@@ -13,6 +13,6 @@
 <div class="footer">
     <a href="#">${information}</a>
     <a href="#">${contacts}</a>
-    <a href="#">${rooms}</a>
+    <a href="${pageContext.request.contextPath}/search.jsp">${rooms}</a>
 </div>
 

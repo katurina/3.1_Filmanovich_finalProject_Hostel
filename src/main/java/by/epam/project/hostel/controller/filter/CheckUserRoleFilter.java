@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.Page.BLOCK_PAGE_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.User.USER;
+
 public class CheckUserRoleFilter implements Filter {
-    private static final String USER = "user";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,8 +26,10 @@ public class CheckUserRoleFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         User user = (User) httpRequest.getSession().getAttribute(USER);
-        if (user != null && User.Role.USER.equals(user.getRole())) {
+        if (user != null && User.Role.USER.equals(user.getRole()) && !user.isBanned()) {
             chain.doFilter(request, response);
+        } else if (user != null && user.isBanned()) {
+            ((HttpServletResponse) response).sendRedirect(BLOCK_PAGE_JSP);
         } else {
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_NOT_FOUND);
         }

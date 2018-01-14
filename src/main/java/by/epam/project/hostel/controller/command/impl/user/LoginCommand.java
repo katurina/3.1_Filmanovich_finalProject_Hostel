@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_LOGIN_PARAM;
+import static by.epam.project.hostel.controller.constant.Constant.Page.BLOCK_PAGE_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
@@ -30,11 +31,16 @@ public class LoginCommand implements Command {
             String login = request.getParameter(LOGIN);
             String password = request.getParameter(PASSWORD);
             User user = ServiceFactory.getInstance().getUserService().singIn(login, password);
-            if (user != null) {
+            if (user != null && !user.isBanned()) {
                 request.getSession().setAttribute(USER, user);
                 error = false;
+            } else if (user != null && user.isBanned()) {
+                error = false;
+                request.getSession().setAttribute(ERROR_LOGIN_PARAM, error);
+                response.sendRedirect(BLOCK_PAGE_JSP);
+                return;
             }
-        } catch (ServiceException e) {
+        } catch (ServiceException |  IOException e) {
             logger.error("error during login command", e);
         }
         try {
