@@ -2,6 +2,7 @@ package by.epam.project.hostel.controller;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
+import by.epam.project.hostel.controller.command.impl.booking.BookingRoomCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
@@ -27,6 +28,7 @@ public class CommandFactory {
     private static final String VIEW_GUESTROOM_COMMAND = "view-guestroom-command";
     private static final String GET_DESIRED_GUESTROOMS_COMMAND = "get-required-guestrooms-command";
     private static final String GET_HOSTELS_COMMAND = "get-hostels-command";
+    private static final String BOOKING_ROOM_COMMAND = "booking-room-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -65,6 +67,8 @@ public class CommandFactory {
                 return new GetRequiredGuestroomsCommand();
             case GET_HOSTELS_COMMAND:
                 return new GetHostelsCommand();
+            case BOOKING_ROOM_COMMAND:
+                return new BookingRoomCommand();
         }
         return null;
     }

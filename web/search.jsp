@@ -135,7 +135,7 @@
                 </div>
                 </p>
                 <a href="">${book}</a>
-                <a href="guestroom.jsp?id=${room.id}">${guestroom}</a>
+                <a style="float: right;" href="guestroom.jsp?id=${room.id}">${guestroom}</a>
                 <span class="clear"></span>
             </div>
         </c:forEach>

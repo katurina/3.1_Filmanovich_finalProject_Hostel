@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class GuestroomDAOImplTest {
     @Before
-    public void dott() {
+    public void init() {
         try {
             ConnectionProvider.getInstance().initPoolData();
         } catch (ConnectionPoolException e) {
@@ -27,7 +27,7 @@ public class GuestroomDAOImplTest {
     }
 
     @After
-    public void dot() {
+    public void dispose() {
         ConnectionProvider.getInstance().dispose();
     }
 }

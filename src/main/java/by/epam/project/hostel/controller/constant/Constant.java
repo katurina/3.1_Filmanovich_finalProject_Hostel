@@ -45,6 +45,7 @@ public final class Constant {
 
         private Page() {
         }
+
         public static final String BLOCK_PAGE_JSP = "/block_page.jsp";
         public static final String REGISTRATION_JSP = "registration.jsp";
         public static final String PAGE = "page";
@@ -86,5 +87,21 @@ public final class Constant {
         public static final String CAPACITY_FROM = "capacityFrom";
         public static final String CAPACITY_TO = "capacityTo";
         public static final String CITY = "city";
+    }
+
+    public class Booking {
+        private Booking() {
+        }
+
+        public static final String BOOKING = "booking";
+        public static final String NIGHT_PRICE = "nightPrice";
+        public static final String START_DATE = "startDay";
+        public static final String LAST_DATE = "lastDay";
+        public static final String GUESTROOM_ID = "guestroomId";
+        public static final String PAYED = "payed";
+        public static final String BOOK_DAY = "bookDay";
+        public static final String FINAL_COST = "finalCost";
+        public static final String USER_ID = "userId";
+        public static final String NIGHTS_COUNT = "nightsCount";
     }
 }
