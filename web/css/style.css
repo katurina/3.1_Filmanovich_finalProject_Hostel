@@ -15,12 +15,12 @@ table {
 }
 
 /*input[type=text], input[type=password] {*/
-    /*width: auto;*/
-    /*padding: 0;*/
-    /*margin: 0;*/
-    /*display: flex;*/
-    /*border: 1px solid #ccc;*/
-    /*box-sizing: border-box;*/
+/*width: auto;*/
+/*padding: 0;*/
+/*margin: 0;*/
+/*display: flex;*/
+/*border: 1px solid #ccc;*/
+/*box-sizing: border-box;*/
 /*}*/
 
 /* Full-width input fields */
@@ -143,6 +143,7 @@ tr:nth-child(even) {
     background-color: #4c266d;
     color: #f1f1f1;
     text-align: center;
+    margin-top: calc(100vh - 70px);
 }
 
 /* Add Zoom Animation */

@@ -8,6 +8,7 @@ public class Constants {
         public static final String INCORRECT_DATE = "date";
         public static final String INCORRECT_NIGHT_PRICE = "price";
         public static final String INCORRECT_CAPACITY = "capacity";
+        public static final String EMPTY_DATE = "empty";
 
         private ErrorParamMessages() {
         }

@@ -28,5 +28,4 @@ public interface Validator<T> {
             throw new ValidationException("error during validation currentPage: " + currentPage);
         }
     }
-
 }

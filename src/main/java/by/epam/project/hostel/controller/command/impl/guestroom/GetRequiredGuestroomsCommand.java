@@ -8,6 +8,7 @@ import by.epam.project.hostel.entity.pagination.Page;
 import by.epam.project.hostel.entity.search.SearchGuestroomsParams;
 import by.epam.project.hostel.service.GuestroomService;
 import by.epam.project.hostel.service.ServiceFactory;
+import by.epam.project.hostel.service.exception.SearchParamsServiceException;
 import by.epam.project.hostel.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 import static by.epam.project.hostel.controller.constant.Constant.Page.PAGE;
@@ -38,8 +40,10 @@ public class GetRequiredGuestroomsCommand implements Command {
 
         try {
             List<Guestroom> searchedGuestrooms = guestroomService.getGuestroomBySearchParam(currentPage, searchParamsEntity, language);
-            Page<Guestroom> page = PageWrapper.wrapList(searchedGuestrooms, currentPage, guestroomService.getTotalRowCount(searchParamsEntity,language));
+            Page<Guestroom> page = PageWrapper.wrapList(searchedGuestrooms, currentPage, guestroomService.getTotalRowCount(searchParamsEntity, language));
             request.setAttribute(PAGE, page);
+        } catch (SearchParamsServiceException e) {
+            request.setAttribute(ERROR, e.getParam());
         } catch (ServiceException e) {
             logger.error("error during getting required guestrooms by search params", e);
         }
@@ -61,6 +65,7 @@ public class GetRequiredGuestroomsCommand implements Command {
         String capacityFrom = request.getParameter(Constant.SearchParams.CAPACITY_FROM);
         String capacityTo = request.getParameter(Constant.SearchParams.CAPACITY_TO);
         String city = request.getParameter(Constant.SearchParams.CITY);
+        String search = request.getParameter(Constant.SearchParams.SEARCH);
 
 
         if (nightPriceFrom != null && !nightPriceFrom.isEmpty()) {
@@ -96,6 +101,9 @@ public class GetRequiredGuestroomsCommand implements Command {
         }
         if (city != null && !city.isEmpty()) {
             searchParams.setCity(city);
+        }
+        if(search!=null && !search.isEmpty()){
+            searchParams.setSearch(Boolean.valueOf(search));
         }
         return searchParams;
     }

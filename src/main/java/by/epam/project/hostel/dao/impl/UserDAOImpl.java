@@ -25,8 +25,9 @@ public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
     private static final String INSERT_USER = "INSERT INTO user(name, surname,login, password, email,number) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_BY_LOGIN = "DELETE FROM user WHERE login = ?";
     private static final String SELECT_USER_LIMIT = "SELECT id, name,surname,login,password,email,role,banned,number FROM user LIMIT ?,?";
-    private static final String UPDATE_USER_BY_ID = "UPDATE user SET role=?,banned=? WHERE id=?";
+    private static final String UPDATE_USER_ROLE_BAN_BY_ID = "UPDATE user SET role=?,banned=? WHERE id=?";
     private static final String SELECT_USER_BY_LOGIN = "SELECT login FROM user WHERE login =?";
+    private static final String UPDATE_USER_BY_ID = "UPDATE user SET name=?,surname=?,login=?,password=?,email=?,number=? WHERE id =?";
 
     @Override
     public User signIn(String login, String password) throws DAOException {
@@ -49,7 +50,7 @@ public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
     @Override
     public void editUser(int id, String role, int banned) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(UPDATE_USER_BY_ID)) {
+             PreparedStatement ps = connection.prepareStatement(UPDATE_USER_ROLE_BAN_BY_ID)) {
             ps.setString(1, role);
             ps.setInt(2, banned);
             ps.setInt(3, id);
@@ -86,6 +87,23 @@ public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
             }
         } catch (SQLException e) {
             throw new DAOException("error during insert user in DB", e);
+        }
+    }
+
+    @Override
+    public void editUser(User user) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_USER_BY_ID)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
+            ps.setString(3, user.getLogin());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getEmail());
+            ps.setString(6, user.getNumber());
+            ps.setString(7, String.valueOf(user.getId()));
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during editting user", e);
         }
     }
 

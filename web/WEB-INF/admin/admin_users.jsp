@@ -45,7 +45,7 @@
     <tbody>
     <c:forEach var="user" items="${requestScope.page.entity}">
         <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="edit-user-command">
+            <input type="hidden" name="command" value="edit-role-ban-user-command">
             <input type="hidden" name="id" value="${user.id}">
             <tr>
                 <td>${user.id}</td>

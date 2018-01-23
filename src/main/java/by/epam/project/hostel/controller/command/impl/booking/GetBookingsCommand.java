@@ -1,7 +1,7 @@
 package by.epam.project.hostel.controller.command.impl.booking;
 
 import by.epam.project.hostel.controller.command.Command;
-import by.epam.project.hostel.controller.command.impl.user.EditUserCommand;
+import by.epam.project.hostel.controller.command.impl.user.EditRoleBanUserCommand;
 import by.epam.project.hostel.controller.constant.Constant;
 import by.epam.project.hostel.controller.pagination.PageWrapper;
 import by.epam.project.hostel.entity.Booking;
@@ -26,7 +26,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP
 
 
 public class GetBookingsCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(EditUserCommand.class);
+    private static final Logger logger = LogManager.getLogger(EditRoleBanUserCommand.class);
     private static final BookingService bookingService = ServiceFactory.getInstance().getBookingService();
 
     @Override

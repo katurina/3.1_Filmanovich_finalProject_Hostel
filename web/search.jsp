@@ -28,6 +28,8 @@
     <fmt:message bundle="${loc}" key="local.search.city.liverpool" var="liverpool"/>
     <fmt:message bundle="${loc}" key="local.search.city.shanghai" var="shanghai"/>
     <fmt:message bundle="${loc}" key="local.text.form" var="textFrom"/>
+    <fmt:message bundle="${loc}" key="local.error.empty" var="emptyError"/>
+    <fmt:message bundle="${loc}" key="local.error.date" var="dateError"/>
     <title>${search}</title>
     <c:set scope="session" var="url" value="search.jsp"/>
     <jsp:include page="${pageContext.request.contextPath}/controller">
@@ -50,7 +52,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/menu.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <!--calendar-->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dhmtlxcalendar/fonts/font_roboto/roboto.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dhmtlxcalendar/dhtmlxcalendar.css">
+    <script src="${pageContext.request.contextPath}/dhmtlxcalendar/dhtmlxcalendar.js"></script>
+    <style>
+        input#dateFrom, input#dateTo {
+            border: 1px solid #dfdfdf;
+            font-family: Roboto, Arial, Helvetica;
+            font-size: 14px;
+            color: #404040;
+            background-color: #fafafa;
+            border: #c0c0c0 1px solid;
+            width: 100px;
+        }
+
+        span.label {
+            font-family: Roboto, Arial, Helvetica;
+            font-size: 14px;
+            color: #404040;
+        }
+    </style>
     <c:set scope="session" var="url"
            value="/search.jsp?page=${param.page}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}"/>
 </head>
@@ -62,7 +85,7 @@
             <button class="hide-search-button" onclick="showDropdown()">
                 ${searchers}
             </button>
-            <div id="myDropdownSearch" class="search-down">
+            <div id="dropdownSearchCriteria" class="search-down">
                 <form action="search.jsp" method="get">
                     <input type="hidden" name="command" value="get-required-guestrooms-command">
                     <div class="criteria">
@@ -91,11 +114,20 @@
                         <div>
                             ${dates}
                         </div>
-                        <div>
+                        <div class="date">
                             ${dateFrom}
-                            <input type="date" name="dateFrom" pattern="[0-9]*"/>
+                            <input required id="dateFrom" type="text" name="dateFrom"
+                                   onclick="setSens('dateTo', 'max');"
+                                   readonly="true">
                             ${dateTo}
-                            <input type="date" name="dateTo" pattern="[0-9]*"/>
+                            <input required id="dateTo" type="text" name="dateTo" onclick="setSens('dateFrom', 'min');"
+                                   readonly="true">
+                            <c:if test="${requestScope.error eq 'empty'}">
+                                <div class="error">${emptyError}</div>
+                            </c:if>
+                            <c:if test="${requestScope.error eq 'date'}">
+                                <div class="error">${dateError}</div>
+                            </c:if>
                         </div>
                     </div>
                     <div class="criteria">
@@ -117,6 +149,7 @@
                             <div>${shower}<input type="checkbox" value="true" name="shower"/></div>
                         </div>
                     </div>
+                    <input type="hidden" name="search" value="true"/>
                     <input type="submit" value="${search}" class="search-button"/>
                 </form>
             </div>
@@ -163,13 +196,56 @@
 </div>
 
 <script>
+
+
     function showDropdown() {
-        var x = document.getElementById("myDropdownSearch");
+        var x = document.getElementById("dropdownSearchCriteria");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
             x.style.display = "none";
         }
+    }
+
+    dhtmlXCalendarObject.prototype.langData["ru"] = {
+        dateformat: '%Y-%m-%d',
+        monthesFNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        monthesSNames: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+        daysFNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+        daysSNames: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        weekstart: 1,
+        weekname: "н",
+        today: "Сегодня",
+        clear: "Очистить"
+    };
+
+    var calendar;
+    $(document).ready(function () {
+
+        showDropdown();
+
+        calendar = new dhtmlXCalendarObject(["dateFrom", "dateTo"]);
+        calendar.setDateFormat("%Y-%m-%d");
+        calendar.loadUserLanguage('${sessionScope.local}');
+        calendar.hideTime();
+        calendar.setSensitiveRange(new Date(), null);
+        // init values
+        // var t = new Date();
+        // byId("date_from").value = "2013-03-05";
+        // byId("date_to").value = "2013-03-15";
+    });
+
+    function setSens(id, k) {
+        // update range
+        if (k == "min") {
+            calendar.setSensitiveRange(byId(id).value, null);
+        } else {
+            calendar.setSensitiveRange(null, byId(id).value);
+        }
+    }
+
+    function byId(id) {
+        return document.getElementById(id);
     }
 </script>
 </body>

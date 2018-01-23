@@ -32,7 +32,7 @@ public class SearchParamsServiceException extends ServiceException {
         param = errorParam;
     }
 
-    public String getParams() {
+    public String getParam() {
         return param;
     }
 }

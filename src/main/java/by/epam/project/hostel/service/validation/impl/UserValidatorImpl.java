@@ -1,6 +1,7 @@
 package by.epam.project.hostel.service.validation.impl;
 
 import by.epam.project.hostel.entity.User;
+import by.epam.project.hostel.service.exception.EmptyParamServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 import by.epam.project.hostel.service.validation.Validator;
 
@@ -21,6 +22,14 @@ public class UserValidatorImpl implements Validator<User> {
         if (!role.toUpperCase().equals(ADMIN) && !role.toUpperCase().equals(USER)) {
             throw new ValidationException("error during validation user role");
         }
-
     }
+
+    public void validateUser(User user) throws ValidationException {
+        if (user == null) {
+            throw new EmptyParamServiceException("error during validation parameter user is empty");
+        }
+        validateID(user.getId());
+        validate(user.getEmail(), user.getLogin(), user.getName(), user.getNumber(), user.getPassword(), user.getSurname());
+    }
+
 }

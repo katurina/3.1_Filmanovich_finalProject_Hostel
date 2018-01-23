@@ -18,7 +18,7 @@ public final class Constant {
     public class User {
         private User() {
         }
-
+        public static final String NOT_BANNED = "0";
         public static final String ID = "id";
         public static final String ROLE = "role";
         public static final String BANNED = "banned";
@@ -87,6 +87,7 @@ public final class Constant {
         public static final String CAPACITY_FROM = "capacityFrom";
         public static final String CAPACITY_TO = "capacityTo";
         public static final String CITY = "city";
+        public static final String SEARCH = "search";
     }
 
     public class Booking {

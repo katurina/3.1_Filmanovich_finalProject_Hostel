@@ -8,7 +8,7 @@ import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomComm
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCommand;
-import by.epam.project.hostel.controller.command.impl.user.EditUserCommand;
+import by.epam.project.hostel.controller.command.impl.user.EditRoleBanUserCommand;
 import by.epam.project.hostel.controller.command.impl.user.GetUsersCommand;
 import by.epam.project.hostel.controller.command.impl.user.LoginAdminCommand;
 import by.epam.project.hostel.controller.command.impl.user.LoginCommand;
@@ -21,7 +21,7 @@ public class CommandFactory {
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
     private static final String LOGIN_ADMIN_COMMAND = "login-admin-command";
     private static final String LOGOUT = "logout-command";
-    private static final String EDIT_USER_COMMAND = "edit-user-command";
+    private static final String EDIT_USER_COMMAND = "edit-role-ban-user-command";
     private static final String GET_USERS_COMMAND = "get-users-command";
     private static final String VIEW_HOSTEL = "view-hostel-command";
     private static final String GET_BOOKINGS_COMMAND = "get-bookings-command";
@@ -54,7 +54,7 @@ public class CommandFactory {
             case LOGOUT:
                 return new LogoutCommand();
             case EDIT_USER_COMMAND:
-                return new EditUserCommand();
+                return new EditRoleBanUserCommand();
             case GET_USERS_COMMAND:
                 return new GetUsersCommand();
             case VIEW_HOSTEL:

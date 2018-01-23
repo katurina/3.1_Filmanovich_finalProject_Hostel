@@ -1,7 +1,7 @@
 package by.epam.project.hostel.controller.command.impl.hostel;
 
 import by.epam.project.hostel.controller.command.Command;
-import by.epam.project.hostel.controller.command.impl.user.EditUserCommand;
+import by.epam.project.hostel.controller.command.impl.user.EditRoleBanUserCommand;
 import by.epam.project.hostel.controller.constant.Constant;
 import by.epam.project.hostel.entity.Hostel;
 import by.epam.project.hostel.service.ServiceFactory;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 
 public class GetHostelCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(EditUserCommand.class);
+    private static final Logger logger = LogManager.getLogger(EditRoleBanUserCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

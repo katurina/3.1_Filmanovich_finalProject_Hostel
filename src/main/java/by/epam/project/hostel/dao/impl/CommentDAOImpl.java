@@ -4,6 +4,8 @@ import by.epam.project.hostel.dao.CommentDAO;
 
 public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO{
 
+
+
     /**
      *
      *

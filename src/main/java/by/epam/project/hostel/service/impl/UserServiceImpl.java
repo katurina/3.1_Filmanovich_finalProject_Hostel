@@ -85,6 +85,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(User user) throws ServiceException {
+        ((UserValidatorImpl)validator).validateUser(user);
+        userDAO.editUser(user);
+    }
+
+    @Override
     public int getTotalRowCount() throws ServiceException {
         try {
             return userDAO.getTotalRowCount();
