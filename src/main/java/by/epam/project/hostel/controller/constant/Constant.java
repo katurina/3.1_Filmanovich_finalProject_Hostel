@@ -105,4 +105,11 @@ public final class Constant {
         public static final String USER_ID = "userId";
         public static final String NIGHTS_COUNT = "nightsCount";
     }
+
+    public class Comment {
+        private Comment(){
+        }
+        public static final String COMMENTS="comments";
+        public static final String ID = "id";
+    }
 }
