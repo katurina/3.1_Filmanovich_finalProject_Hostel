@@ -86,8 +86,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) throws ServiceException {
-        ((UserValidatorImpl)validator).validateUser(user);
-        userDAO.editUser(user);
+        validator.validate(user);
+        try {
+            userDAO.editUser(user);
+        } catch (DAOException e) {
+            throw new ServiceException("error during update user",e);
+        }
     }
 
     @Override

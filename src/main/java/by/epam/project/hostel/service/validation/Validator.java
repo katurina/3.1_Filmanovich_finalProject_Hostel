@@ -1,13 +1,16 @@
 package by.epam.project.hostel.service.validation;
 
 import by.epam.project.hostel.service.exception.EmptyParamServiceException;
+import by.epam.project.hostel.service.exception.SearchParamsServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 
 public interface Validator<T> {
 
-    default void validate(String... param) throws EmptyParamServiceException {
-        if (param != null) {
-            for (String parm : param) {
+    void validate(T entity) throws ValidationException, SearchParamsServiceException;
+
+    default void validate(String... params) throws EmptyParamServiceException {
+        if (params != null) {
+            for (String parm : params) {
                 if (parm == null || parm.isEmpty()) {
                     throw new EmptyParamServiceException("empty param" + parm);
                 }

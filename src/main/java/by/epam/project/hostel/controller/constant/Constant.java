@@ -18,6 +18,7 @@ public final class Constant {
     public class User {
         private User() {
         }
+
         public static final String NOT_BANNED = "0";
         public static final String ID = "id";
         public static final String ROLE = "role";
@@ -107,9 +108,12 @@ public final class Constant {
     }
 
     public class Comment {
-        private Comment(){
+        private Comment() {
         }
-        public static final String COMMENTS="comments";
+
+        public static final String RATE = "rate";
+        public static final String COMMENT = "comment";
+        public static final String COMMENTS = "comments";
         public static final String ID = "id";
     }
 }

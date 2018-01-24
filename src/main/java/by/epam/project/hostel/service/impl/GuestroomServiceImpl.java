@@ -9,6 +9,7 @@ import by.epam.project.hostel.service.GuestroomService;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.validation.Validator;
 import by.epam.project.hostel.service.validation.impl.GuestroomValidatorImpl;
+import by.epam.project.hostel.service.validation.impl.SearchParamsValidatorImpl;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class GuestroomServiceImpl implements GuestroomService {
 
     private static final GuestroomDAO guestroomDAO = DAOFactory.getInstance().getGuestroomDAO();
     private static final Validator<Guestroom> validator = new GuestroomValidatorImpl();
+    private static final Validator<SearchGuestroomsParams> validateSearchParams = new SearchParamsValidatorImpl();
 
     @Override
     public Guestroom getGuestroomById(int id, String language) throws ServiceException {
@@ -32,7 +34,7 @@ public class GuestroomServiceImpl implements GuestroomService {
     public List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws ServiceException {
         validator.validate(language);
         validator.validateCurrentPage(currentPage);
-        searchParams = ((GuestroomValidatorImpl) validator).validateSearchParams(searchParams);
+        validateSearchParams.validate(searchParams);
         try {
             return guestroomDAO.getGuestroomBySearchParam(currentPage, searchParams, language);
         } catch (DAOException e) {
@@ -50,10 +52,10 @@ public class GuestroomServiceImpl implements GuestroomService {
     }
 
     @Override
-    public Integer getTotalRowCount(SearchGuestroomsParams searchParams,String language) throws ServiceException {
-        searchParams = ((GuestroomValidatorImpl) validator).validateSearchParams(searchParams);
+    public Integer getTotalRowCount(SearchGuestroomsParams searchParams, String language) throws ServiceException {
+        validateSearchParams.validate(searchParams);
         try {
-            return guestroomDAO.getTotalRowCount(searchParams,language);
+            return guestroomDAO.getTotalRowCount(searchParams, language);
         } catch (DAOException e) {
             throw new ServiceException("error during getting total row count", e);
         }

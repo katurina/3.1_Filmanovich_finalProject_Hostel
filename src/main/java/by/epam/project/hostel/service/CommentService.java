@@ -9,4 +9,7 @@ public interface CommentService extends EntityService {
     List<Comment> getCommentsByRoomId(Integer guestroomId) throws ServiceException;
 
     List<Comment> getCommentsByHostelId(Integer hostelId) throws ServiceException;
+
+    void addComment(Comment comment) throws ServiceException;
+
 }

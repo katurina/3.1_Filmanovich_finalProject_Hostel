@@ -24,7 +24,7 @@ public class UserValidatorImpl implements Validator<User> {
         }
     }
 
-    public void validateUser(User user) throws ValidationException {
+    public void validate(User user) throws ValidationException {
         if (user == null) {
             throw new EmptyParamServiceException("error during validation parameter user is empty");
         }

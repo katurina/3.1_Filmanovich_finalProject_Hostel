@@ -45,4 +45,15 @@ public class CommentServiceImpl implements CommentService {
             throw new ServiceException("error during getting comments by hostel id", e);
         }
     }
+
+    @Override
+    public void addComment(Comment comment) throws ServiceException {
+        validator.validate(comment);
+        try {
+            commentDAO.addComment(comment);
+        } catch (DAOException e) {
+            throw new ServiceException("error during adding comment to db", e);
+        }
+
+    }
 }

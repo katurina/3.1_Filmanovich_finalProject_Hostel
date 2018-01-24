@@ -90,6 +90,9 @@ public class SearchGuestroomsParams implements Serializable {
     }
 
     public void setWifi(Boolean wifi) {
+        if (wifi == null) {
+            this.wifi = false;
+        }
         this.wifi = wifi;
     }
 
@@ -98,6 +101,9 @@ public class SearchGuestroomsParams implements Serializable {
     }
 
     public void setTv(Boolean tv) {
+        if (tv == null) {
+            this.tv = false;
+        }
         this.tv = tv;
     }
 
@@ -106,6 +112,9 @@ public class SearchGuestroomsParams implements Serializable {
     }
 
     public void setShower(Boolean shower) {
+        if (shower == null) {
+            this.shower = false;
+        }
         this.shower = shower;
     }
 
