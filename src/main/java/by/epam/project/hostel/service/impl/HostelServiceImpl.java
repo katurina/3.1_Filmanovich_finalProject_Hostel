@@ -31,9 +31,19 @@ public class HostelServiceImpl implements HostelService {
     public List<Hostel> getHostels(String language) throws ServiceException {
         validator.validate(language);
         try {
-            return DAOFactory.getInstance().getHostelDAO().getHostels(language);
+            return hostelDAO.getHostels(language);
         } catch (DAOException e) {
             throw new ServiceException("error during getting whole hostels");
+        }
+    }
+
+    @Override
+    public void deleteHostelById(Integer hostelId) throws ServiceException {
+        validator.validateID(hostelId);
+        try {
+            return hostelDAO.deleteHostelById(hostelId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during delete hostel by id = " + hostelId, e);
         }
     }
 

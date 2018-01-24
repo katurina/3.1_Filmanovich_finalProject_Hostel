@@ -21,6 +21,7 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
     private static final String SELECT_HOSTEL_BY_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE l.language = ? AND hostel.id = ?";
     private static final String SELECT_HOSTEL_BY_ROOM_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id  INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ? AND l.language = ?";
     private static final String SELECT_ALL_HOSTELS = "SELECT stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE language=?";
+    private static final String DELETE_HOSTEL_BY_ID = "DELETE FROM hostel WHERE id = ?";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -71,6 +72,17 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
             }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting hostels", e);
+        }
+    }
+
+    @Override
+    public void deleteHostelById(Integer hostelId) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_HOSTEL_BY_ID)) {
+            ps.setInt(1, hostelId);
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during delete hostel by id ", e);
         }
     }
 

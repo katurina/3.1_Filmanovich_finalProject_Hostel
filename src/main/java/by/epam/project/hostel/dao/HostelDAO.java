@@ -11,4 +11,6 @@ public interface HostelDAO   extends EntityDAO{
     Hostel getHostelByRoomId(int id, String language) throws DAOException;
 
     List<Hostel> getHostels(String language) throws DAOException;
+
+    void deleteHostelById(Integer hostelId) throws DAOException;
 }
