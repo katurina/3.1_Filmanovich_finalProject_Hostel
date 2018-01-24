@@ -17,23 +17,30 @@ import java.util.List;
 public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO {
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
+    private static final String SELECT_COMMENTS_BY_ROOM_ID = "SELECT id,comment,date,rate FROM comments WHERE guestrooms_id =?;";
+    private static final String SELECT_COMMENTS_BY_HOSTEL_ID = "SELECT   comments.id,  comment,  date,  rate FROM comments  INNER JOIN guestrooms g ON comments.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
+
     @Override
     public List<Comment> getCommentsByRoomId(Integer guestroomId) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement("SELECT id,comment,date,rate FROM comments WHERE guestrooms_id =?;")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_COMMENTS_BY_ROOM_ID)) {
             ps.setInt(1, guestroomId);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<Comment> comments = new ArrayList<>();
-                while (rs.next()) {
-                    comments.add(createComment(rs));
-                }
-                return comments;
-            }
+            return createCommentsList(ps);
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting comments by room id = " + guestroomId, e);
         }
     }
 
+    @Override
+    public List<Comment> getCommentsByHostelId(Integer hostelId) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_COMMENTS_BY_HOSTEL_ID)) {
+            ps.setInt(1, hostelId);
+            return createCommentsList(ps);
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting comments by hostel id = " + hostelId, e);
+        }
+    }
 
     /**
      * @return
@@ -41,6 +48,16 @@ public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO {
     @Override
     protected String getTableName() {
         return "comments";
+    }
+
+    private List<Comment> createCommentsList(PreparedStatement ps) throws SQLException {
+        try (ResultSet rs = ps.executeQuery()) {
+            List<Comment> comments = new ArrayList<>();
+            while (rs.next()) {
+                comments.add(createComment(rs));
+            }
+            return comments;
+        }
     }
 
     private Comment createComment(ResultSet rs) throws SQLException {

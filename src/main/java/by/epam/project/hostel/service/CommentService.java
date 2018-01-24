@@ -8,4 +8,5 @@ import java.util.List;
 public interface CommentService extends EntityService {
     List<Comment> getCommentsByRoomId(Integer guestroomId) throws ServiceException;
 
+    List<Comment> getCommentsByHostelId(Integer hostelId) throws ServiceException;
 }

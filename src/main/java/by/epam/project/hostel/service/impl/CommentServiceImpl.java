@@ -35,4 +35,14 @@ public class CommentServiceImpl implements CommentService {
             throw new ServiceException("error during getting comments by room id", e);
         }
     }
+
+    @Override
+    public List<Comment> getCommentsByHostelId(Integer hostelId) throws ServiceException {
+        validator.validateID(hostelId);
+        try {
+            return commentDAO.getCommentsByHostelId(hostelId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting comments by hostel id", e);
+        }
+    }
 }
