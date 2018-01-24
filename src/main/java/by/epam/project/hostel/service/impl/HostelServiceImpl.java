@@ -41,7 +41,7 @@ public class HostelServiceImpl implements HostelService {
     public void deleteHostelById(Integer hostelId) throws ServiceException {
         validator.validateID(hostelId);
         try {
-            return hostelDAO.deleteHostelById(hostelId);
+            hostelDAO.deleteHostelById(hostelId);
         } catch (DAOException e) {
             throw new ServiceException("error during delete hostel by id = " + hostelId, e);
         }
