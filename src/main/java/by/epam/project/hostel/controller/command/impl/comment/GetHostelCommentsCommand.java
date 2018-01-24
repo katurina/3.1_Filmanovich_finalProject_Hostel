@@ -22,7 +22,7 @@ public class GetHostelCommentsCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer hostelId = (Integer) request.getAttribute(ID);
+        Integer hostelId = Integer.valueOf(request.getParameter(ID));
         try {
             List<Comment> comments = ServiceFactory.getInstance().getCommentService().getCommentsByHostelId(hostelId);
             request.setAttribute(COMMENTS, comments);

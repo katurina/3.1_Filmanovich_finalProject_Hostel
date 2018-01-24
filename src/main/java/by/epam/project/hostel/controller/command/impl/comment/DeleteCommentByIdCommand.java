@@ -1,4 +1,4 @@
-package by.epam.project.hostel.controller.command.impl.booking;
+package by.epam.project.hostel.controller.command.impl.comment;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.service.ServiceFactory;
@@ -11,19 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.Booking.ID;
+import static by.epam.project.hostel.controller.constant.Constant.Comment.ID;
 
-public class DeleteBookingByIdCommand implements Command {
+public class DeleteCommentByIdCommand implements Command {
 
-    private static final Logger logger = LogManager.getLogger(DeleteBookingByIdCommand.class);
+    private static final Logger logger = LogManager.getLogger(DeleteCommentByIdCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer bookingId = Integer.valueOf(request.getParameter(ID));
+        Integer commentId = Integer.valueOf(request.getParameter(ID));
         try {
-            ServiceFactory.getInstance().getBookingService().deleteBookingById(bookingId);
+            ServiceFactory.getInstance().getCommentService().deleteCommentById(commentId);
         } catch (ServiceException e) {
-            logger.error("error during deleting booking by id", e);
+            logger.error("error during delete comment by id", e);
         }
+
     }
 }

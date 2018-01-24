@@ -13,4 +13,7 @@ public interface GuestroomService extends EntityService {
     List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws ServiceException;
 
     Integer getTotalRowCount(SearchGuestroomsParams searchParams, String language) throws ServiceException;
+
+    void deleteGuestroomById(Integer guestroomId) throws ServiceException;
+
 }

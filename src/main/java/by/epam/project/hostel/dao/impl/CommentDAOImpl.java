@@ -58,6 +58,17 @@ public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO {
         }
     }
 
+    @Override
+    public void deleteCommentById(Integer commentId) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE id = ?")) {
+            ps.setInt(1, commentId);
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during delete comment by id = " + commentId, e);
+        }
+    }
+
     /**
      * @return
      */

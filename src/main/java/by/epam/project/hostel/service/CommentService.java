@@ -12,4 +12,5 @@ public interface CommentService extends EntityService {
 
     void addComment(Comment comment) throws ServiceException;
 
+    void deleteCommentById(Integer commentId) throws ServiceException;
 }

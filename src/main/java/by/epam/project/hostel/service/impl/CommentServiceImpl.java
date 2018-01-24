@@ -56,4 +56,14 @@ public class CommentServiceImpl implements CommentService {
         }
 
     }
+
+    @Override
+    public void deleteCommentById(Integer commentId) throws ServiceException {
+        validator.validateID(commentId);
+        try {
+            commentDAO.deleteCommentById(commentId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during delete comment by id", e);
+        }
+    }
 }

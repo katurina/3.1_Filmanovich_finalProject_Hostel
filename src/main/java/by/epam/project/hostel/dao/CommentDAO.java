@@ -11,4 +11,6 @@ public interface CommentDAO extends EntityDAO{
     List<Comment> getCommentsByHostelId(Integer hostelId) throws DAOException;
 
     void addComment(Comment comment) throws DAOException;
+
+    void deleteCommentById(Integer commentId) throws DAOException;
 }

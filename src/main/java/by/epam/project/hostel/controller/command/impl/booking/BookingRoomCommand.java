@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static by.epam.project.hostel.controller.constant.Constant.Booking.GUESTROOM_ID;
 import static by.epam.project.hostel.controller.constant.Constant.Booking.LAST_DATE;
@@ -22,8 +22,8 @@ public class BookingRoomCommand implements Command {
 
         User user = (User) request.getSession().getAttribute(USER);
         Integer roomId = Integer.valueOf(request.getParameter(GUESTROOM_ID));
-        Date lastDate = (Date) request.getAttribute(LAST_DATE);
-        Date startDay = (Date) request.getAttribute(START_DATE);
+        LocalDate lastDate = LocalDate.parse(request.getParameter(LAST_DATE));
+        LocalDate startDay = LocalDate.parse(request.getParameter(START_DATE));
 //        TODO
     }
 }

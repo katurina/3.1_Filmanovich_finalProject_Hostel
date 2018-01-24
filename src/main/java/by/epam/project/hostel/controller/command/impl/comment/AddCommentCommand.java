@@ -28,9 +28,9 @@ public class AddCommentCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer guestroomId = Integer.valueOf(request.getParameter(ID));
         Integer userId = ((User) request.getSession().getAttribute(USER)).getId();
-        String commentText = (String) request.getAttribute(COMMENT);
+        String commentText = request.getParameter(COMMENT);
         LocalDate localDate = LocalDate.now();
-        Integer rate = (Integer) request.getAttribute(RATE);
+        Integer rate = Integer.valueOf(request.getParameter(RATE));
         Comment comment = new Comment(userId, guestroomId, commentText, localDate, rate);
         try {
             ServiceFactory.getInstance().getCommentService().addComment(comment);

@@ -60,4 +60,14 @@ public class GuestroomServiceImpl implements GuestroomService {
             throw new ServiceException("error during getting total row count", e);
         }
     }
+
+    @Override
+    public void deleteGuestroomById(Integer guestroomId) throws ServiceException {
+        validator.validateID(guestroomId);
+        try {
+            guestroomDAO.deleteGuestroomById(guestroomId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during delete guestroom by id", e);
+        }
+    }
 }

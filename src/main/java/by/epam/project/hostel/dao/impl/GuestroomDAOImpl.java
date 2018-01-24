@@ -88,6 +88,17 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
     }
 
     @Override
+    public void deleteGuestroomById(Integer guestroomId) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("DELETE FROM guestrooms WHERE id =?")) {
+            ps.setInt(1, guestroomId);
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during delete guestroom by id = " + guestroomId, e);
+        }
+    }
+
+    @Override
     protected String getTableName() {
         return "guestrooms";
     }
