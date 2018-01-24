@@ -90,7 +90,17 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.editUser(user);
         } catch (DAOException e) {
-            throw new ServiceException("error during update user",e);
+            throw new ServiceException("error during update user", e);
+        }
+    }
+
+    @Override
+    public void deleteUserById(Integer userId) throws ServiceException {
+        validator.validateID(userId);
+        try {
+            userDAO.deleteUserById(userId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during delete user", e);
         }
     }
 

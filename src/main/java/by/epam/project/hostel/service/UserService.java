@@ -17,4 +17,6 @@ public interface UserService extends EntityService {
     void updateUser(int id, String role, int banned) throws ServiceException;
 
     void updateUser(User user) throws ServiceException;
+
+    void deleteUserById(Integer userId) throws ServiceException;
 }

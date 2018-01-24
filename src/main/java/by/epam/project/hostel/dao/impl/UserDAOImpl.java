@@ -28,6 +28,7 @@ public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
     private static final String UPDATE_USER_ROLE_BAN_BY_ID = "UPDATE user SET role=?,banned=? WHERE id=?";
     private static final String SELECT_USER_BY_LOGIN = "SELECT login FROM user WHERE login =?";
     private static final String UPDATE_USER_BY_ID = "UPDATE user SET name=?,surname=?,login=?,password=?,email=?,number=? WHERE id =?";
+    private static final String DELETE_USER_BY_ID = "DELETE FROM user WHERE id = ?";
 
     @Override
     public User signIn(String login, String password) throws DAOException {
@@ -103,19 +104,18 @@ public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
             ps.setString(7, String.valueOf(user.getId()));
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
-            throw new DAOException("error during editting user", e);
+            throw new DAOException("error during editing user", e);
         }
     }
 
     @Override
-    public void deleteUser(String login) throws DAOException {
+    public void deleteUserById(Integer userId) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(DELETE_BY_LOGIN)) {
-            ps.setString(1, login);
+             PreparedStatement ps = connection.prepareStatement(DELETE_USER_BY_ID)) {
+            ps.setInt(1, userId);
             ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DAOException("error during delete user: " + login, e);
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during delete user by id = " + userId, e);
         }
     }
 
