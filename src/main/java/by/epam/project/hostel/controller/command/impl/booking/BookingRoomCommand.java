@@ -24,5 +24,6 @@ public class BookingRoomCommand implements Command {
         Integer roomId = Integer.valueOf(request.getParameter(GUESTROOM_ID));
         Date lastDate = (Date) request.getAttribute(LAST_DATE);
         Date startDay = (Date) request.getAttribute(START_DATE);
+//        TODO
     }
 }

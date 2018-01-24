@@ -35,4 +35,14 @@ public class BookingServiceImpl implements BookingService {
             throw new ServiceException("error during getting user's bookings", e);
         }
     }
+
+    @Override
+    public void deleteBookingById(Integer bookingId) throws ServiceException {
+        validator.validateID(bookingId);
+        try {
+            bookingDAO.deleteBookingById(bookingId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during deleting booking by id = " + bookingId, e);
+        }
+    }
 }

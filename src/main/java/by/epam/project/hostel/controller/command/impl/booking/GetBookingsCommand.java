@@ -19,10 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_LOGIN_PARAM;
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_USER_NOT_LOGGED;
 import static by.epam.project.hostel.controller.constant.Constant.Exception.TRUE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 
 public class GetBookingsCommand implements Command {
@@ -31,15 +32,8 @@ public class GetBookingsCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = (User) request.getSession().getAttribute(Constant.User.USER);
-        if (user == null) {
-            request.setAttribute(ERROR_LOGIN_PARAM, TRUE);
-            try {
-                request.getRequestDispatcher(INDEX_JSP).forward(request, response);
-            } catch (ServletException | IOException e) {
-                logger.error("error during forward to index.jsp from get when user == null", e);
-            }
-        } else {
+        User user = (User) request.getSession().getAttribute(USER);
+        if (user != null) {
             int userId = user.getId();
             String pageParam = request.getParameter(CURRENT_PAGE);
             int currentPage = (pageParam == null || pageParam.isEmpty()) ? 1 : Integer.valueOf(pageParam);
@@ -50,6 +44,13 @@ public class GetBookingsCommand implements Command {
                 request.setAttribute(Constant.Page.PAGE, page);
             } catch (ServiceException e) {
                 logger.error("error during getting user bookings", e);
+            }
+        } else {
+            request.setAttribute(ERROR_USER_NOT_LOGGED, TRUE);
+            try {
+                request.getRequestDispatcher(INDEX_JSP).forward(request, response);
+            } catch (ServletException | IOException e) {
+                logger.error("error during forward to index.jsp from get when user == null", e);
             }
         }
     }

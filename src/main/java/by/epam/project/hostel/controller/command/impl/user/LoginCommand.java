@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_LOGIN_PARAM;
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_USER_NOT_LOGGED;
 import static by.epam.project.hostel.controller.constant.Constant.Page.BLOCK_PAGE_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
@@ -36,7 +36,7 @@ public class LoginCommand implements Command {
                 error = false;
             } else if (user != null && user.isBanned()) {
                 error = false;
-                request.getSession().setAttribute(ERROR_LOGIN_PARAM, error);
+                request.getSession().setAttribute(ERROR_USER_NOT_LOGGED, error);
                 response.sendRedirect(BLOCK_PAGE_JSP);
                 return;
             }
@@ -44,7 +44,7 @@ public class LoginCommand implements Command {
             logger.error("error during login command", e);
         }
         try {
-            request.setAttribute(ERROR_LOGIN_PARAM, error);
+            request.setAttribute(ERROR_USER_NOT_LOGGED, error);
             request.getRequestDispatcher(INDEX_JSP).forward(request, response);
         } catch (ServletException | IOException e) {
             logger.error("error during forward in login command", e);

@@ -9,7 +9,7 @@ public final class Constant {
         private Exception() {
         }
 
-        public static final String ERROR_LOGIN_PARAM = "errorParam";
+        public static final String ERROR_USER_NOT_LOGGED = "errorParam";
         public static final String ERROR = "error";
         public static final String TRUE = "true";
         public static final String FALSE = "false";
@@ -94,7 +94,7 @@ public final class Constant {
     public class Booking {
         private Booking() {
         }
-
+        public static final String ID = "id";
         public static final String BOOKING = "booking";
         public static final String NIGHT_PRICE = "nightPrice";
         public static final String START_DATE = "startDay";

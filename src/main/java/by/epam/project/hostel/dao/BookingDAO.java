@@ -12,4 +12,6 @@ public interface BookingDAO extends EntityDAO{
             double finalCost, int userId, int guestroomId);
 
     List<Booking> getUserBookings(int userId, int currentPage) throws DAOException;
+
+    void deleteBookingById(Integer bookingId) throws DAOException;
 }

@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface BookingService extends EntityService {
     List<Booking> getUserBooking(int userId, int currentPage) throws ServiceException;
+
+    void deleteBookingById(Integer bookingId) throws ServiceException;
+
 }
