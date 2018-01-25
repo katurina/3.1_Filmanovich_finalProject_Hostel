@@ -15,7 +15,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Booking.START_
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
-public class BookingRoomCommand implements Command {
+public class BookRoomCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String language = (String) request.getSession().getAttribute(LOCAL);

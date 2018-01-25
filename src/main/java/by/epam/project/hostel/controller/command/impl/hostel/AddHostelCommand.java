@@ -44,7 +44,7 @@ public class AddHostelCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter(NAME);
         Integer stars = Integer.valueOf(request.getParameter(STARS));
-        String imgPath = getImgPath(request, response);
+        String imgPath = getImgPath(request);
 
         String countryRu = request.getParameter(COUNTRY_RU);
         String countryEn = request.getParameter(COUNTRY_EN);
@@ -70,7 +70,7 @@ public class AddHostelCommand implements Command {
     }
 
 
-    private String getImgPath(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private String getImgPath(HttpServletRequest request) throws IOException, ServletException {
         Part filePart = request.getPart(FILE);
         String filename = filePart.getSubmittedFileName();
         if (!filename.isEmpty()) {

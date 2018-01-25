@@ -16,4 +16,5 @@ public interface GuestroomService extends EntityService {
 
     void deleteGuestroomById(Integer guestroomId) throws ServiceException;
 
+    void addGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws ServiceException;
 }

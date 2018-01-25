@@ -16,4 +16,6 @@ public interface GuestroomDAO extends EntityDAO {
     Integer getTotalRowCount(SearchGuestroomsParams searchParams, String language) throws DAOException;
 
     void deleteGuestroomById(Integer guestroomId) throws DAOException;
+
+    void addGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws DAOException;
 }

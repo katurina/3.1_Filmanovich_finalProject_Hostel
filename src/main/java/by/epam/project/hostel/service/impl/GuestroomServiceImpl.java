@@ -70,4 +70,15 @@ public class GuestroomServiceImpl implements GuestroomService {
             throw new ServiceException("error during delete guestroom by id", e);
         }
     }
+
+    @Override
+    public void addGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws ServiceException {
+        validator.validate(descriptionEn, descriptionRu);
+        validator.validate(guestroom);
+        try {
+            guestroomDAO.addGuestroom(guestroom, descriptionEn, descriptionRu);
+        } catch (DAOException e) {
+            throw new ServiceException("error during adding guestroom", e);
+        }
+    }
 }

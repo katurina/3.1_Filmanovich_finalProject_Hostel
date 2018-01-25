@@ -1,6 +1,8 @@
 package by.epam.project.hostel.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Guestroom extends Entity implements Serializable {
@@ -8,7 +10,7 @@ public class Guestroom extends Entity implements Serializable {
 
     private int id;
     private int hostelId;
-    private double nightPrice;
+    private BigDecimal nightPrice;
     private boolean tv;
     private boolean wifi;
     private boolean bath;
@@ -20,7 +22,7 @@ public class Guestroom extends Entity implements Serializable {
     }
 
     public Guestroom(
-            int id, int hostelId, double nightPrice, boolean tv,
+            int id, int hostelId, BigDecimal nightPrice, boolean tv,
             boolean wifi, boolean bath, int capacity, String description,
             List<String> imgPath) {
         this.id = id;
@@ -54,12 +56,20 @@ public class Guestroom extends Entity implements Serializable {
         this.hostelId = hostelId;
     }
 
-    public double getNightPrice() {
-        return nightPrice;
+    public void setTv(String tv) {
+        if (tv == null || tv.isEmpty()) {
+            this.tv = false;
+        } else {
+            this.tv = Boolean.valueOf(tv);
+        }
     }
 
-    public void setNightPrice(double nightPrice) {
-        this.nightPrice = nightPrice;
+    public void setWifi(String wifi) {
+        if (wifi == null || wifi.isEmpty()) {
+            this.wifi = false;
+        } else {
+            this.wifi = Boolean.valueOf(wifi);
+        }
     }
 
     public boolean isTv() {
@@ -75,6 +85,14 @@ public class Guestroom extends Entity implements Serializable {
             this.tv = false;
         } else if (tv == 1) {
             this.tv = true;
+        }
+    }
+
+    public void setBath(String bath) {
+        if (bath == null || bath.isEmpty()) {
+            this.bath = false;
+        } else {
+            this.bath = Boolean.valueOf(bath);
         }
     }
 
@@ -94,6 +112,13 @@ public class Guestroom extends Entity implements Serializable {
         }
     }
 
+    public void setImgPath(String imgPath) {
+        if (this.imgPath == null) {
+            this.imgPath = new ArrayList<>();
+        }
+        this.imgPath.add(imgPath);
+    }
+
     public boolean isBath() {
         return bath;
     }
@@ -108,6 +133,20 @@ public class Guestroom extends Entity implements Serializable {
         } else if (bath == 1) {
             this.bath = true;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getHostelId();
+        result = 31 * result + (getNightPrice() != null ? getNightPrice().hashCode() : 0);
+        result = 31 * result + (isTv() ? 1 : 0);
+        result = 31 * result + (isWifi() ? 1 : 0);
+        result = 31 * result + (isBath() ? 1 : 0);
+        result = 31 * result + getCapacity();
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getImgPath() != null ? getImgPath().hashCode() : 0);
+        return result;
     }
 
     public int getCapacity() {
@@ -151,9 +190,6 @@ public class Guestroom extends Entity implements Serializable {
         if (getHostelId() != guestroom.getHostelId()) {
             return false;
         }
-        if (Double.compare(guestroom.getNightPrice(), getNightPrice()) != 0) {
-            return false;
-        }
         if (isTv() != guestroom.isTv()) {
             return false;
         }
@@ -166,27 +202,21 @@ public class Guestroom extends Entity implements Serializable {
         if (getCapacity() != guestroom.getCapacity()) {
             return false;
         }
+        if (getNightPrice() != null ? !getNightPrice().equals(guestroom.getNightPrice()) : guestroom.getNightPrice() != null) {
+            return false;
+        }
         if (getDescription() != null ? !getDescription().equals(guestroom.getDescription()) : guestroom.getDescription() != null) {
             return false;
         }
         return getImgPath() != null ? getImgPath().equals(guestroom.getImgPath()) : guestroom.getImgPath() == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = getId();
-        result = 31 * result + getHostelId();
-        temp = Double.doubleToLongBits(getNightPrice());
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (isTv() ? 1 : 0);
-        result = 31 * result + (isWifi() ? 1 : 0);
-        result = 31 * result + (isBath() ? 1 : 0);
-        result = 31 * result + getCapacity();
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (getImgPath() != null ? getImgPath().hashCode() : 0);
-        return result;
+    public BigDecimal getNightPrice() {
+        return nightPrice;
+    }
+
+    public void setNightPrice(BigDecimal nightPrice) {
+        this.nightPrice = nightPrice;
     }
 
     @Override

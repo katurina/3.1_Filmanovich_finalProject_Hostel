@@ -85,6 +85,17 @@ public final class Constant {
         public static final String ID = "id";
         public static final String GUESTROOM = "guestroom";
         public static final String SORT = "sort";
+
+        public static final String HOSTEL_ID = "hostelId";
+        public static final String NIGHT_PRICE = "nightPrice";
+        public static final String TV = "tv";
+        public static final String WIFI = "wifi";
+        public static final String BATH = "bath";
+        public static final String CAPACITY = "capacity";
+
+        public static final String DESCRIPTION_RU = "descriptionRu";
+        public static final String DESCRIPTION_EN = "descriptionEn";
+
     }
 
     public class SearchParams {

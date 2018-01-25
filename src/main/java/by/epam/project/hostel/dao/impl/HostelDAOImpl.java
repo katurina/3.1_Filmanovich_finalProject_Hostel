@@ -28,6 +28,7 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
     private static final String SELECT_ALL_HOSTELS = "SELECT stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE language=?";
     private static final String DELETE_HOSTEL_BY_ID = "DELETE FROM hostel WHERE id = ?";
     private static final String INSERT_THOSTEL = "INSERT INTO thostel(language_id, hostel_id, country, city, description, address) VALUES (?,?,?,?,?,?)";
+    private static final String DELETE_EN_RU_HOSTEL_PART = "DELETE FROM thostel WHERE hostel_id = ?";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -84,9 +85,13 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
     @Override
     public void deleteHostelById(Integer hostelId) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(DELETE_HOSTEL_BY_ID)) {
+             PreparedStatement ps = connection.prepareStatement(DELETE_EN_RU_HOSTEL_PART)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
+            try (PreparedStatement pst = connection.prepareStatement(DELETE_HOSTEL_BY_ID)) {
+                pst.setInt(1, hostelId);
+                pst.executeUpdate();
+            }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during delete hostel by id ", e);
         }
