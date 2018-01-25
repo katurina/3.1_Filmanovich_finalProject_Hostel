@@ -10,8 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static by.epam.project.hostel.controller.constant.Constant.Language.EN;
+import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 
 
 public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
@@ -22,6 +27,7 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
     private static final String SELECT_HOSTEL_BY_ROOM_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id  INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ? AND l.language = ?";
     private static final String SELECT_ALL_HOSTELS = "SELECT stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE language=?";
     private static final String DELETE_HOSTEL_BY_ID = "DELETE FROM hostel WHERE id = ?";
+    private static final String INSERT_THOSTEL = "INSERT INTO thostel(language_id, hostel_id, country, city, description, address) VALUES (?,?,?,?,?,?)";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -85,6 +91,48 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
             throw new DAOException("error during delete hostel by id ", e);
         }
     }
+
+    @Override
+    public void addHostel(Map<String, Hostel> hostel) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection()) {
+            int hostelId;
+            try (PreparedStatement ps = connection.prepareStatement("INSERT INTO hostel (stars, imgPath, name) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, hostel.get(RU).getStars());
+                ps.setString(2, hostel.get(RU).getImgPath());
+                ps.setString(3, hostel.get(RU).getName());
+                ps.executeUpdate();
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        hostelId = generatedKeys.getInt(1);
+                    } else {
+                        throw new DAOException("cannot get id of inserting hostel");
+                    }
+                }
+            }
+            try (PreparedStatement ps = connection.prepareStatement(INSERT_THOSTEL)) {
+                ps.setInt(1, 1);
+                ps.setInt(2, hostelId);
+                ps.setString(3, hostel.get(EN).getCountry());
+                ps.setString(4, hostel.get(EN).getCity());
+                ps.setString(5, hostel.get(EN).getDescription());
+                ps.setString(6, hostel.get(EN).getAddress());
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = connection.prepareStatement(INSERT_THOSTEL)) {
+                ps.setInt(1, 2);
+                ps.setInt(2, hostelId);
+                ps.setString(3, hostel.get(RU).getCountry());
+                ps.setString(4, hostel.get(RU).getCity());
+                ps.setString(5, hostel.get(RU).getDescription());
+                ps.setString(6, hostel.get(RU).getAddress());
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during inserting hostel", e);
+        }
+    }
+
 
     private Hostel createHostel(ResultSet rs) throws SQLException {
         Hostel hostel = new Hostel();

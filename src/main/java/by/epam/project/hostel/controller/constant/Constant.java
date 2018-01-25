@@ -37,6 +37,16 @@ public final class Constant {
         private Hostel() {
         }
 
+        public static final String NAME = "name";
+        public static final String STARS = "stars";
+        public static final String COUNTRY_RU = "countryRu";
+        public static final String DESCRIPTION_RU = "descriptionRu";
+        public static final String ADDRESS_RU = "addressRu";
+        public static final String CITY_RU = "cityRu";
+        public static final String COUNTRY_EN = "countryEn";
+        public static final String DESCRIPTION_EN = "descriptionEn";
+        public static final String ADDRESS_EN = "addressEn";
+        public static final String CITY_EN = "cityEn";
         public static final String HOSTEL = "hostel";
         public static final String HOSTELS = "hostels";
         public static final String ID = "id";
@@ -67,7 +77,7 @@ public final class Constant {
         }
 
         public static final String RU = "ru";
-        private static final String EN = "en";
+        public static final String EN = "en";
     }
 
 
@@ -94,6 +104,7 @@ public final class Constant {
     public class Booking {
         private Booking() {
         }
+
         public static final String ID = "id";
         public static final String BOOKING = "booking";
         public static final String NIGHT_PRICE = "nightPrice";

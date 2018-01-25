@@ -5,6 +5,7 @@ import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HostelService  extends EntityService {
     Hostel getHostelById(int id, String language) throws ValidationException;
@@ -12,4 +13,6 @@ public interface HostelService  extends EntityService {
     List<Hostel> getHostels(String language) throws ServiceException;
 
     void deleteHostelById(Integer hostelId) throws ServiceException;
+
+    void addHostel(Map<String, Hostel> hostel) throws ServiceException;
 }

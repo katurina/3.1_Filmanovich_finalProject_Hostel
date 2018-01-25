@@ -11,6 +11,10 @@ import by.epam.project.hostel.service.validation.Validator;
 import by.epam.project.hostel.service.validation.impl.HostelValidatorImpl;
 
 import java.util.List;
+import java.util.Map;
+
+import static by.epam.project.hostel.controller.constant.Constant.Language.EN;
+import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 
 public class HostelServiceImpl implements HostelService {
     private static final Validator<Hostel> validator = new HostelValidatorImpl();
@@ -45,6 +49,18 @@ public class HostelServiceImpl implements HostelService {
         } catch (DAOException e) {
             throw new ServiceException("error during delete hostel by id = " + hostelId, e);
         }
+    }
+
+    @Override
+    public void addHostel(Map<String, Hostel> hostel) throws ServiceException {
+        validator.validate(hostel.get(RU));
+        validator.validate(hostel.get(EN));
+        try {
+            hostelDAO.addHostel(hostel);
+        } catch (DAOException e) {
+            throw new ServiceException("error during adding new hostel", e);
+        }
+
     }
 
     @Override

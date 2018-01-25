@@ -17,6 +17,16 @@ public class Hostel extends Entity implements Serializable {
     public Hostel() {
     }
 
+    public Hostel(int stars, String name, String country, String city, String description, String imgPath, String address) {
+        this.stars = stars;
+        this.name = name;
+        this.country = country;
+        this.city = city;
+        this.description = description;
+        this.imgPath = imgPath;
+        this.address = address;
+    }
+
     public Hostel(int id, int stars, String name, String country, String city,
                   String description, String imgPath, String address) {
         this.id = id;
