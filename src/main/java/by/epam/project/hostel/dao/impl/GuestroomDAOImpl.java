@@ -129,8 +129,15 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
     }
 
     @Override
-    protected String getTableName() {
-        return "guestrooms";
+    public void addImage(Integer guestroomId, String imgPath) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("INSERT INTO picture(guestrooms_id, file) VALUES (?,?)")) {
+            ps.setInt(1, guestroomId);
+            ps.setString(2, imgPath);
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during adding image into db, guestroomId = " + guestroomId + ", imgPath = " + imgPath, e);
+        }
     }
 
     private int getGuestroomId(PreparedStatement ps) throws SQLException, DAOException {
@@ -204,44 +211,6 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         return connection.prepareStatement(sqlSelectCount.toString());
     }
 
-    private void setSearchParametersInPreparedStatement(int currentPage, SearchGuestroomsParams searchParams, String language, PreparedStatement ps) throws SQLException {
-        int numberParameter = 1;
-
-        String city = searchParams.getCity();
-        LocalDate dateFrom = searchParams.getDateFrom();
-        LocalDate dateTo = searchParams.getDateTo();
-        BigDecimal nightPriceFrom = searchParams.getNightPriceFrom();
-        BigDecimal nightPriceTo = searchParams.getNightPriceTo();
-        Integer capacityFrom = searchParams.getCapacityFrom();
-        Integer capacityTo = searchParams.getCapacityTo();
-
-        ps.setString(numberParameter++, language);
-        if (city != null && !city.equals("any")) {
-            ps.setString(numberParameter++, city);
-        }
-        if (nightPriceFrom != null && nightPriceTo != null) {
-            ps.setBigDecimal(numberParameter++, nightPriceFrom);
-            ps.setBigDecimal(numberParameter++, nightPriceTo);
-        }
-
-
-        if (dateFrom != null && dateTo != null) {
-            ps.setDate(numberParameter++, Date.valueOf(dateFrom));
-            ps.setDate(numberParameter++, Date.valueOf(dateTo));
-            ps.setDate(numberParameter++, Date.valueOf(dateFrom));
-            ps.setDate(numberParameter++, Date.valueOf(dateTo));
-        }
-        if (capacityFrom != null && capacityTo != null) {
-            ps.setInt(numberParameter++, capacityFrom);
-            ps.setInt(numberParameter++, capacityTo);
-        }
-
-        if (currentPage != 0) {
-            ps.setInt(numberParameter++, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
-            ps.setInt(numberParameter, MAX_ENTRIES_PER_PAGE);
-        }
-    }
-
     private PreparedStatement getSQLSelect(Connection connection, SearchGuestroomsParams searchParams) throws SQLException {
         StringBuilder selectByParams = new StringBuilder("SELECT DISTINCT(guestrooms.id),   night_price,   tv,   wifi,   bath,   capacity,   t.description,   guestrooms.hostel_id FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ?  ");
 
@@ -310,6 +279,44 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         return connection.prepareStatement(selectByParams.toString());
     }
 
+    private void setSearchParametersInPreparedStatement(int currentPage, SearchGuestroomsParams searchParams, String language, PreparedStatement ps) throws SQLException {
+        int numberParameter = 1;
+
+        String city = searchParams.getCity();
+        LocalDate dateFrom = searchParams.getDateFrom();
+        LocalDate dateTo = searchParams.getDateTo();
+        BigDecimal nightPriceFrom = searchParams.getNightPriceFrom();
+        BigDecimal nightPriceTo = searchParams.getNightPriceTo();
+        Integer capacityFrom = searchParams.getCapacityFrom();
+        Integer capacityTo = searchParams.getCapacityTo();
+
+        ps.setString(numberParameter++, language);
+        if (city != null && !city.equals("any")) {
+            ps.setString(numberParameter++, city);
+        }
+        if (nightPriceFrom != null && nightPriceTo != null) {
+            ps.setBigDecimal(numberParameter++, nightPriceFrom);
+            ps.setBigDecimal(numberParameter++, nightPriceTo);
+        }
+
+
+        if (dateFrom != null && dateTo != null) {
+            ps.setDate(numberParameter++, Date.valueOf(dateFrom));
+            ps.setDate(numberParameter++, Date.valueOf(dateTo));
+            ps.setDate(numberParameter++, Date.valueOf(dateFrom));
+            ps.setDate(numberParameter++, Date.valueOf(dateTo));
+        }
+        if (capacityFrom != null && capacityTo != null) {
+            ps.setInt(numberParameter++, capacityFrom);
+            ps.setInt(numberParameter++, capacityTo);
+        }
+
+        if (currentPage != 0) {
+            ps.setInt(numberParameter++, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
+            ps.setInt(numberParameter, MAX_ENTRIES_PER_PAGE);
+        }
+    }
+
     private List<Guestroom> createListOfGuestrooms(Connection connection, PreparedStatement ps) throws SQLException, DAOException {
         try (ResultSet rs = ps.executeQuery()) {
             List<Guestroom> guestrooms = new ArrayList<>();
@@ -321,6 +328,19 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
             }
             return guestrooms;
         }
+    }
+
+    private Guestroom createGuestroom(ResultSet rs) throws SQLException {
+        Guestroom guestroom = new Guestroom();
+        guestroom.setId(rs.getInt(1));
+        guestroom.setNightPrice(rs.getBigDecimal(2));
+        guestroom.setTv(rs.getInt(3));
+        guestroom.setWifi(rs.getInt(4));
+        guestroom.setBath(rs.getInt(5));
+        guestroom.setCapacity(rs.getInt(6));
+        guestroom.setDescription(rs.getString(7));
+        guestroom.setHostelId(rs.getInt(8));
+        return guestroom;
     }
 
     //todo this method remade in inner join
@@ -339,17 +359,9 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         }
     }
 
-    private Guestroom createGuestroom(ResultSet rs) throws SQLException {
-        Guestroom guestroom = new Guestroom();
-        guestroom.setId(rs.getInt(1));
-        guestroom.setNightPrice(rs.getBigDecimal(2));
-        guestroom.setTv(rs.getInt(3));
-        guestroom.setWifi(rs.getInt(4));
-        guestroom.setBath(rs.getInt(5));
-        guestroom.setCapacity(rs.getInt(6));
-        guestroom.setDescription(rs.getString(7));
-        guestroom.setHostelId(rs.getInt(8));
-        return guestroom;
+    @Override
+    protected String getTableName() {
+        return "guestrooms";
     }
 
 }

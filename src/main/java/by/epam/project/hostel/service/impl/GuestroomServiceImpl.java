@@ -81,4 +81,15 @@ public class GuestroomServiceImpl implements GuestroomService {
             throw new ServiceException("error during adding guestroom", e);
         }
     }
+
+    @Override
+    public void addImage(Integer guestroomId, String imgPath) throws ServiceException {
+        validator.validateID(guestroomId);
+        validator.validate(imgPath);
+        try {
+            guestroomDAO.addImage(guestroomId, imgPath);
+        } catch (DAOException e) {
+            throw new ServiceException("error during adding image", e);
+        }
+    }
 }
