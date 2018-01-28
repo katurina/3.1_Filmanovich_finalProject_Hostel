@@ -11,7 +11,7 @@ import by.epam.project.hostel.service.validation.impl.CommentValidatorImpl;
 
 import java.util.List;
 
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceImpl extends BaseService implements CommentService {
 
     private static final CommentDAO commentDAO = DAOFactory.getInstance().getCommentDAO();
     private static final Validator<Comment> validator = new CommentValidatorImpl();

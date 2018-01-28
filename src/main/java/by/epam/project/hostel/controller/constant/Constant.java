@@ -92,6 +92,7 @@ public final class Constant {
         public static final String WIFI = "wifi";
         public static final String BATH = "bath";
         public static final String CAPACITY = "capacity";
+        public static final String IMG_PATH = "imgPath";
 
         public static final String DESCRIPTION_RU = "descriptionRu";
         public static final String DESCRIPTION_EN = "descriptionEn";

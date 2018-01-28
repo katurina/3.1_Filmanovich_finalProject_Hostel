@@ -96,6 +96,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>EditHostel</servlet-name>
+        <jsp-file>/WEB-INF/admin/edit_hostel.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditHostel</servlet-name>
+        <url-pattern>/admin/edit_hostel</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>BotDetect Captcha</servlet-name>
         <servlet-class>com.captcha.botdetect.web.servlet.SimpleCaptchaServlet</servlet-class>
     </servlet>

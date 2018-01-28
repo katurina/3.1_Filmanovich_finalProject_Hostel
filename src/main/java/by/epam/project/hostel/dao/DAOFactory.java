@@ -41,5 +41,27 @@ public class DAOFactory {
     public CommentDAO getCommentDAO() {
         return commentDAO;
     }
+
+    public HostelDAO createHostelDAO() {
+        return new HostelDAOImpl();
+    }
+
+    public UserDAO createUserDAO() {
+        return new UserDAOImpl();
+    }
+
+    public GuestroomDAO createGuestroomDAO() {
+        return new GuestroomDAOImpl();
+    }
+
+    public CommentDAO createCommentDAO() {
+        return new CommentDAOImpl();
+    }
+
+    public BookingDAO createBookingDAO() {
+        return new BookingDAOImpl();
+    }
+
 }
+
 

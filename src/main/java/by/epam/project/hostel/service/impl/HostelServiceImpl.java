@@ -1,7 +1,10 @@
 package by.epam.project.hostel.service.impl;
 
+import by.epam.project.hostel.dao.CommentDAO;
 import by.epam.project.hostel.dao.DAOFactory;
+import by.epam.project.hostel.dao.GuestroomDAO;
 import by.epam.project.hostel.dao.HostelDAO;
+import by.epam.project.hostel.dao.db.transaction.Transaction;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Hostel;
 import by.epam.project.hostel.service.HostelService;
@@ -16,9 +19,10 @@ import java.util.Map;
 import static by.epam.project.hostel.controller.constant.Constant.Language.EN;
 import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 
-public class HostelServiceImpl implements HostelService {
+public class HostelServiceImpl extends BaseService implements HostelService {
     private static final Validator<Hostel> validator = new HostelValidatorImpl();
-    private static final HostelDAO hostelDAO = DAOFactory.getInstance().getHostelDAO();
+    private static final DAOFactory instance = DAOFactory.getInstance();
+    private static final HostelDAO hostelDAO = instance.getHostelDAO();
 
     @Override
     public Hostel getHostelById(int id, String language) throws ValidationException {
@@ -45,7 +49,24 @@ public class HostelServiceImpl implements HostelService {
     public void deleteHostelById(Integer hostelId) throws ServiceException {
         validator.validateID(hostelId);
         try {
-            hostelDAO.deleteHostelById(hostelId);
+            HostelDAO hostelDAO = instance.createHostelDAO();
+            GuestroomDAO guestroomDAO = instance.createGuestroomDAO();
+            CommentDAO commentDAO = instance.createCommentDAO();
+            Transaction transaction = transactionManager.beginTransaction(hostelDAO, guestroomDAO, commentDAO);
+            try {
+                commentDAO.deleteCommentsByHostelIdTransaction(hostelId);
+                guestroomDAO.deleteGuestroomsDescriptionByHostelIdTransaction(hostelId);
+                guestroomDAO.deleteGuestroomsPicturesByHostelIdTransaction(hostelId);
+                guestroomDAO.deleteGuestroomsByHostelIdTransaction(hostelId);
+                hostelDAO.deleteHostelDescriptionTransaction(hostelId);
+                hostelDAO.deleteHostelById(hostelId);
+                transaction.commit();
+            } catch (DAOException e) {
+                transaction.rollback();
+                throw e;
+            } finally {
+                transaction.endTransaction();
+            }
         } catch (DAOException e) {
             throw new ServiceException("error during delete hostel by id = " + hostelId, e);
         }
@@ -56,7 +77,18 @@ public class HostelServiceImpl implements HostelService {
         validator.validate(hostel.get(RU));
         validator.validate(hostel.get(EN));
         try {
-            hostelDAO.addHostel(hostel);
+            HostelDAO hostelDAO = instance.createHostelDAO();
+            Transaction transaction = transactionManager.beginTransaction(hostelDAO);
+            try {
+                int hostelId = hostelDAO.addHostelTransaction(hostel);
+                hostelDAO.addHostelLanguageParamsTransaction(hostel, hostelId);
+                transaction.commit();
+            } catch (DAOException e) {
+                transaction.rollback();
+                throw e;
+            } finally {
+                transaction.endTransaction();
+            }
         } catch (DAOException e) {
             throw new ServiceException("error during adding new hostel", e);
         }

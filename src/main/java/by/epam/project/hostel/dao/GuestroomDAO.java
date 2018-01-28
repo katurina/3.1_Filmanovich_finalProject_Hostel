@@ -9,16 +9,33 @@ import java.util.List;
 public interface GuestroomDAO extends EntityDAO {
     List<Guestroom> getGuestroomsByHostelId(int id, String language, int page) throws DAOException;
 
-    Guestroom getGuestRoomById(int id, String language) throws DAOException;
+    Guestroom getGuestroomById(int id, String language) throws DAOException;
 
     List<Guestroom> getGuestroomBySearchParam(int currentPage, SearchGuestroomsParams searchParams, String language) throws DAOException;
 
     Integer getTotalRowCount(SearchGuestroomsParams searchParams, String language) throws DAOException;
 
-    void deleteGuestroomById(Integer guestroomId) throws DAOException;
-
-    void addGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws DAOException;
+    void deleteGuestroomByIdTransaction(Integer guestroomId) throws DAOException;
 
     void addImage(Integer guestroomId, String imgPath) throws DAOException;
 
+    void deleteImage(Integer imgId) throws DAOException;
+
+    List<Guestroom> getGuestrooms(String language, Integer currentPage) throws DAOException;
+
+    int addGuestroomWithTransaction(Guestroom guestroom) throws DAOException;
+
+    void addImageWithTransaction(int guestroomId, List<String> imgPath) throws DAOException;
+
+    void addDescriptionWithTransaction(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException;
+
+    void deleteImagesByGuestroomIdTransaction(Integer guestroomId) throws DAOException;
+
+    void deleteDescriptionsByGuestroomIdTransaction(Integer guestroomId) throws DAOException;
+
+    void deleteGuestroomsDescriptionByHostelIdTransaction(Integer hostelId) throws DAOException;
+
+    void deleteGuestroomsPicturesByHostelIdTransaction(Integer hostelId) throws DAOException;
+
+    void deleteGuestroomsByHostelIdTransaction(Integer hostelId) throws DAOException;
 }

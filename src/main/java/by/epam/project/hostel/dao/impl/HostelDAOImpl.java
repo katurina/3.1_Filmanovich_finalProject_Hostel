@@ -19,7 +19,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Language.EN;
 import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 
 
-public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
+public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
 
@@ -29,6 +29,7 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
     private static final String DELETE_HOSTEL_BY_ID = "DELETE FROM hostel WHERE id = ?";
     private static final String INSERT_THOSTEL = "INSERT INTO thostel(language_id, hostel_id, country, city, description, address) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_EN_RU_HOSTEL_PART = "DELETE FROM thostel WHERE hostel_id = ?";
+    private static final String INSERT_HOSTEL = "INSERT INTO hostel (stars, imgPath, name) VALUES (?,?,?)";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -84,60 +85,65 @@ public class HostelDAOImpl extends EntityDAOImpl implements HostelDAO {
 
     @Override
     public void deleteHostelById(Integer hostelId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(DELETE_EN_RU_HOSTEL_PART)) {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_HOSTEL_BY_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
-            try (PreparedStatement pst = connection.prepareStatement(DELETE_HOSTEL_BY_ID)) {
-                pst.setInt(1, hostelId);
-                pst.executeUpdate();
-            }
-        } catch (SQLException | ConnectionPoolException e) {
+        } catch (SQLException e) {
             throw new DAOException("error during delete hostel by id ", e);
         }
     }
 
     @Override
-    public void addHostel(Map<String, Hostel> hostel) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection()) {
-            int hostelId;
-            try (PreparedStatement ps = connection.prepareStatement("INSERT INTO hostel (stars, imgPath, name) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-                ps.setInt(1, hostel.get(RU).getStars());
-                ps.setString(2, hostel.get(RU).getImgPath());
-                ps.setString(3, hostel.get(RU).getName());
-                ps.executeUpdate();
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        hostelId = generatedKeys.getInt(1);
-                    } else {
-                        throw new DAOException("cannot get id of inserting hostel");
-                    }
+    public int addHostelTransaction(Map<String, Hostel> hostel) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_HOSTEL, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, hostel.get(RU).getStars());
+            ps.setString(2, hostel.get(RU).getImgPath());
+            ps.setString(3, hostel.get(RU).getName());
+            ps.executeUpdate();
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new DAOException("cannot get id of inserting hostel");
                 }
             }
-            try (PreparedStatement ps = connection.prepareStatement(INSERT_THOSTEL)) {
-                ps.setInt(1, 1);
-                ps.setInt(2, hostelId);
-                ps.setString(3, hostel.get(EN).getCountry());
-                ps.setString(4, hostel.get(EN).getCity());
-                ps.setString(5, hostel.get(EN).getDescription());
-                ps.setString(6, hostel.get(EN).getAddress());
-                ps.executeUpdate();
-            }
-            try (PreparedStatement ps = connection.prepareStatement(INSERT_THOSTEL)) {
-                ps.setInt(1, 2);
-                ps.setInt(2, hostelId);
-                ps.setString(3, hostel.get(RU).getCountry());
-                ps.setString(4, hostel.get(RU).getCity());
-                ps.setString(5, hostel.get(RU).getDescription());
-                ps.setString(6, hostel.get(RU).getAddress());
-                ps.executeUpdate();
-            }
-
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during inserting hostel", e);
         }
     }
 
+
+    @Override
+    public void addHostelLanguageParamsTransaction(Map<String, Hostel> hostel, int hostelId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_THOSTEL)) {
+            ps.setInt(1, 1);
+            ps.setInt(2, hostelId);
+            ps.setString(3, hostel.get(EN).getCountry());
+            ps.setString(4, hostel.get(EN).getCity());
+            ps.setString(5, hostel.get(EN).getDescription());
+            ps.setString(6, hostel.get(EN).getAddress());
+            ps.executeUpdate();
+            ps.setInt(1, 2);
+            ps.setInt(2, hostelId);
+            ps.setString(3, hostel.get(RU).getCountry());
+            ps.setString(4, hostel.get(RU).getCity());
+            ps.setString(5, hostel.get(RU).getDescription());
+            ps.setString(6, hostel.get(RU).getAddress());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during adding hostel's params into thostel", e);
+        }
+    }
+
+    @Override
+    public void deleteHostelDescriptionTransaction(Integer hostelId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_EN_RU_HOSTEL_PART)) {
+            ps.setInt(1, hostelId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during delete hostel descriptions", e);
+        }
+    }
 
     private Hostel createHostel(ResultSet rs) throws SQLException {
         Hostel hostel = new Hostel();

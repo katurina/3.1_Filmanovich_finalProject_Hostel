@@ -6,6 +6,7 @@ import by.epam.project.hostel.controller.command.impl.booking.BookRoomCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.DeleteHostelByIdCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCommand;
 import by.epam.project.hostel.controller.command.impl.user.EditRoleBanUserCommand;
@@ -20,7 +21,7 @@ public class CommandFactory {
     private static final String REGISTRATION_COMMAND = "registration-command";
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
     private static final String LOGIN_ADMIN_COMMAND = "login-admin-command";
-    private static final String LOGOUT = "logout-command";
+    private static final String LOGOUT_COMMAND = "logout-command";
     private static final String EDIT_USER_COMMAND = "edit-role-ban-user-command";
     private static final String GET_USERS_COMMAND = "get-users-command";
     private static final String VIEW_HOSTEL = "view-hostel-command";
@@ -29,6 +30,8 @@ public class CommandFactory {
     private static final String GET_DESIRED_GUESTROOMS_COMMAND = "get-required-guestrooms-command";
     private static final String GET_HOSTELS_COMMAND = "get-hostels-command";
     private static final String BOOKING_ROOM_COMMAND = "booking-room-command";
+    private static final String GET_HOTELS_COMMAND = "get-hotels-command";
+    private static final String DELETE_HOSTEL_BY_ID_COMMAND = "delete-hostel-by-id-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -51,7 +54,7 @@ public class CommandFactory {
                 return new ChangeLocalCommand();
             case LOGIN_ADMIN_COMMAND:
                 return new LoginAdminCommand();
-            case LOGOUT:
+            case LOGOUT_COMMAND:
                 return new LogoutCommand();
             case EDIT_USER_COMMAND:
                 return new EditRoleBanUserCommand();
@@ -69,6 +72,10 @@ public class CommandFactory {
                 return new GetHostelsCommand();
             case BOOKING_ROOM_COMMAND:
                 return new BookRoomCommand();
+            case GET_HOTELS_COMMAND:
+                return new GetHostelsCommand();
+            case DELETE_HOSTEL_BY_ID_COMMAND:
+                return new DeleteHostelByIdCommand();
         }
         return null;
     }

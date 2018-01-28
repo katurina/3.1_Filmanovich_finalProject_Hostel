@@ -31,7 +31,7 @@ public class HostelDAOImplTest {
         hostel.put(RU, new Hostel(5, "Montana", "Канада", "Оттава", "прекрасное место", "img/1.jpg", "Ла"));
         hostel.put(EN, new Hostel(5, "Montana", "Canada", "Ottava", "beautiful place", "img/1.jpg", "La"));
         try {
-            DAOFactory.getInstance().getHostelDAO().addHostel(hostel);
+            DAOFactory.getInstance().getHostelDAO().addHostelTransaction(hostel);
         } catch (DAOException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package by.epam.project.hostel.controller.command.impl.user;
 
 import by.epam.project.hostel.controller.command.Command;
-import by.epam.project.hostel.controller.constant.Constant;
 import by.epam.project.hostel.controller.pagination.PageWrapper;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.entity.pagination.Page;
@@ -16,13 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
+import static by.epam.project.hostel.controller.constant.Constant.Page.PAGE;
 
 
 public class GetUsersCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(GetUsersCommand.class);
 
-    //    todo current page
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         ServiceFactory instance = ServiceFactory.getInstance();
@@ -33,7 +32,7 @@ public class GetUsersCommand implements Command {
             List<User> users = userService.getUsers(currentPage);
             int totalRowCount = userService.getTotalRowCount();
             Page<User> usersPage = PageWrapper.wrapList(users, currentPage, totalRowCount);
-            request.setAttribute(Constant.Page.PAGE, usersPage);
+            request.setAttribute(PAGE, usersPage);
         } catch (ServiceException e) {
             logger.error("error during getting page with users", e);
         }

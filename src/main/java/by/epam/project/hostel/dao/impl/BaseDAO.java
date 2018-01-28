@@ -1,6 +1,5 @@
 package by.epam.project.hostel.dao.impl;
 
-import by.epam.project.hostel.dao.EntityDAO;
 import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.DAOException;
 
@@ -9,7 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public abstract class EntityDAOImpl implements EntityDAO {
+public abstract class BaseDAO implements by.epam.project.hostel.dao.EntityDAO {
+
+    protected Connection connection;
+
+
 
     public int getTotalRowCount() throws DAOException {
         String selectCount = "SELECT COUNT(*) FROM " + getTableName();
@@ -25,4 +28,8 @@ public abstract class EntityDAOImpl implements EntityDAO {
     }
 
     protected abstract String getTableName();
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 }

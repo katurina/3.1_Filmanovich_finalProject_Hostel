@@ -37,24 +37,8 @@ public class AddGuestroomCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer hostelId = Integer.valueOf(request.getParameter(HOSTEL_ID));
-        BigDecimal nightPrice = BigDecimal.valueOf(Double.valueOf(request.getParameter(NIGHT_PRICE)));
-        String tv = request.getParameter(TV);
-        String wifi = request.getParameter(WIFI);
-        String bath = request.getParameter(BATH);
-        Integer capacity = Integer.valueOf(request.getParameter(CAPACITY));
 
-        String imgPath = getImgPath(request);
-
-        Guestroom guestroom = new Guestroom();
-        guestroom.setHostelId(hostelId);
-        guestroom.setTv(tv);
-        guestroom.setWifi(wifi);
-        guestroom.setBath(bath);
-        guestroom.setCapacity(capacity);
-        guestroom.setNightPrice(nightPrice);
-        guestroom.setImgPath(imgPath);
-
+        Guestroom guestroom = createGuestroom(request);
         String descriptionRu = request.getParameter(DESCRIPTION_EN);
         String descriptionEn = request.getParameter(DESCRIPTION_RU);
 
@@ -64,6 +48,29 @@ public class AddGuestroomCommand implements Command {
             logger.error("error during adding guestroom");
         }
 
+    }
+
+    private Guestroom createGuestroom(HttpServletRequest request) throws IOException, ServletException {
+        Guestroom guestroom = new Guestroom();
+
+        Integer hostelId = Integer.valueOf(request.getParameter(HOSTEL_ID));
+        BigDecimal nightPrice = BigDecimal.valueOf(Double.valueOf(request.getParameter(NIGHT_PRICE)));
+        String tv = request.getParameter(TV);
+        String wifi = request.getParameter(WIFI);
+        String bath = request.getParameter(BATH);
+        Integer capacity = Integer.valueOf(request.getParameter(CAPACITY));
+
+        String imgPath = getImgPath(request);
+
+        guestroom.setHostelId(hostelId);
+        guestroom.setTv(tv);
+        guestroom.setWifi(wifi);
+        guestroom.setBath(bath);
+        guestroom.setCapacity(capacity);
+        guestroom.setNightPrice(nightPrice);
+        guestroom.setImgPath(imgPath);
+
+        return guestroom;
     }
 
     private String getImgPath(HttpServletRequest request) throws IOException, ServletException {

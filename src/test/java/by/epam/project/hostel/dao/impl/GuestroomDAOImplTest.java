@@ -22,7 +22,7 @@ public class GuestroomDAOImplTest {
     public void getGuestRoomById() throws DAOException {
 
         GuestroomDAOImpl guestroomDAO = new GuestroomDAOImpl();
-        Guestroom guestroom = guestroomDAO.getGuestRoomById(4, "en");
+        Guestroom guestroom = guestroomDAO.getGuestroomById(4, "en");
         System.out.println(guestroom.toString());
     }
 

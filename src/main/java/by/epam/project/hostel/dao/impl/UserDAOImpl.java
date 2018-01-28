@@ -17,7 +17,7 @@ import java.util.List;
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 
-public class UserDAOImpl extends EntityDAOImpl implements UserDAO {
+public class UserDAOImpl extends BaseDAO implements UserDAO {
 
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 

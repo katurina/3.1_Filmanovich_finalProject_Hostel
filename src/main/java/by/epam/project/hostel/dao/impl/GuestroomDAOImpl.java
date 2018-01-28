@@ -20,7 +20,7 @@ import java.util.List;
 
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
-public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
+public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
     private static final String SELECT_ROOM_BY_ID = "SELECT guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description, hostel_id FROM guestrooms  INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id WHERE guestrooms.id = ? AND language = ?";
@@ -31,6 +31,9 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
     private static final String INSERT_ROOM = "INSERT INTO guestrooms(hostel_id,night_price,tv,wifi,bath,capacity) VALUES (?,?,?,?,?,?)";
     private static final String INSERT_ROOM_DESCRIPTIONS = "INSERT INTO tguestrooms(language_id, guestrooms_id, description) VALUES (?,?,?)";
     private static final String INSERT_ROOM_PICTURE = "INSERT INTO picture(guestrooms_id, file) VALUES (?,?)";
+    private static final String SELECT_GUESTROOMS_LIMIT = "SELECT guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description ,hostel_id  FROM guestrooms INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id INNER JOIN language l ON t.language_id = l.id  WHERE language = ? LIMIT ?,?";
+    private static final String DELETE_ROOM_PICTURES = "DELETE FROM picture WHERE guestrooms_id = ?";
+    private static final String DELETE_TGUESTROOMS_BY_HOSTEL_ID = "DELETE FROM tguestrooms WHERE tguestrooms.guestrooms_id IN (SELECT id FROM guestrooms WHERE hostel_id = ?)";
 
     @Override
     public List<Guestroom> getGuestroomsByHostelId(int id, String language, int page) throws DAOException {
@@ -47,7 +50,7 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
     }
 
     @Override
-    public Guestroom getGuestRoomById(int id, String language) throws DAOException {
+    public Guestroom getGuestroomById(int id, String language) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_ROOM_BY_ID)) {
             ps.setInt(1, id);
@@ -94,37 +97,12 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
     }
 
     @Override
-    public void deleteGuestroomById(Integer guestroomId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(DELETE_RU_EN_ROOM_PART)) {
+    public void deleteGuestroomByIdTransaction(Integer guestroomId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_ROOM_BY_ID)) {
             ps.setInt(1, guestroomId);
             ps.executeUpdate();
-            try (PreparedStatement pst = connection.prepareStatement(DELETE_ROOM_BY_ID)) {
-                pst.setInt(1, guestroomId);
-                pst.executeUpdate();
-            }
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DAOException("error during delete guestroom by id = " + guestroomId, e);
-        }
-    }
-
-    @Override
-    public void addGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(INSERT_ROOM, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, guestroom.getHostelId());
-            ps.setBigDecimal(2, guestroom.getNightPrice());
-            ps.setBoolean(3, guestroom.isTv());
-            ps.setBoolean(4, guestroom.isWifi());
-            ps.setBoolean(5, guestroom.isBath());
-            ps.setInt(6, guestroom.getCapacity());
-            ps.executeUpdate();
-
-            int guestroomId = getGuestroomId(ps);
-            addRuEnDescriptions(descriptionEn, descriptionRu, connection, guestroomId);
-            addPicturePath(guestroom, connection, guestroomId);
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DAOException("error during adding guestroom into db", e);
+        } catch (SQLException e) {
+            throw new DAOException("error during delete guestroom by id", e);
         }
     }
 
@@ -140,19 +118,121 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         }
     }
 
-    private int getGuestroomId(PreparedStatement ps) throws SQLException, DAOException {
-        int guestroomId;
-        try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                guestroomId = generatedKeys.getInt(1);
-            } else {
-                throw new DAOException("cannot get id of inserting guestroom");
-            }
+    @Override
+    public void deleteImage(Integer imgId) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE id = ?")) {
+            ps.setInt(1, imgId);
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during delete image", e);
         }
-        return guestroomId;
     }
 
-    private void addRuEnDescriptions(String descriptionEn, String descriptionRu, Connection connection, int guestroomId) throws SQLException {
+    @Override
+    public List<Guestroom> getGuestrooms(String language, Integer currentPage) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_GUESTROOMS_LIMIT)) {
+            ps.setString(1, language);
+            ps.setInt(2, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
+            ps.setInt(3, MAX_ENTRIES_PER_PAGE);
+            return getListGuestrooms(connection, ps);
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting guestrooms", e);
+        }
+    }
+
+    @Override
+    public int addGuestroomWithTransaction(Guestroom guestroom) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_ROOM, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, guestroom.getHostelId());
+            ps.setBigDecimal(2, guestroom.getNightPrice());
+            ps.setBoolean(3, guestroom.isTv());
+            ps.setBoolean(4, guestroom.isWifi());
+            ps.setBoolean(5, guestroom.isBath());
+            ps.setInt(6, guestroom.getCapacity());
+            ps.executeUpdate();
+            return getGuestroomId(ps);
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during adding guestroom into db", e);
+        }
+    }
+
+    @Override
+    public void addImageWithTransaction(int guestroomId, List<String> imgPaths) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO picture(guestrooms_id, file) VALUES (?,?)")) {
+            for (String imgPath : imgPaths) {
+                ps.setInt(1, guestroomId);
+                ps.setString(2, imgPath);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("error during adding images path", e);
+        }
+    }
+
+    @Override
+    public void addDescriptionWithTransaction(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException {
+        try {
+            addRuEnDescriptions(descriptionEn, descriptionRu, connection, guestroomId);
+        } catch (SQLException e) {
+            throw new DAOException("error during adding description with transaction", e);
+        }
+    }
+
+    @Override
+    public void deleteImagesByGuestroomIdTransaction(Integer guestroomId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE guestrooms_id = ?")) {
+            ps.setInt(1, guestroomId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during delete images by guestroom id", e);
+        }
+    }
+
+    @Override
+    public void deleteDescriptionsByGuestroomIdTransaction(Integer guestroomId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE  FROM tguestrooms WHERE guestrooms_id = ?")) {
+            ps.setInt(1, guestroomId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during delete guestroom's descriptions", e);
+        }
+    }
+
+    @Override
+    public void deleteGuestroomsDescriptionByHostelIdTransaction(Integer hostelId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_TGUESTROOMS_BY_HOSTEL_ID)) {
+            ps.setInt(1, hostelId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during deleting guestrooms by hostel id", e);
+        }
+    }
+
+    @Override
+    public void deleteGuestroomsPicturesByHostelIdTransaction(Integer hostelId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE guestrooms_id IN (SELECT guestrooms.id FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.id=?)")) {
+            ps.setInt(1, hostelId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during deleting guestrooms pictures by hostel id = " + hostelId, e);
+        }
+    }
+
+    @Override
+    public void deleteGuestroomsByHostelIdTransaction(Integer hostelId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM guestrooms WHERE hostel_id = ?")) {
+            ps.setInt(1, hostelId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during deleting guestrooms by hostel id = " + hostelId, e);
+        }
+    }
+
+    private void addRuEnDescriptions(
+            String descriptionEn, String descriptionRu, Connection connection,
+            int guestroomId) throws SQLException {
         try (PreparedStatement pst = connection.prepareStatement(INSERT_ROOM_DESCRIPTIONS)) {
             pst.setInt(1, 2);
             pst.setInt(2, guestroomId);
@@ -165,15 +245,34 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         }
     }
 
-    private void addPicturePath(Guestroom guestroom, Connection connection, int guestroomId) throws SQLException {
-        try (PreparedStatement pst = connection.prepareStatement(INSERT_ROOM_PICTURE)) {
-            pst.setInt(1, guestroomId);
-            pst.setString(2, guestroom.getImgPath().get(0));
-            pst.executeUpdate();
+    private int getGuestroomId(PreparedStatement ps) throws SQLException, DAOException {
+        int guestroomId;
+        try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                guestroomId = generatedKeys.getInt(1);
+            } else {
+                throw new DAOException("cannot get id of inserting guestroom");
+            }
+        }
+        return guestroomId;
+    }
+
+    private List<Guestroom> getListGuestrooms(Connection connection, PreparedStatement ps) throws
+            SQLException, DAOException {
+        try (ResultSet rs = ps.executeQuery()) {
+            List<Guestroom> guestrooms = new ArrayList<>();
+            while (rs.next()) {
+                guestrooms.add(createGuestroom(rs));
+            }
+            for (Guestroom guestroom : guestrooms) {
+                guestroom.setImgPath(getGuestroomImage(guestroom.getId(), connection));
+            }
+            return guestrooms;
         }
     }
 
-    private PreparedStatement getSQLTotalRowCount(Connection connection, SearchGuestroomsParams searchParams) throws SQLException {
+    private PreparedStatement getSQLTotalRowCount(Connection connection, SearchGuestroomsParams searchParams) throws
+            SQLException {
         StringBuilder sqlSelectCount = new StringBuilder("SELECT count(DISTINCT (guestrooms.id)) FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ? ");
         String city = searchParams.getCity();
         LocalDate dateFrom = searchParams.getDateFrom();
@@ -211,7 +310,8 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         return connection.prepareStatement(sqlSelectCount.toString());
     }
 
-    private PreparedStatement getSQLSelect(Connection connection, SearchGuestroomsParams searchParams) throws SQLException {
+    private PreparedStatement getSQLSelect(Connection connection, SearchGuestroomsParams searchParams) throws
+            SQLException {
         StringBuilder selectByParams = new StringBuilder("SELECT DISTINCT(guestrooms.id),   night_price,   tv,   wifi,   bath,   capacity,   t.description,   guestrooms.hostel_id FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ?  ");
 
         String city = searchParams.getCity();
@@ -279,7 +379,9 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         return connection.prepareStatement(selectByParams.toString());
     }
 
-    private void setSearchParametersInPreparedStatement(int currentPage, SearchGuestroomsParams searchParams, String language, PreparedStatement ps) throws SQLException {
+    private void setSearchParametersInPreparedStatement(
+            int currentPage, SearchGuestroomsParams
+            searchParams, String language, PreparedStatement ps) throws SQLException {
         int numberParameter = 1;
 
         String city = searchParams.getCity();
@@ -317,17 +419,9 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
         }
     }
 
-    private List<Guestroom> createListOfGuestrooms(Connection connection, PreparedStatement ps) throws SQLException, DAOException {
-        try (ResultSet rs = ps.executeQuery()) {
-            List<Guestroom> guestrooms = new ArrayList<>();
-            while (rs.next()) {
-                guestrooms.add(createGuestroom(rs));
-            }
-            for (Guestroom guestroom : guestrooms) {
-                guestroom.setImgPath(getGuestroomImage(guestroom.getId(), connection));
-            }
-            return guestrooms;
-        }
+    private List<Guestroom> createListOfGuestrooms(Connection connection, PreparedStatement ps) throws
+            SQLException, DAOException {
+        return getListGuestrooms(connection, ps);
     }
 
     private Guestroom createGuestroom(ResultSet rs) throws SQLException {
@@ -356,6 +450,14 @@ public class GuestroomDAOImpl extends EntityDAOImpl implements GuestroomDAO {
             }
         } catch (SQLException e) {
             throw new DAOException("error during getting guestroom images", e);
+        }
+    }
+
+    private void addPicturePath(Guestroom guestroom, Connection connection, int guestroomId) throws SQLException {
+        try (PreparedStatement pst = connection.prepareStatement(INSERT_ROOM_PICTURE)) {
+            pst.setInt(1, guestroomId);
+            pst.setString(2, guestroom.getImgPath().get(0));
+            pst.executeUpdate();
         }
     }
 

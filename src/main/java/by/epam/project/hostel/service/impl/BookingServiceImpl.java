@@ -11,7 +11,7 @@ import by.epam.project.hostel.service.validation.impl.BookingValidatorImpl;
 
 import java.util.List;
 
-public class BookingServiceImpl implements BookingService {
+public class BookingServiceImpl extends BaseService implements BookingService {
 
     private static final BookingDAO bookingDAO = DAOFactory.getInstance().getBookingDAO();
     private static final Validator<Booking> validator = new BookingValidatorImpl();

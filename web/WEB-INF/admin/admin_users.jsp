@@ -43,20 +43,20 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="user" items="${requestScope.page.entity}">
+    <c:forEach var="hotel" items="${requestScope.page.entity}">
         <form action="${pageContext.request.contextPath}/controller" method="post">
             <input type="hidden" name="command" value="edit-role-ban-user-command">
-            <input type="hidden" name="id" value="${user.id}">
+            <input type="hidden" name="id" value="${hotel.id}">
             <tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.surname}</td>
-                <td>${user.login}</td>
-                <td>${user.email}</td>
-                <td>${user.number}</td>
+                <td>${hotel.id}</td>
+                <td>${hotel.name}</td>
+                <td>${hotel.surname}</td>
+                <td>${hotel.login}</td>
+                <td>${hotel.email}</td>
+                <td>${hotel.number}</td>
                 <td>
                     <c:choose>
-                        <c:when test="${user.role eq 'ADMIN'}">
+                        <c:when test="${hotel.role eq 'ADMIN'}">
                             <input type="checkbox" name="role" value="ADMIN" checked/>
                         </c:when>
                         <c:otherwise>
@@ -66,7 +66,7 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${user.banned}">
+                        <c:when test="${hotel.banned}">
                             <input type="checkbox" name="banned" value="1" checked/>
                         </c:when>
                         <c:otherwise>

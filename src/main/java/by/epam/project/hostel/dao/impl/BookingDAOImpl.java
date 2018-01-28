@@ -17,7 +17,7 @@ import java.util.List;
 
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
-public class BookingDAOImpl extends EntityDAOImpl implements BookingDAO {
+public class BookingDAOImpl extends BaseDAO implements BookingDAO {
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
     private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
     private static final String DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE id = ?";

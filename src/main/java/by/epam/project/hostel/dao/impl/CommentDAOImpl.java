@@ -15,12 +15,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO {
+public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
     private static final String SELECT_COMMENTS_BY_ROOM_ID = "SELECT id,comment,date,rate FROM comments WHERE guestrooms_id =?;";
     private static final String SELECT_COMMENTS_BY_HOSTEL_ID = "SELECT   comments.id,  comment,  date,  rate FROM comments  INNER JOIN guestrooms g ON comments.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
     private static final String INSERT_COMMENT = "INSERT comments(guestrooms_id, user_id, comment, date,rate) VALUES (?,?,?,?,?);";
+    private static final String DELETE_COMMENT_BY_ID = "DELETE FROM comments WHERE id = ?";
+    private static final String DELETE_PICTURES_BY_HOSTEL_ID = "DELETE FROM picture WHERE id IN (SELECT picture.id FROM picture INNER JOIN guestrooms g ON picture.guestrooms_id = g.id INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?)";
 
     @Override
     public List<Comment> getCommentsByRoomId(Integer guestroomId) throws DAOException {
@@ -69,12 +71,25 @@ public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO {
         }
     }
 
-    /**
-     * @return
-     */
     @Override
-    protected String getTableName() {
-        return "comments";
+    public void deleteCommentsByGuestroomIdTransaction(Integer guestroomId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE guestrooms_id = ?")) {
+            ps.setInt(1, guestroomId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during delete comments", e);
+        }
+
+    }
+
+    @Override
+    public void deleteCommentsByHostelIdTransaction(Integer hostelId) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_PICTURES_BY_HOSTEL_ID)) {
+            ps.setInt(1, hostelId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during delete comments by hostel id", e);
+        }
     }
 
     private List<Comment> createCommentsList(PreparedStatement ps) throws SQLException {
@@ -94,5 +109,13 @@ public class CommentDAOImpl extends EntityDAOImpl implements CommentDAO {
         comment.setCommentDate(LocalDate.parse(rs.getString(3)));
         comment.setRate(rs.getInt(4));
         return comment;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    protected String getTableName() {
+        return "comments";
     }
 }

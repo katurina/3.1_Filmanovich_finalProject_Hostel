@@ -15,7 +15,7 @@ import by.epam.project.hostel.service.validation.impl.UserValidatorImpl;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
     private static final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
     private static final Validator<User> validator = new UserValidatorImpl();
