@@ -22,10 +22,10 @@ import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.CAPACITY;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_EN;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_RU;
-import static by.epam.project.hostel.controller.constant.Constant.Guestroom.HOSTEL_ID;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.NIGHT_PRICE;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.TV;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.WIFI;
+import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
 
 public class AddGuestroomCommand implements Command {
 
@@ -37,12 +37,10 @@ public class AddGuestroomCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        Guestroom guestroom = createGuestroom(request);
-        String descriptionRu = request.getParameter(DESCRIPTION_EN);
-        String descriptionEn = request.getParameter(DESCRIPTION_RU);
-
         try {
+            Guestroom guestroom = createGuestroom(request);
+            String descriptionRu = request.getParameter(DESCRIPTION_EN);
+            String descriptionEn = request.getParameter(DESCRIPTION_RU);
             ServiceFactory.getInstance().getGuestroomService().addGuestroom(guestroom, descriptionEn, descriptionRu);
         } catch (ServiceException e) {
             logger.error("error during adding guestroom");
@@ -50,10 +48,13 @@ public class AddGuestroomCommand implements Command {
 
     }
 
-    private Guestroom createGuestroom(HttpServletRequest request) throws IOException, ServletException {
+    private Guestroom createGuestroom(HttpServletRequest request) throws IOException, ServiceException, ServletException {
         Guestroom guestroom = new Guestroom();
 
-        Integer hostelId = Integer.valueOf(request.getParameter(HOSTEL_ID));
+        String hostelName = request.getParameter(NAME);
+
+        Integer hostelId = ServiceFactory.getInstance().getHostelService().getHostelIdByName(hostelName);
+
         BigDecimal nightPrice = BigDecimal.valueOf(Double.valueOf(request.getParameter(NIGHT_PRICE)));
         String tv = request.getParameter(TV);
         String wifi = request.getParameter(WIFI);

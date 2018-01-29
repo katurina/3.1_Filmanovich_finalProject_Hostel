@@ -25,4 +25,8 @@ public interface GuestroomService extends EntityService {
     List<Guestroom> getGuestrooms(String language, Integer currentPage) throws ServiceException;
 
     List<Guestroom> getGuestroomByHostelId(Integer hostelId, String language, Integer currentPage) throws ServiceException;
+
+    List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws ServiceException;
+
+    Integer getTotalRowCount(String hostelName) throws ServiceException;
 }

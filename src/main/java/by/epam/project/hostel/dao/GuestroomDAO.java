@@ -38,4 +38,8 @@ public interface GuestroomDAO extends EntityDAO {
     void deleteGuestroomsPicturesByHostelIdTransaction(Integer hostelId) throws DAOException;
 
     void deleteGuestroomsByHostelIdTransaction(Integer hostelId) throws DAOException;
+
+    List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws DAOException;
+
+    Integer getTotalRowCount(String hostelName) throws DAOException;
 }

@@ -20,4 +20,10 @@ public interface HostelDAO extends EntityDAO {
     void addHostelLanguageParamsTransaction(Map<String, Hostel> hostel, int hostelId) throws DAOException;
 
     void deleteHostelDescriptionTransaction(Integer hostelId) throws DAOException;
+
+    List<String> getHostelsName() throws DAOException;
+
+    List<String> getHostelsCities(String language) throws DAOException;
+
+    Integer getHostelIdByName(String hostelName) throws DAOException;
 }

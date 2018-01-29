@@ -15,4 +15,11 @@ public interface HostelService  extends EntityService {
     void deleteHostelById(Integer hostelId) throws ServiceException;
 
     void addHostel(Map<String, Hostel> hostel) throws ServiceException;
+
+    List<String> getHostelsName() throws ServiceException;
+
+    List<String> getHostelsCities(String language) throws ServiceException;
+
+    Integer getHostelIdByName(String hostelName) throws ServiceException;
+
 }

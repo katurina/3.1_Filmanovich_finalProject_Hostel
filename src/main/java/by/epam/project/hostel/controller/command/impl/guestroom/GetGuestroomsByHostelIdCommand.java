@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static by.epam.project.hostel.controller.constant.Constant.Guestroom.GUESTROOMS;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.HOSTEL_ID;
 import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
@@ -30,6 +31,7 @@ public class GetGuestroomsByHostelIdCommand implements Command {
 
         try {
             List<Guestroom> guestrooms = ServiceFactory.getInstance().getGuestroomService().getGuestroomByHostelId(hostelId, language, currentPage);
+            request.setAttribute(GUESTROOMS, guestrooms);
         } catch (ServiceException e) {
             logger.error("error during getting guestroom by hostel id", e);
         }

@@ -96,6 +96,36 @@ public class HostelServiceImpl extends BaseService implements HostelService {
     }
 
     @Override
+    public List<String> getHostelsName() throws ServiceException {
+        try {
+            return hostelDAO.getHostelsName();
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting hostels' names", e);
+        }
+    }
+
+    @Override
+    public List<String> getHostelsCities(String language) throws ServiceException {
+        validator.validate(language);
+        try {
+            return hostelDAO.getHostelsCities(language);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting hostels cities", e);
+        }
+    }
+
+    @Override
+    public Integer getHostelIdByName(String hostelName) throws ServiceException {
+        validator.validate(hostelName);
+        try {
+            return hostelDAO.getHostelIdByName(hostelName);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting hostel if by hostel name = " + hostelName, e);
+        }
+
+    }
+
+    @Override
     public int getTotalRowCount() throws ServiceException {
         try {
             return hostelDAO.getTotalRowCount();

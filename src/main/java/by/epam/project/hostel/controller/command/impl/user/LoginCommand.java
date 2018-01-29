@@ -35,12 +35,11 @@ public class LoginCommand implements Command {
                 request.getSession().setAttribute(USER, user);
                 error = false;
             } else if (user != null && user.isBanned()) {
-                error = false;
-                request.getSession().setAttribute(ERROR_USER_NOT_LOGGED, error);
+                request.getSession().setAttribute(ERROR_USER_NOT_LOGGED, false);
                 response.sendRedirect(BLOCK_PAGE_JSP);
                 return;
             }
-        } catch (ServiceException |  IOException e) {
+        } catch (ServiceException | IOException e) {
             logger.error("error during login command", e);
         }
         try {

@@ -4,11 +4,16 @@ import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
 import by.epam.project.hostel.controller.command.impl.booking.BookRoomCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.AddGuestroomCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.DeleteGuestroomByIdCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.DeleteHostelByIdCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCitiesCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsNameCommand;
 import by.epam.project.hostel.controller.command.impl.user.EditRoleBanUserCommand;
 import by.epam.project.hostel.controller.command.impl.user.GetUsersCommand;
 import by.epam.project.hostel.controller.command.impl.user.LoginAdminCommand;
@@ -24,7 +29,7 @@ public class CommandFactory {
     private static final String LOGOUT_COMMAND = "logout-command";
     private static final String EDIT_USER_COMMAND = "edit-role-ban-user-command";
     private static final String GET_USERS_COMMAND = "get-users-command";
-    private static final String VIEW_HOSTEL = "view-hostel-command";
+    private static final String VIEW_HOSTEL_COMMAND = "view-hostel-command";
     private static final String GET_BOOKINGS_COMMAND = "get-bookings-command";
     private static final String VIEW_GUESTROOM_COMMAND = "view-guestroom-command";
     private static final String GET_DESIRED_GUESTROOMS_COMMAND = "get-required-guestrooms-command";
@@ -32,6 +37,11 @@ public class CommandFactory {
     private static final String BOOKING_ROOM_COMMAND = "booking-room-command";
     private static final String GET_HOTELS_COMMAND = "get-hotels-command";
     private static final String DELETE_HOSTEL_BY_ID_COMMAND = "delete-hostel-by-id-command";
+    private static final String GET_GUESTROOMS_COMMAND = "get-guestrooms-command";
+    private static final String GET_HOSTELS_NAMES_COMMAND = "get-hostels-names-command";
+    private static final String DELETE_GUESTROOM_COMMAND = "delete-guestroom-command";
+    private static final String GET_HOSTELS_CITIES_COMMAND = "get-hostels-cities-command";
+    private static final String ADD_GUESTROOM_COMMAND = "add-guestroom-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -60,7 +70,7 @@ public class CommandFactory {
                 return new EditRoleBanUserCommand();
             case GET_USERS_COMMAND:
                 return new GetUsersCommand();
-            case VIEW_HOSTEL:
+            case VIEW_HOSTEL_COMMAND:
                 return new GetHostelCommand();
             case GET_BOOKINGS_COMMAND:
                 return new GetBookingsCommand();
@@ -76,6 +86,16 @@ public class CommandFactory {
                 return new GetHostelsCommand();
             case DELETE_HOSTEL_BY_ID_COMMAND:
                 return new DeleteHostelByIdCommand();
+            case GET_GUESTROOMS_COMMAND:
+                return new GetGuestroomsCommand();
+            case GET_HOSTELS_NAMES_COMMAND:
+                return new GetHostelsNameCommand();
+            case DELETE_GUESTROOM_COMMAND:
+                return new DeleteGuestroomByIdCommand();
+            case GET_HOSTELS_CITIES_COMMAND:
+                return new GetHostelsCitiesCommand();
+            case ADD_GUESTROOM_COMMAND:
+                return new AddGuestroomCommand();
         }
         return null;
     }

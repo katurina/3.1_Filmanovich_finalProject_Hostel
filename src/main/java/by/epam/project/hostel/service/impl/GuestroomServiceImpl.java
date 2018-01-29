@@ -148,6 +148,28 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
     }
 
     @Override
+    public List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws ServiceException {
+        validator.validate(hostelName);
+        validator.validateCurrentPage(currentPage);
+        try {
+            return guestroomDAO.getGuestroomsByHostelName(hostelName, currentPage);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting guestroom by hostel name", e);
+        }
+
+    }
+
+    @Override
+    public Integer getTotalRowCount(String hostelName) throws ServiceException {
+        validator.validate(hostelName);
+        try {
+            return guestroomDAO.getTotalRowCount(hostelName);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting total row count with hostel name = " + hostelName, e);
+        }
+    }
+
+    @Override
     public int getTotalRowCount() throws ServiceException {
         try {
             return guestroomDAO.getTotalRowCount();

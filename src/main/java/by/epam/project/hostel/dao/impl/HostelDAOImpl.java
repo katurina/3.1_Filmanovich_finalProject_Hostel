@@ -30,6 +30,7 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     private static final String INSERT_THOSTEL = "INSERT INTO thostel(language_id, hostel_id, country, city, description, address) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_EN_RU_HOSTEL_PART = "DELETE FROM thostel WHERE hostel_id = ?";
     private static final String INSERT_HOSTEL = "INSERT INTO hostel (stars, imgPath, name) VALUES (?,?,?)";
+    private static final String SELECT_CITIES = "SELECT city FROM thostel INNER JOIN language l ON thostel.language_id = l.id WHERE language = ?";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -142,6 +143,55 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("error during delete hostel descriptions", e);
+        }
+    }
+
+    @Override
+    public List<String> getHostelsName() throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT name FROM hostel")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                List<String> hostelNames = new ArrayList<>();
+                while (rs.next()) {
+                    hostelNames.add(rs.getString(1));
+                }
+                return hostelNames;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting whole hostels name", e);
+        }
+    }
+
+    @Override
+    public List<String> getHostelsCities(String language) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_CITIES)) {
+            ps.setString(1, language);
+            try (ResultSet rs = ps.executeQuery()) {
+                List<String> cities = new ArrayList<>();
+                while (rs.next()) {
+                    cities.add(rs.getString(1));
+                }
+                return cities;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting hostels' cities", e);
+        }
+    }
+
+    @Override
+    public Integer getHostelIdByName(String hostelName) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT id FROM hostel WHERE name = ?")) {
+            ps.setString(1, hostelName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return rs.getInt(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting hostel id by name", e);
         }
     }
 

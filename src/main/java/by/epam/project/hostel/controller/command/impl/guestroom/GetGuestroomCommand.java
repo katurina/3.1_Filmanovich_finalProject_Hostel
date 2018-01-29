@@ -13,17 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.Guestroom.GUESTROOM;
+import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
+
 public class GetGuestroomCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(GetGuestroomCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.valueOf(request.getParameter(Constant.Guestroom.ID));
+        int id = Integer.valueOf(request.getParameter(ID));
         String language = (String) request.getSession().getAttribute(Constant.Page.LOCAL);
         try {
             Guestroom guestroom = ServiceFactory.getInstance().getGuestroomService().getGuestroomById(id, language);
-            request.setAttribute(Constant.Guestroom.GUESTROOM, guestroom);
+            request.setAttribute(GUESTROOM, guestroom);
         } catch (ServiceException e) {
             logger.error("error during getting guestroom by id = " + id, e);
         }

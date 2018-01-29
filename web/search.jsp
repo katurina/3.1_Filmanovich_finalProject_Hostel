@@ -46,6 +46,9 @@
         <jsp:param name="capacityFrom" value="${param.capacityFrom}"/>
         <jsp:param name="capacityTo" value="${param.capacityTo}"/>
     </jsp:include>
+    <jsp:include page="${pageContext.request.contextPath}/controller">
+        <jsp:param name="command" value="get-hostels-cities-command"/>
+    </jsp:include>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -91,14 +94,11 @@
                     <div class="criteria">
                         <select name="city">
                             <option value="any">-</option>
-                            <option value="${london}">${london}</option>
-                            <option value="${moscow}">${moscow}</option>
-                            <option value="${liverpool}">${liverpool}</option>
-                            <option value="${peking}">${peking}</option>
-                            <option value="${shanghai}">${shanghai}</option>
+                            <c:forEach var="city" items="${requestScope.cities}">
+                                <option value="${city}">${city}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <%--todo get parameters and validation--%>
                     <div class="criteria">
                         <div>
                             ${price}

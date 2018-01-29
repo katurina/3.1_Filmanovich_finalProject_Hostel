@@ -6,19 +6,16 @@ public final class Constant {
 
 
     public class Exception {
-        private Exception() {
-        }
-
         public static final String ERROR_USER_NOT_LOGGED = "errorParam";
         public static final String ERROR = "error";
         public static final String TRUE = "true";
         public static final String FALSE = "false";
+
+        private Exception() {
+        }
     }
 
     public class User {
-        private User() {
-        }
-
         public static final String NOT_BANNED = "0";
         public static final String ID = "id";
         public static final String ROLE = "role";
@@ -30,14 +27,15 @@ public final class Constant {
         public static final String EMAIL = "email";
         public static final String NUMBER = "number";
         public static final String USER = "user";
+
+        private User() {
+        }
     }
 
     public class Hostel {
 
-        private Hostel() {
-        }
-
         public static final String NAME = "name";
+        public static final String NAMES = "names";
         public static final String STARS = "stars";
         public static final String COUNTRY_RU = "countryRu";
         public static final String DESCRIPTION_RU = "descriptionRu";
@@ -50,12 +48,14 @@ public final class Constant {
         public static final String HOSTEL = "hostel";
         public static final String HOSTELS = "hostels";
         public static final String ID = "id";
+        public static final String CITIES = "cities";
+
+        private Hostel() {
+        }
+
     }
 
     public class Page {
-
-        private Page() {
-        }
 
         public static final String BLOCK_PAGE_JSP = "/block_page.jsp";
         public static final String REGISTRATION_JSP = "registration.jsp";
@@ -69,15 +69,18 @@ public final class Constant {
         public static final String LOGIN_JSP = "login.jsp";
         public static final String SEARCH_JSP = "search.jsp";
 
+        private Page() {
+        }
+
 
     }
 
     public class Language {
-        private Language() {
-        }
-
         public static final String RU = "ru";
         public static final String EN = "en";
+
+        private Language() {
+        }
     }
 
 
@@ -97,6 +100,9 @@ public final class Constant {
         public static final String DESCRIPTION_RU = "descriptionRu";
         public static final String DESCRIPTION_EN = "descriptionEn";
 
+        public static final String GUESTROOMS = "guestrooms";
+
+
     }
 
     public class SearchParams {
@@ -114,9 +120,6 @@ public final class Constant {
     }
 
     public class Booking {
-        private Booking() {
-        }
-
         public static final String ID = "id";
         public static final String BOOKING = "booking";
         public static final String NIGHT_PRICE = "nightPrice";
@@ -128,15 +131,18 @@ public final class Constant {
         public static final String FINAL_COST = "finalCost";
         public static final String USER_ID = "userId";
         public static final String NIGHTS_COUNT = "nightsCount";
+
+        private Booking() {
+        }
     }
 
     public class Comment {
-        private Comment() {
-        }
-
         public static final String RATE = "rate";
         public static final String COMMENT = "comment";
         public static final String COMMENTS = "comments";
         public static final String ID = "id";
+
+        private Comment() {
+        }
     }
 }

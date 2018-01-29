@@ -230,6 +230,43 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
         }
     }
 
+    @Override
+    public List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT guestrooms.id FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.name=? LIMIT ?,?")) {
+            ps.setString(1, hostelName);
+            ps.setInt(2, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
+            ps.setInt(3, MAX_ENTRIES_PER_PAGE);
+            try (ResultSet rs = ps.executeQuery()) {
+                List<Guestroom> guestrooms = new ArrayList<>();
+                while (rs.next()) {
+                    Guestroom guestroom = new Guestroom();
+                    guestroom.setId(rs.getInt(1));
+                    guestrooms.add(guestroom);
+                }
+                return guestrooms;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting guestrooms by hostel name", e);
+        }
+    }
+
+    @Override
+    public Integer getTotalRowCount(String hostelName) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT count(*) FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.name = ?")) {
+            ps.setString(1, hostelName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return rs.getInt(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting total row count", e);
+        }
+    }
+
     private void addRuEnDescriptions(
             String descriptionEn, String descriptionRu, Connection connection,
             int guestroomId) throws SQLException {
@@ -255,20 +292,6 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
             }
         }
         return guestroomId;
-    }
-
-    private List<Guestroom> getListGuestrooms(Connection connection, PreparedStatement ps) throws
-            SQLException, DAOException {
-        try (ResultSet rs = ps.executeQuery()) {
-            List<Guestroom> guestrooms = new ArrayList<>();
-            while (rs.next()) {
-                guestrooms.add(createGuestroom(rs));
-            }
-            for (Guestroom guestroom : guestrooms) {
-                guestroom.setImgPath(getGuestroomImage(guestroom.getId(), connection));
-            }
-            return guestrooms;
-        }
     }
 
     private PreparedStatement getSQLTotalRowCount(Connection connection, SearchGuestroomsParams searchParams) throws
@@ -422,6 +445,20 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     private List<Guestroom> createListOfGuestrooms(Connection connection, PreparedStatement ps) throws
             SQLException, DAOException {
         return getListGuestrooms(connection, ps);
+    }
+
+    private List<Guestroom> getListGuestrooms(Connection connection, PreparedStatement ps) throws
+            SQLException, DAOException {
+        try (ResultSet rs = ps.executeQuery()) {
+            List<Guestroom> guestrooms = new ArrayList<>();
+            while (rs.next()) {
+                guestrooms.add(createGuestroom(rs));
+            }
+            for (Guestroom guestroom : guestrooms) {
+                guestroom.setImgPath(getGuestroomImage(guestroom.getId(), connection));
+            }
+            return guestrooms;
+        }
     }
 
     private Guestroom createGuestroom(ResultSet rs) throws SQLException {

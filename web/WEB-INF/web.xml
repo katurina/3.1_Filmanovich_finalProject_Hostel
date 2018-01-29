@@ -31,6 +31,24 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>EditRoom</servlet-name>
+        <jsp-file>/WEB-INF/admin/edit_room.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditRoom</servlet-name>
+        <url-pattern>/admin/edit_room</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddGuestroom</servlet-name>
+        <jsp-file>/WEB-INF/admin/add_guestroom.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddGuestroom</servlet-name>
+        <url-pattern>/admin/add_guestroom</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>UserBooking</servlet-name>
         <jsp-file>/WEB-INF/user/booking.jsp</jsp-file>
     </servlet>
@@ -138,12 +156,12 @@
     </filter-mapping>
 
     <!--<error-page>-->
-        <!--<error-code>404</error-code>-->
-        <!--<location>/404.jsp</location>-->
+    <!--<error-code>404</error-code>-->
+    <!--<location>/404.jsp</location>-->
     <!--</error-page>-->
 
     <!--<error-page>-->
-        <!--<error-code>500</error-code>-->
-        <!--<location>/500.jsp</location>-->
+    <!--<error-code>500</error-code>-->
+    <!--<location>/500.jsp</location>-->
     <!--</error-page>-->
 </web-app>
