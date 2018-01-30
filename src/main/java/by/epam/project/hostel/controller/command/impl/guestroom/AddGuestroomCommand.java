@@ -18,14 +18,16 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.CAPACITY;
-import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_EN;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_RU;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.NIGHT_PRICE;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.TV;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.WIFI;
+import static by.epam.project.hostel.controller.constant.Constant.Hostel.DESCRIPTION_EN;
 import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
+import static by.epam.project.hostel.controller.constant.Constant.Success.SUCCESS;
 
 public class AddGuestroomCommand implements Command {
 
@@ -39,11 +41,15 @@ public class AddGuestroomCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Guestroom guestroom = createGuestroom(request);
-            String descriptionRu = request.getParameter(DESCRIPTION_EN);
-            String descriptionEn = request.getParameter(DESCRIPTION_RU);
+            String descriptionRu = request.getParameter(DESCRIPTION_RU);
+            String descriptionEn = request.getParameter(DESCRIPTION_EN);
             ServiceFactory.getInstance().getGuestroomService().addGuestroom(guestroom, descriptionEn, descriptionRu);
+            request.setAttribute(SUCCESS, "add");
         } catch (ServiceException e) {
+            request.setAttribute(ERROR, "notAdd");
             logger.error("error during adding guestroom");
+        } finally {
+            request.getRequestDispatcher("/admin/admin_guestrooms").forward(request, response);
         }
 
     }

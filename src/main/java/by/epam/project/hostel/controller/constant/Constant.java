@@ -15,6 +15,13 @@ public final class Constant {
         }
     }
 
+    public class Success {
+        public static final String SUCCESS = "success";
+
+        private Success() {
+        }
+    }
+
     public class User {
         public static final String NOT_BANNED = "0";
         public static final String ID = "id";

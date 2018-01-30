@@ -42,7 +42,7 @@
         <input type="submit" value="${search}">
     </form>
 </div>
-<a href="/admin/add_guestroom">${addGuestroom}</a>
+<a href="${pageContext.request.contextPath}/admin/add_guestroom">${addGuestroom}</a>
 <table>
     <thead>
     <tr>
