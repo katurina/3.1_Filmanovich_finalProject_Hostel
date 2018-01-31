@@ -22,6 +22,7 @@ public class DeleteCommentByIdCommand implements Command {
         Integer commentId = Integer.valueOf(request.getParameter(ID));
         try {
             ServiceFactory.getInstance().getCommentService().deleteCommentById(commentId);
+//            todo sendRedirect
         } catch (ServiceException e) {
             logger.error("error during delete comment by id", e);
         }

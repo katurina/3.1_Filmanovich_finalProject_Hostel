@@ -2,6 +2,10 @@ package by.epam.project.hostel.controller.command.impl.guestroom;
 
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.entity.Guestroom;
+import by.epam.project.hostel.service.ServiceFactory;
+import by.epam.project.hostel.service.exception.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,29 +17,41 @@ import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.CAPACITY;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_EN;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_RU;
-import static by.epam.project.hostel.controller.constant.Constant.Guestroom.HOSTEL_ID;
+import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.NIGHT_PRICE;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.TV;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.WIFI;
+import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
 
 public class EditGuestroomCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger(EditGuestroomCommand.class);
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Guestroom guestroom = createGuestroom(request);
-        String descriptionRu = request.getParameter(DESCRIPTION_EN);
-        String descriptionEn = request.getParameter(DESCRIPTION_RU);
+        try {
+            Guestroom guestroom = createGuestroom(request);
+            String descriptionRu = request.getParameter(DESCRIPTION_EN);
+            String descriptionEn = request.getParameter(DESCRIPTION_RU);
+            ServiceFactory.getInstance().getGuestroomService().editGuestroom(guestroom, descriptionEn, descriptionRu);
+            response.sendRedirect("/admin/admin_guestrooms");
+        } catch (ServiceException e) {
+            logger.error("error during edit guestroom ", e);
+        }
     }
 
-    private Guestroom createGuestroom(HttpServletRequest request) throws IOException, ServletException {
+    private Guestroom createGuestroom(HttpServletRequest request) throws IOException, ServletException, ServiceException {
         Guestroom guestroom = new Guestroom();
-
-        Integer hostelId = Integer.valueOf(request.getParameter(HOSTEL_ID));
+        String hostelName = request.getParameter(NAME);
+        Integer hostelId = ServiceFactory.getInstance().getHostelService().getHostelIdByName(hostelName);
         BigDecimal nightPrice = BigDecimal.valueOf(Double.valueOf(request.getParameter(NIGHT_PRICE)));
+        Integer guestroomId = Integer.valueOf(request.getParameter(ID));
         String tv = request.getParameter(TV);
         String wifi = request.getParameter(WIFI);
         String bath = request.getParameter(BATH);
         Integer capacity = Integer.valueOf(request.getParameter(CAPACITY));
 
+        guestroom.setId(guestroomId);
         guestroom.setHostelId(hostelId);
         guestroom.setTv(tv);
         guestroom.setWifi(wifi);

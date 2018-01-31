@@ -56,7 +56,7 @@
         <tr>
             <td>${room.id}</td>
             <td>
-                <a href="${pageContext.request.contextPath}/admin/edit_room?id=${room.id}">${edit}</a>
+                <a href="${pageContext.request.contextPath}/admin/edit_guestroom?id=${room.id}">${edit}</a>
             </td>
             <td>
                 <form action="${pageContext.request.contextPath}/controller" method="post">

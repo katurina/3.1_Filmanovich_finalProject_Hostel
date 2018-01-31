@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
@@ -264,6 +265,54 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
             }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting total row count", e);
+        }
+    }
+
+    @Override
+    public void editGuestroomDescriptionsWithTransaction(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE tguestrooms SET description = ? WHERE guestrooms_id=? AND language_id=?")) {
+            ps.setString(1, descriptionEn);
+            ps.setInt(2, guestroomId);
+            ps.setInt(3, 1);
+            ps.executeUpdate();
+            ps.setInt(3, 2);
+            ps.setString(1, descriptionRu);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during editing guestroom's descriptions", e);
+        }
+    }
+
+    @Override
+    public void editGuestroomWithTransaction(Guestroom guestroom) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE guestrooms SET hostel_id=?, night_price=?,tv=?,wifi = ?,bath = ?, capacity = ? WHERE id=?")) {
+            ps.setInt(1, guestroom.getHostelId());
+            ps.setBigDecimal(2, guestroom.getNightPrice());
+            ps.setBoolean(3, guestroom.isTv());
+            ps.setBoolean(4, guestroom.isWifi());
+            ps.setBoolean(5, guestroom.isBath());
+            ps.setInt(6, guestroom.getCapacity());
+            ps.setInt(7, guestroom.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during editing guestroom with transaction", e);
+        }
+    }
+
+    @Override
+    public String getGuestroomDescription(int guestroomId, String language) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT description FROM tguestrooms WHERE language_id = ? AND guestrooms_id = ?")) {
+            ps.setInt(1, language.equals(RU) ? 2 : 1);
+            ps.setInt(2, guestroomId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return rs.getString(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting guestroom description", e);
         }
     }
 

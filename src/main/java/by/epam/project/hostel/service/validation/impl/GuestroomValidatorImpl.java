@@ -16,6 +16,9 @@ public class GuestroomValidatorImpl implements Validator<Guestroom> {
         if (entity.getNightPrice().doubleValue() < 0) {
             throw new ValidationException("night price has incorrect value = " + entity.getNightPrice());
         }
+        if (entity.getCapacity() < 1) {
+            throw new ValidationException("room capacity cannot by less then 1, capacity = " + entity.getCapacity());
+        }
     }
 }
 

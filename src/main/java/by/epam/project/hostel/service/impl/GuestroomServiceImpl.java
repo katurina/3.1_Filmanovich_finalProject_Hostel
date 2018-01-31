@@ -170,6 +170,39 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
     }
 
     @Override
+    public void editGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws ServiceException {
+        validator.validate(guestroom);
+        validator.validate(descriptionEn, descriptionRu);
+        try {
+            GuestroomDAO guestroomDAO = instance.createGuestroomDAO();
+            Transaction transaction = transactionManager.beginTransaction(guestroomDAO);
+            try {
+                guestroomDAO.editGuestroomDescriptionsWithTransaction(guestroom.getId(), descriptionEn, descriptionRu);
+                guestroomDAO.editGuestroomWithTransaction(guestroom);
+                transaction.commit();
+            } catch (DAOException e) {
+                transaction.rollback();
+            } finally {
+                transaction.endTransaction();
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("error during editing guestroom", e);
+        }
+
+    }
+
+    @Override
+    public String getGuestroomDescription(Integer guestroomId, String language) throws ServiceException {
+        validator.validate(language);
+        validator.validateID(guestroomId);
+        try {
+            return guestroomDAO.getGuestroomDescription(guestroomId, language);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting guestroom description ", e);
+        }
+    }
+
+    @Override
     public int getTotalRowCount() throws ServiceException {
         try {
             return guestroomDAO.getTotalRowCount();

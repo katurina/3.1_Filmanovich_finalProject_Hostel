@@ -22,6 +22,7 @@ public class DeleteBookingByIdCommand implements Command {
         Integer bookingId = Integer.valueOf(request.getParameter(ID));
         try {
             ServiceFactory.getInstance().getBookingService().deleteBookingById(bookingId);
+//            todo sendRedirect
         } catch (ServiceException e) {
             logger.error("error during deleting booking by id", e);
         }

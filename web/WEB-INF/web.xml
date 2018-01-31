@@ -32,11 +32,11 @@
 
     <servlet>
         <servlet-name>EditRoom</servlet-name>
-        <jsp-file>/WEB-INF/admin/edit_room.jsp</jsp-file>
+        <jsp-file>/WEB-INF/admin/edit_guestroom.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>EditRoom</servlet-name>
-        <url-pattern>/admin/edit_room</url-pattern>
+        <url-pattern>/admin/edit_guestroom</url-pattern>
     </servlet-mapping>
 
     <servlet>

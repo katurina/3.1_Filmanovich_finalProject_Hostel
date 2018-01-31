@@ -6,11 +6,14 @@ import by.epam.project.hostel.controller.command.impl.booking.BookRoomCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.AddGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.DeleteGuestroomByIdCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.EditGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomDescriptionsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.DeleteHostelByIdCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.GetHostelNameByGuestroomIdCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCitiesCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsNameCommand;
@@ -42,6 +45,8 @@ public class CommandFactory {
     private static final String DELETE_GUESTROOM_COMMAND = "delete-guestroom-command";
     private static final String GET_HOSTELS_CITIES_COMMAND = "get-hostels-cities-command";
     private static final String ADD_GUESTROOM_COMMAND = "add-guestroom-command";
+    private static final String GET_GUESTROOM_BY_ID_COMMAND = "get-guestroom-by-id-command";
+    private static final String EDIT_GUESTROOM_COMMAND = "edit-guestroom-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -96,6 +101,15 @@ public class CommandFactory {
                 return new GetHostelsCitiesCommand();
             case ADD_GUESTROOM_COMMAND:
                 return new AddGuestroomCommand();
+            case EDIT_GUESTROOM_COMMAND:
+                return new EditGuestroomCommand();
+            case GET_GUESTROOM_BY_ID_COMMAND:
+                return new GetGuestroomCommand();
+            case "get-guestroom-descriptions-command":
+                return new GetGuestroomDescriptionsCommand();
+            case "get-hostel-name-by-id-command":
+                return new GetHostelNameByGuestroomIdCommand();
+
         }
         return null;
     }

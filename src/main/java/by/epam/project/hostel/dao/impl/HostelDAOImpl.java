@@ -195,6 +195,23 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
         }
     }
 
+    @Override
+    public String getHostelNameByGuestroomId(Integer hostelId) throws DAOException {
+        try (Connection connection = connectionProvider.takeConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT name FROM hostel INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ?")) {
+            ps.setInt(1, hostelId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return rs.getString(1);
+            }
+
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting hostel name by guestroom id", e);
+        }
+    }
+
     private Hostel createHostel(ResultSet rs) throws SQLException {
         Hostel hostel = new Hostel();
         hostel.setStars(rs.getInt(1));

@@ -41,7 +41,7 @@ public class HostelServiceImpl extends BaseService implements HostelService {
         try {
             return hostelDAO.getHostels(language);
         } catch (DAOException e) {
-            throw new ServiceException("error during getting whole hostels");
+            throw new ServiceException("error during getting whole hostels", e);
         }
     }
 
@@ -123,6 +123,16 @@ public class HostelServiceImpl extends BaseService implements HostelService {
             throw new ServiceException("error during getting hostel if by hostel name = " + hostelName, e);
         }
 
+    }
+
+    @Override
+    public String getHostelNameByGuestroomId(Integer hostelId) throws ServiceException {
+        validator.validateID(hostelId);
+        try {
+            return hostelDAO.getHostelNameByGuestroomId(hostelId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting hostel name by guestroom id", e);
+        }
     }
 
     @Override

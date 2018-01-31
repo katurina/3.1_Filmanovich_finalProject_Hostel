@@ -22,4 +22,5 @@ public interface HostelService  extends EntityService {
 
     Integer getHostelIdByName(String hostelName) throws ServiceException;
 
+    String getHostelNameByGuestroomId(Integer hostelId) throws ServiceException;
 }

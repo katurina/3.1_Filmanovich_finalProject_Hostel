@@ -25,7 +25,6 @@
 <jsp:include page="${pageContext.request.contextPath}/controller">
     <jsp:param name="command" value="get-hostels-names-command"/>
 </jsp:include>
-
 <form role="form" action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data">
     <input type="hidden" name="command" value="add-guestroom-command">
     ${hotel}:&#8195;

@@ -34,6 +34,7 @@ public class AddCommentCommand implements Command {
         Comment comment = new Comment(userId, guestroomId, commentText, localDate, rate);
         try {
             ServiceFactory.getInstance().getCommentService().addComment(comment);
+//            todo sendRedirect
         } catch (ServiceException e) {
             logger.error("error during adding comment in db", e);
         }

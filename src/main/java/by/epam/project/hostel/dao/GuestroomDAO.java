@@ -42,4 +42,10 @@ public interface GuestroomDAO extends EntityDAO {
     List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws DAOException;
 
     Integer getTotalRowCount(String hostelName) throws DAOException;
+
+    void editGuestroomDescriptionsWithTransaction(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException;
+
+    void editGuestroomWithTransaction(Guestroom guestroom) throws DAOException;
+
+    String getGuestroomDescription(int guestroomId, String language) throws DAOException;
 }

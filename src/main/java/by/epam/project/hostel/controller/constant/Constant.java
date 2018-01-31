@@ -56,6 +56,7 @@ public final class Constant {
         public static final String HOSTELS = "hostels";
         public static final String ID = "id";
         public static final String CITIES = "cities";
+        public static final String HOSTEL_NAME = "hostelName";
 
         private Hostel() {
         }
