@@ -27,6 +27,8 @@
 </jsp:include>
 <jsp:include page="${pageContext.request.contextPath}/controller">
     <jsp:param name="command" value="get-hostels-names-command"/>
+    <jsp:param name="page" value="${param.page}"/>
+    <jsp:param name="name" value="${param.name}"/>
 </jsp:include>
 <div>
     <form action="${pageContext.request.contextPath}/admin/admin_guestrooms" method="get">
@@ -72,12 +74,12 @@
 <div class="pagination">
     <c:if test="${requestScope.page.currentPage gt 1}">
         <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=1&name=${param.name}"><<</a>&#8195;
-        <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=${requestScope.page.currentPage - 1}&name=${requestScope.name}"><</a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=${requestScope.page.currentPage - 1}&name=${param.name}"><</a>&#8195;
     </c:if>
     &#8195;${requestScope.page.currentPage} ${from} ${requestScope.page.numberOfPages}&#8195;
     <c:if test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
-        <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=${requestScope.page.currentPage + 1}&name=${requestScope.name}">></a>&#8195;
-        <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=${requestScope.page.numberOfPages}&name=${requestScope.name}">>></a>
+        <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=${requestScope.page.currentPage + 1}&name=${param.name}">></a>&#8195;
+        <a href="${pageContext.request.contextPath}/admin/admin_guestrooms?page=${requestScope.page.numberOfPages}&name=${param.name}">>></a>
     </c:if>
 </div>
 </body>

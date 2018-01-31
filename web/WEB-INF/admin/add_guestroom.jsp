@@ -7,6 +7,8 @@
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="local.admin.add.guestroom" var="addGuestroom"/>
+    <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
+    <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.title.hotel" var="hotel"/>
     <fmt:message bundle="${loc}" key="local.guestroom.description.ru" var="descriptionRu"/>
     <fmt:message bundle="${loc}" key="local.guestroom.description.en" var="descriptionEn"/>

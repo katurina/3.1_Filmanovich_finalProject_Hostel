@@ -6,7 +6,8 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
-
+    <fmt:message bundle="${loc}" key="local.button.name.en" var="en_button"/>
+    <fmt:message bundle="${loc}" key="local.button.name.ru" var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.title.hotel" var="hotel"/>
     <fmt:message bundle="${loc}" key="local.guestroom.description.ru" var="descriptionRu"/>
     <fmt:message bundle="${loc}" key="local.guestroom.description.en" var="descriptionEn"/>
@@ -20,6 +21,7 @@
     <c:set scope="session" var="url" value="/admin/edit_guestroom?id=${param.id}"/>
 </head>
 <body>
+<%@include file="/WEB-INF/admin/admin_header.jsp" %>
 <jsp:include page="${pageContext.request.contextPath}/controller">
     <jsp:param name="command" value="get-hostels-names-command"/>
 </jsp:include>
@@ -83,6 +85,8 @@
         <input type="text" pattern="[0-9]*" name="nightPrice" value="${requestScope.guestroom.nightPrice}">
     </div>
     <input type="submit" value="${save}">
+</form>
+<form role="form" action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data">
 </form>
 </body>
 </html>
