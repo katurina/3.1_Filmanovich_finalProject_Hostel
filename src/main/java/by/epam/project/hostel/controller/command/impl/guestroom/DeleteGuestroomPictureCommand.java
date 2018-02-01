@@ -19,9 +19,11 @@ public class DeleteGuestroomPictureCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer imgId = Integer.valueOf(request.getParameter(ID));
+        String imgP = request.getParameter("imgPath");
+        String roomId = request.getParameter(ID);
         try {
-            ServiceFactory.getInstance().getGuestroomService().deleteImageById(imgId);
+            ServiceFactory.getInstance().getGuestroomService().deleteImageById(imgP);
+            response.sendRedirect("/admin/edit_guestroom?id=" + roomId);
         } catch (ServiceException e) {
             logger.error("error during delete image", e);
         }

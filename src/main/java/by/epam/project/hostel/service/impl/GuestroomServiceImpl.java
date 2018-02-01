@@ -114,10 +114,10 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
     }
 
     @Override
-    public void deleteImageById(Integer imgId) throws ServiceException {
-        validator.validateID(imgId);
+    public void deleteImageById(String imgPath) throws ServiceException {
+        validator.validate(imgPath);
         try {
-            guestroomDAO.deleteImage(imgId);
+            guestroomDAO.deleteImage(imgPath);
         } catch (DAOException e) {
             throw new ServiceException("error during delete image by id", e);
         }

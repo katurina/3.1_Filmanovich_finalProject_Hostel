@@ -5,7 +5,9 @@ import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
 import by.epam.project.hostel.controller.command.impl.booking.BookRoomCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.AddGuestroomCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.AddPicturesGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.DeleteGuestroomByIdCommand;
+import by.epam.project.hostel.controller.command.impl.guestroom.DeleteGuestroomPictureCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.EditGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomDescriptionsCommand;
@@ -47,6 +49,9 @@ public class CommandFactory {
     private static final String ADD_GUESTROOM_COMMAND = "add-guestroom-command";
     private static final String GET_GUESTROOM_BY_ID_COMMAND = "get-guestroom-by-id-command";
     private static final String EDIT_GUESTROOM_COMMAND = "edit-guestroom-command";
+    private static final String GET_GUESTROOM_DESCRIPTIONS_COMMAND = "get-guestroom-descriptions-command";
+    private static final String GET_HOSTEL_NAME_BY_ID_COMMAND = "get-hostel-name-by-id-command";
+    private static final String ADD_PICTURE_GUESTROOM_COMMAND = "add-picture-guestroom-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -105,10 +110,14 @@ public class CommandFactory {
                 return new EditGuestroomCommand();
             case GET_GUESTROOM_BY_ID_COMMAND:
                 return new GetGuestroomCommand();
-            case "get-guestroom-descriptions-command":
+            case GET_GUESTROOM_DESCRIPTIONS_COMMAND:
                 return new GetGuestroomDescriptionsCommand();
-            case "get-hostel-name-by-id-command":
+            case GET_HOSTEL_NAME_BY_ID_COMMAND:
                 return new GetHostelNameByGuestroomIdCommand();
+            case ADD_PICTURE_GUESTROOM_COMMAND:
+                return new AddPicturesGuestroomCommand();
+            case "delete-guestroom-img-command":
+                return new DeleteGuestroomPictureCommand();
 
         }
         return null;

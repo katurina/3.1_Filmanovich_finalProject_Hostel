@@ -120,10 +120,10 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     }
 
     @Override
-    public void deleteImage(Integer imgId) throws DAOException {
+    public void deleteImage(String imgPath) throws DAOException {
         try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE id = ?")) {
-            ps.setInt(1, imgId);
+             PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE picture.file = ?")) {
+            ps.setString(1, imgPath);
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during delete image", e);

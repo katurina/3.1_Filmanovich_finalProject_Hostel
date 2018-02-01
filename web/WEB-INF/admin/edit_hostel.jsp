@@ -6,7 +6,11 @@
 <head>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
-    <title>Title</title>
+    <fmt:message bundle="${loc}" key="local.admin.edit" var="edit"/>
+    <title>${edit}</title>
+
+    <c:set scope="session" var="url" value="/admin/edit_hostel?id=${param.id}"/>
+
 </head>
 <body>
 

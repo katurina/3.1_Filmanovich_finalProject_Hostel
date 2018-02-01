@@ -20,7 +20,7 @@ public interface GuestroomService extends EntityService {
 
     void addImage(Integer guestroomId, String imgPath) throws ServiceException;
 
-    void deleteImageById(Integer imgId) throws ServiceException;
+    void deleteImageById(String imgPath) throws ServiceException;
 
     List<Guestroom> getGuestrooms(String language, Integer currentPage) throws ServiceException;
 

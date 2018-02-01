@@ -123,6 +123,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Success</servlet-name>
+        <jsp-file>/WEB-INF/admin/success</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Success</servlet-name>
+        <url-pattern>/admin/success</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>BotDetect Captcha</servlet-name>
         <servlet-class>com.captcha.botdetect.web.servlet.SimpleCaptchaServlet</servlet-class>
     </servlet>

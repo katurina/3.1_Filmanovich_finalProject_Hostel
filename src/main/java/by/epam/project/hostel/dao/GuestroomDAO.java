@@ -19,7 +19,7 @@ public interface GuestroomDAO extends EntityDAO {
 
     void addImage(Integer guestroomId, String imgPath) throws DAOException;
 
-    void deleteImage(Integer imgId) throws DAOException;
+    void deleteImage(String imgPath) throws DAOException;
 
     List<Guestroom> getGuestrooms(String language, Integer currentPage) throws DAOException;
 

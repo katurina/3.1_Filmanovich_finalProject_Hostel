@@ -15,7 +15,9 @@
     <fmt:message bundle="${loc}" key="local.guestroom.night.price" var="nightPrice"/>
     <fmt:message bundle="${loc}" key="local.guestroom.capacity" var="capacity"/>
     <fmt:message bundle="${loc}" key="local.admin.edit" var="edit"/>
+    <fmt:message bundle="${loc}" key="local.admin.add.image" var="addImg"/>
     <fmt:message bundle="${loc}" key="local.admin.save" var="save"/>
+    <fmt:message bundle="${loc}" key="local.admin.delete" var="delete"/>
 
     <title>${edit}</title>
     <c:set scope="session" var="url" value="/admin/edit_guestroom?id=${param.id}"/>
@@ -87,6 +89,22 @@
     <input type="submit" value="${save}">
 </form>
 <form role="form" action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="command" value="add-picture-guestroom-command">
+    <input type="hidden" name="id" value="${param.id}">
+    ${addImg}<input type="file" name="file" accept="image/jpeg">
+    <input type="submit" value="${save}">
 </form>
+<table>
+    <c:forEach var="img" items="${requestScope.guestroom.imgPath}">
+        <form action="${pageContext.request.contextPath}/controller" method="post">
+            <input type="hidden" name="command" value="delete-guestroom-img-command">
+            <input type="hidden" name="imgPath" value="${img}">
+            <input type="hidden" name="id" value="${param.id}">
+            <img src="${img}" width=350px>
+            <input type="submit" value="${delete}">
+            <br>
+        </form>
+    </c:forEach>
+</table>
 </body>
 </html>

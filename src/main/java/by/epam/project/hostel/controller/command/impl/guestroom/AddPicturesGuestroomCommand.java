@@ -44,6 +44,7 @@ public class AddPicturesGuestroomCommand implements Command {
         String imgPath = PICTURE_UPLOAD_PATH + filename;
         try {
             ServiceFactory.getInstance().getGuestroomService().addImage(guestroomId, imgPath);
+            response.sendRedirect("/admin/edit_guestroom?id=" + guestroomId);
         } catch (ServiceException e) {
             logger.error("error during adding image ", e);
         }
