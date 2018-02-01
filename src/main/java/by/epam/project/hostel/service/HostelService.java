@@ -4,6 +4,7 @@ import by.epam.project.hostel.entity.Hostel;
 import by.epam.project.hostel.service.exception.ServiceException;
 import by.epam.project.hostel.service.exception.ValidationException;
 
+import javax.security.sasl.SaslException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +24,7 @@ public interface HostelService  extends EntityService {
     Integer getHostelIdByName(String hostelName) throws ServiceException;
 
     String getHostelNameByGuestroomId(Integer hostelId) throws ServiceException;
+
+    void editHostel(Map<String, Hostel> hostel) throws SaslException, ServiceException;
+
 }

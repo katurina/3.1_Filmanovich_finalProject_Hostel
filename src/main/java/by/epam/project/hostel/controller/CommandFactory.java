@@ -14,8 +14,10 @@ import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomDesc
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.DeleteHostelByIdCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.EditHostelCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelNameByGuestroomIdCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.GetHostelWithDescriptionsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCitiesCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsNameCommand;
@@ -52,6 +54,8 @@ public class CommandFactory {
     private static final String GET_GUESTROOM_DESCRIPTIONS_COMMAND = "get-guestroom-descriptions-command";
     private static final String GET_HOSTEL_NAME_BY_ID_COMMAND = "get-hostel-name-by-id-command";
     private static final String ADD_PICTURE_GUESTROOM_COMMAND = "add-picture-guestroom-command";
+    private static final String GET_HOSTEL_WITH_DESCRIPTIONS_COMMAND = "get-hostel-with-descriptions-command";
+    private static final String DELETE_GUESTROOM_IMG_COMMAND = "delete-guestroom-img-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -116,8 +120,12 @@ public class CommandFactory {
                 return new GetHostelNameByGuestroomIdCommand();
             case ADD_PICTURE_GUESTROOM_COMMAND:
                 return new AddPicturesGuestroomCommand();
-            case "delete-guestroom-img-command":
+            case DELETE_GUESTROOM_IMG_COMMAND:
                 return new DeleteGuestroomPictureCommand();
+            case GET_HOSTEL_WITH_DESCRIPTIONS_COMMAND:
+                return new GetHostelWithDescriptionsCommand();
+            case "edit-hostel-command":
+                return new EditHostelCommand();
 
         }
         return null;

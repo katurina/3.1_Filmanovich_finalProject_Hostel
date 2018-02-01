@@ -136,6 +136,28 @@ public class HostelServiceImpl extends BaseService implements HostelService {
     }
 
     @Override
+    public void editHostel(Map<String, Hostel> hostel) throws ServiceException {
+        validator.validate(hostel.get(RU));
+        validator.validate(hostel.get(EN));
+        try {
+            HostelDAO hostelDAO = instance.createHostelDAO();
+            Transaction transaction = transactionManager.beginTransaction(hostelDAO);
+            try {
+                hostelDAO.updateHostelDescriptionsWithTransaction(EN, hostel.get(EN));
+                hostelDAO.updateHostelDescriptionsWithTransaction(RU, hostel.get(RU));
+                transaction.commit();
+            } catch (DAOException e) {
+                transaction.rollback();
+                throw e;
+            } finally {
+                transaction.endTransaction();
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("error during editing hostel", e);
+        }
+    }
+
+    @Override
     public int getTotalRowCount() throws ServiceException {
         try {
             return hostelDAO.getTotalRowCount();
