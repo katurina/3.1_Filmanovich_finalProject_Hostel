@@ -29,7 +29,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 public class EditHostelCommand implements Command {
 
     private static final String FILE = "file";
-    private static final String PICTURE_UPLOAD_PATH = "/img/hostel/";
+    private static final String PICTURE_UPLOAD_PATH = "/img/hotel/";
     private static final String IMAGE_MIME_TYPE = "image/";
 
     private static final Logger logger = LogManager.getLogger(EditHostelCommand.class);

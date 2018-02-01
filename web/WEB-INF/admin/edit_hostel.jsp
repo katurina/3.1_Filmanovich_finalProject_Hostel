@@ -29,7 +29,7 @@
     <jsp:param name="id" value="${param.id}"/>
 </jsp:include>
 <%@include file="/WEB-INF/admin/admin_header.jsp" %>
-<form action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data" role="form">
     <input type="hidden" name="command" value="edit-hostel-command">
     <input type="hidden" name="id" value="${param.id}">
     ${name}:<input type="text" name="name" value="${requestScope.hostelRu.name}">
