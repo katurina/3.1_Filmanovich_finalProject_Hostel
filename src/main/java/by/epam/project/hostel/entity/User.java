@@ -6,7 +6,6 @@ public class User extends Entity implements Serializable {
 
     private static final long serialVersionUID = -8053748141053902283L;
 
-    private int id;
     private String name;
     private String surname;
     private String login;
@@ -35,18 +34,6 @@ public class User extends Entity implements Serializable {
 
     public enum Role {
         USER, ADMIN;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

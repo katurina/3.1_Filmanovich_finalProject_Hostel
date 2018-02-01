@@ -227,6 +227,20 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
         }
     }
 
+    @Override
+    public void updateHostelWithTransaction(Map<String, Hostel> hostel) throws DAOException {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE hostel SET stars=?,imgPath=?,name=? WHERE id=?")) {
+            Hostel hostelEntity = hostel.get(RU);
+            ps.setInt(1, hostelEntity.getStars());
+            ps.setString(2, hostelEntity.getImgPath());
+            ps.setString(3, hostelEntity.getName());
+            ps.setInt(4, hostelEntity.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("error during update hostel ", e);
+        }
+    }
+
 
     private Hostel createHostel(ResultSet rs) throws SQLException {
         Hostel hostel = new Hostel();

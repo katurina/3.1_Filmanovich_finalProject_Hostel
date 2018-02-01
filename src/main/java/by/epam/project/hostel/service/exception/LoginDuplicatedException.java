@@ -1,7 +1,5 @@
 package by.epam.project.hostel.service.exception;
 
-import by.epam.project.hostel.dao.exception.SuchLoginExistException;
-
 public class LoginDuplicatedException extends ServiceException {
     private String errorParam;
 
@@ -20,7 +18,7 @@ public class LoginDuplicatedException extends ServiceException {
         super(cause);
     }
 
-    public LoginDuplicatedException(String message, SuchLoginExistException e, String errorParam) {
+    public LoginDuplicatedException(String message, Throwable e, String errorParam) {
         super(message, e);
         this.errorParam = errorParam;
     }

@@ -145,6 +145,7 @@ public class HostelServiceImpl extends BaseService implements HostelService {
             try {
                 hostelDAO.updateHostelDescriptionsWithTransaction(EN, hostel.get(EN));
                 hostelDAO.updateHostelDescriptionsWithTransaction(RU, hostel.get(RU));
+                hostelDAO.updateHostelWithTransaction(hostel);
                 transaction.commit();
             } catch (DAOException e) {
                 transaction.rollback();

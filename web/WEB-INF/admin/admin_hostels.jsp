@@ -13,6 +13,7 @@
     <fmt:message bundle="${loc}" key="local.hostel.stars" var="stars"/>
     <fmt:message bundle="${loc}" key="local.admin.edit" var="edit"/>
     <fmt:message bundle="${loc}" key="local.admin.delete" var="delete"/>
+    <fmt:message bundle="${loc}" key="local.admin.add.hostel" var="addHostel"/>
     <title>${hostel}</title>
     <c:set scope="session" var="url" value="/admin/admin_hostels"/>
 </head>
@@ -21,6 +22,8 @@
 <jsp:include page="${pageContext.request.contextPath}/controller">
     <jsp:param name="command" value="get-hotels-command"/>
 </jsp:include>
+<a href="${pageContext.request.contextPath}/admin/add_hotel">${addHostel}</a>
+<br>
 <table>
     <thead>
     <tr>

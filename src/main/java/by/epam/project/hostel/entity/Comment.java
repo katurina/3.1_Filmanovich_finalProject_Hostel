@@ -6,7 +6,6 @@ import java.time.LocalDate;
 public class Comment extends Entity implements Serializable{
     private static final long serialVersionUID = -8053748141053902283L;
 
-    private int id;
     private int userId;
     private int guestroomId;
     private String comment;
@@ -31,18 +30,6 @@ public class Comment extends Entity implements Serializable{
         this.comment = comment;
         this.commentDate = commentDate;
         this.rate = rate;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getUserId() {

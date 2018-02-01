@@ -22,7 +22,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     private static final String SELECT_COMMENTS_BY_HOSTEL_ID = "SELECT   comments.id,  comment,  date,  rate FROM comments  INNER JOIN guestrooms g ON comments.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
     private static final String INSERT_COMMENT = "INSERT comments(guestrooms_id, user_id, comment, date,rate) VALUES (?,?,?,?,?);";
     private static final String DELETE_COMMENT_BY_ID = "DELETE FROM comments WHERE id = ?";
-    private static final String DELETE_PICTURES_BY_HOSTEL_ID = "DELETE FROM picture WHERE id IN (SELECT picture.id FROM picture INNER JOIN guestrooms g ON picture.guestrooms_id = g.id INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?)";
+    private static final String DELETE_PICTURES_BY_HOSTEL_ID = "DELETE p FROM picture p INNER JOIN guestrooms g ON p.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
 
     @Override
     public List<Comment> getCommentsByRoomId(Integer guestroomId) throws DAOException {
@@ -56,7 +56,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
             ps.setDate(4, Date.valueOf(comment.getCommentDate()));
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("error during inserting comment in db");
+            throw new DAOException("error during inserting comment in db", e);
         }
     }
 

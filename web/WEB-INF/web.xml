@@ -123,6 +123,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AddHotel</servlet-name>
+        <jsp-file>/WEB-INF/admin/add_hotel.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddHotel</servlet-name>
+        <url-pattern>/admin/add_hotel</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Success</servlet-name>
         <jsp-file>/WEB-INF/admin/success</jsp-file>
     </servlet>

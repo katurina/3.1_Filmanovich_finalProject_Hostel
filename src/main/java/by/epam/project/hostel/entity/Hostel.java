@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Hostel extends Entity implements Serializable {
     private static final long serialVersionUID = -8053748141053902283L;
 
-    private int id;
     private int stars;
     private String name;
     private String country;
@@ -37,18 +36,6 @@ public class Hostel extends Entity implements Serializable {
         this.description = description;
         this.imgPath = imgPath;
         this.address = address;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getStars() {

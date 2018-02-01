@@ -13,6 +13,7 @@ import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomComm
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomDescriptionsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetGuestroomsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.GetRequiredGuestroomsCommand;
+import by.epam.project.hostel.controller.command.impl.hostel.AddHostelCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.DeleteHostelByIdCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.EditHostelCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelCommand;
@@ -56,6 +57,8 @@ public class CommandFactory {
     private static final String ADD_PICTURE_GUESTROOM_COMMAND = "add-picture-guestroom-command";
     private static final String GET_HOSTEL_WITH_DESCRIPTIONS_COMMAND = "get-hostel-with-descriptions-command";
     private static final String DELETE_GUESTROOM_IMG_COMMAND = "delete-guestroom-img-command";
+    private static final String ADD_HOSTEL_COMMAND = "add-hostel-command";
+    private static final String EDIT_HOSTEL_COMMAND = "edit-hostel-command";
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -124,8 +127,10 @@ public class CommandFactory {
                 return new DeleteGuestroomPictureCommand();
             case GET_HOSTEL_WITH_DESCRIPTIONS_COMMAND:
                 return new GetHostelWithDescriptionsCommand();
-            case "edit-hostel-command":
+            case EDIT_HOSTEL_COMMAND:
                 return new EditHostelCommand();
+            case ADD_HOSTEL_COMMAND:
+                return new AddHostelCommand();
 
         }
         return null;

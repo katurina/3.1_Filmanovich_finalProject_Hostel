@@ -30,4 +30,6 @@ public interface HostelDAO extends EntityDAO {
     String getHostelNameByGuestroomId(Integer hostelId) throws DAOException;
 
     void updateHostelDescriptionsWithTransaction(String language, Hostel hostel) throws DAOException;
+
+    void updateHostelWithTransaction(Map<String, Hostel> hostel) throws DAOException;
 }

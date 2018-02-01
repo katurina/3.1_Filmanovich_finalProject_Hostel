@@ -63,6 +63,7 @@ public class AddHostelCommand implements Command {
 
         try {
             ServiceFactory.getInstance().getHostelService().addHostel(hostel);
+            response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
             logger.error("error during adding hostel", e);
         }

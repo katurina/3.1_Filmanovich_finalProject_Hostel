@@ -8,7 +8,6 @@ import java.util.List;
 public class Guestroom extends Entity implements Serializable {
     private static final long serialVersionUID = -8053748141053902283L;
 
-    private int id;
     private int hostelId;
     private BigDecimal nightPrice;
     private boolean tv;
@@ -34,18 +33,6 @@ public class Guestroom extends Entity implements Serializable {
         this.capacity = capacity;
         this.description = description;
         this.imgPath = imgPath;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getHostelId() {

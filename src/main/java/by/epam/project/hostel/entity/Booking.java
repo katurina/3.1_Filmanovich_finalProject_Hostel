@@ -7,7 +7,6 @@ import java.time.LocalDate;
 public class Booking extends Entity implements Serializable {
     private static final long serialVersionUID = -8053748141053902283L;
 
-    private int id;
     private BigDecimal nightPrice;
     private LocalDate startDay;
     private LocalDate lastDay;
@@ -17,18 +16,6 @@ public class Booking extends Entity implements Serializable {
     private int userId;
     private int guestroomId;
     private int nightsCount;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public BigDecimal getNightPrice() {
         return nightPrice;

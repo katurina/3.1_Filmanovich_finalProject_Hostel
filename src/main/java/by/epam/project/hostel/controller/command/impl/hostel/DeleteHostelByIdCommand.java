@@ -25,7 +25,6 @@ public class DeleteHostelByIdCommand implements Command {
             ServiceFactory.getInstance().getHostelService().deleteHostelById(hostelId);
             response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
-            response.sendRedirect("/admin/admin_hostels");
             logger.error("error during delete hostel by id", e);
         }
     }
