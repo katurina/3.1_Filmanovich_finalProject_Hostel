@@ -1,7 +1,7 @@
 package by.epam.project.hostel.dao.impl;
 
+import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.CommentDAO;
-import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Comment;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDAOImpl extends BaseDAO implements CommentDAO {
-    private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
     private static final String SELECT_COMMENTS_BY_ROOM_ID = "SELECT id,comment,date,rate FROM comments WHERE guestrooms_id =?;";
     private static final String SELECT_COMMENTS_BY_HOSTEL_ID = "SELECT   comments.id,  comment,  date,  rate FROM comments  INNER JOIN guestrooms g ON comments.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
@@ -26,7 +25,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
     @Override
     public List<Comment> getCommentsByRoomId(Integer guestroomId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(SELECT_COMMENTS_BY_ROOM_ID)) {
             ps.setInt(1, guestroomId);
             return createCommentsList(ps);
@@ -37,7 +36,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
     @Override
     public List<Comment> getCommentsByHostelId(Integer hostelId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(SELECT_COMMENTS_BY_HOSTEL_ID)) {
             ps.setInt(1, hostelId);
             return createCommentsList(ps);
@@ -48,7 +47,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
     @Override
     public void addComment(Comment comment) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(INSERT_COMMENT)) {
             ps.setInt(1, comment.getGuestroomId());
             ps.setInt(2, comment.getUserId());
@@ -62,7 +61,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
     @Override
     public void deleteCommentById(Integer commentId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE id = ?")) {
             ps.setInt(1, commentId);
             ps.executeUpdate();
@@ -72,8 +71,8 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     }
 
     @Override
-    public void deleteCommentsByGuestroomIdTransaction(Integer guestroomId) throws DAOException {
-        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE guestrooms_id = ?")) {
+    public void deleteCommentsByGuestroomId(Integer guestroomId) throws DAOException {
+        try (PreparedStatement ps = provider.connection().prepareStatement("DELETE FROM comments WHERE guestrooms_id = ?")) {
             ps.setInt(1, guestroomId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -83,8 +82,8 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     }
 
     @Override
-    public void deleteCommentsByHostelIdTransaction(Integer hostelId) throws DAOException {
-        try (PreparedStatement ps = connection.prepareStatement(DELETE_PICTURES_BY_HOSTEL_ID)) {
+    public void deleteCommentsByHostelId(Integer hostelId) throws DAOException {
+        try (PreparedStatement ps = provider.connection().prepareStatement(DELETE_PICTURES_BY_HOSTEL_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {

@@ -1,7 +1,7 @@
 package by.epam.project.hostel.dao.impl;
 
+import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.BookingDAO;
-import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Booking;
@@ -18,7 +18,6 @@ import java.util.List;
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 public class BookingDAOImpl extends BaseDAO implements BookingDAO {
-    private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
     private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
     private static final String DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE id = ?";
 
@@ -30,7 +29,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
 
     @Override
     public List<Booking> getUserBookings(int userId, int currentPage) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(SELECT_BOOKINGS_BY_USER_ID_LIMIT)) {
             ps.setInt(1, userId);
             ps.setInt(2, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
@@ -49,7 +48,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
 
     @Override
     public void deleteBookingById(Integer bookingId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(DELETE_BOOKING_BY_ID)) {
             ps.setInt(1, bookingId);
             ps.executeUpdate();

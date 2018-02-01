@@ -1,7 +1,7 @@
 package by.epam.project.hostel.dao.impl;
 
+import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.UserDAO;
-import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.dao.exception.SuchLoginExistException;
@@ -19,7 +19,6 @@ import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRI
 
 public class UserDAOImpl extends BaseDAO implements UserDAO {
 
-    private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
     private static final String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT id,name,surname,login,password,email,role,banned,number FROM user WHERE login= ? AND password= ?";
     private static final String INSERT_USER = "INSERT INTO user(name, surname,login, password, email,number) VALUES (?,?,?,?,?,?)";
@@ -32,7 +31,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
     @Override
     public User signIn(String login, String password) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN_AND_PASSWORD)) {
             ps.setString(1, login);
             ps.setString(2, password);
@@ -49,8 +48,27 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     }
 
     @Override
+    public List<User> getUsers(int pageNumber) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_USER_LIMIT)) {
+            ps.setInt(1, (pageNumber - 1) * MAX_ENTRIES_PER_PAGE);
+            ps.setInt(2, MAX_ENTRIES_PER_PAGE);
+            try (ResultSet rs = ps.executeQuery()) {
+                List<User> users = new ArrayList<>();
+                while (rs.next()) {
+                    users.add(createUser(rs));
+                }
+                return users;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("can't get users from database", e);
+        }
+    }
+
+    @Override
     public void editUser(int id, String role, int banned) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_USER_ROLE_BAN_BY_ID)) {
             ps.setString(1, role);
             ps.setInt(2, banned);
@@ -68,7 +86,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
     @Override
     public void register(String name, String surname, String login, String password, String email, String number) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection()) {
+        try (Connection connection = provider.connection()) {
             try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_LOGIN)) {
                 ps.setString(1, login);
                 try (ResultSet rs = ps.executeQuery()) {
@@ -93,7 +111,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
     @Override
     public void editUser(User user) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_USER_BY_ID)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
@@ -110,31 +128,12 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
     @Override
     public void deleteUserById(Integer userId) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
+        try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(DELETE_USER_BY_ID)) {
             ps.setInt(1, userId);
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during delete user by id = " + userId, e);
-        }
-    }
-
-    @Override
-    public List<User> getUsers(int pageNumber) throws DAOException {
-        try (Connection connection = connectionProvider.takeConnection();
-             PreparedStatement ps = connection.prepareStatement(SELECT_USER_LIMIT)) {
-            ps.setInt(1, (pageNumber - 1) * MAX_ENTRIES_PER_PAGE);
-            ps.setInt(2, MAX_ENTRIES_PER_PAGE);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<User> users = new ArrayList<>();
-                while (rs.next()) {
-                    users.add(createUser(rs));
-                }
-                return users;
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException("can't get users from database", e);
         }
     }
 

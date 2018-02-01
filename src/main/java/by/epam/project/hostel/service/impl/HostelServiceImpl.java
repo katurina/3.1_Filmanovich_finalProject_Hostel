@@ -54,11 +54,11 @@ public class HostelServiceImpl extends BaseService implements HostelService {
             CommentDAO commentDAO = instance.createCommentDAO();
             Transaction transaction = transactionManager.beginTransaction(hostelDAO, guestroomDAO, commentDAO);
             try {
-                commentDAO.deleteCommentsByHostelIdTransaction(hostelId);
-                guestroomDAO.deleteGuestroomsDescriptionByHostelIdTransaction(hostelId);
-                guestroomDAO.deleteGuestroomsPicturesByHostelIdTransaction(hostelId);
-                guestroomDAO.deleteGuestroomsByHostelIdTransaction(hostelId);
-                hostelDAO.deleteHostelDescriptionTransaction(hostelId);
+                commentDAO.deleteCommentsByHostelId(hostelId);
+                guestroomDAO.deleteGuestroomsDescriptionByHostelId(hostelId);
+                guestroomDAO.deleteGuestroomsPicturesByHostelId(hostelId);
+                guestroomDAO.deleteGuestroomsByHostelId(hostelId);
+                hostelDAO.deleteHostelDescription(hostelId);
                 hostelDAO.deleteHostelById(hostelId);
                 transaction.commit();
             } catch (DAOException e) {
@@ -80,8 +80,8 @@ public class HostelServiceImpl extends BaseService implements HostelService {
             HostelDAO hostelDAO = instance.createHostelDAO();
             Transaction transaction = transactionManager.beginTransaction(hostelDAO);
             try {
-                int hostelId = hostelDAO.addHostelTransaction(hostel);
-                hostelDAO.addHostelLanguageParamsTransaction(hostel, hostelId);
+                int hostelId = hostelDAO.addHostel(hostel);
+                hostelDAO.addHostelLanguageParams(hostel, hostelId);
                 transaction.commit();
             } catch (DAOException e) {
                 transaction.rollback();
@@ -143,9 +143,9 @@ public class HostelServiceImpl extends BaseService implements HostelService {
             HostelDAO hostelDAO = instance.createHostelDAO();
             Transaction transaction = transactionManager.beginTransaction(hostelDAO);
             try {
-                hostelDAO.updateHostelDescriptionsWithTransaction(EN, hostel.get(EN));
-                hostelDAO.updateHostelDescriptionsWithTransaction(RU, hostel.get(RU));
-                hostelDAO.updateHostelWithTransaction(hostel);
+                hostelDAO.updateHostelDescriptions(EN, hostel.get(EN));
+                hostelDAO.updateHostelDescriptions(RU, hostel.get(RU));
+                hostelDAO.updateHostel(hostel);
                 transaction.commit();
             } catch (DAOException e) {
                 transaction.rollback();

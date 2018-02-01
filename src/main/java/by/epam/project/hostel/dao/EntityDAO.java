@@ -8,4 +8,10 @@ public interface EntityDAO {
     int getTotalRowCount() throws DAOException;
 
     void setConnection(Connection connection);
+
+    boolean isTransactional();
+
+    void setTransactional();
+
+    void setSingleton();
 }

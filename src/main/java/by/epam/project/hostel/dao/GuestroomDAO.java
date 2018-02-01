@@ -15,7 +15,7 @@ public interface GuestroomDAO extends EntityDAO {
 
     Integer getTotalRowCount(SearchGuestroomsParams searchParams, String language) throws DAOException;
 
-    void deleteGuestroomByIdTransaction(Integer guestroomId) throws DAOException;
+    void deleteGuestroomById(Integer guestroomId) throws DAOException;
 
     void addImage(Integer guestroomId, String imgPath) throws DAOException;
 
@@ -23,29 +23,29 @@ public interface GuestroomDAO extends EntityDAO {
 
     List<Guestroom> getGuestrooms(String language, Integer currentPage) throws DAOException;
 
-    int addGuestroomWithTransaction(Guestroom guestroom) throws DAOException;
+    int addGuestroom(Guestroom guestroom) throws DAOException;
 
-    void addImageWithTransaction(int guestroomId, List<String> imgPath) throws DAOException;
+    void addImage(int guestroomId, List<String> imgPath) throws DAOException;
 
-    void addDescriptionWithTransaction(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException;
+    void addDescription(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException;
 
-    void deleteImagesByGuestroomIdTransaction(Integer guestroomId) throws DAOException;
+    void deleteImagesByGuestroomId(Integer guestroomId) throws DAOException;
 
-    void deleteDescriptionsByGuestroomIdTransaction(Integer guestroomId) throws DAOException;
+    void deleteDescriptionsByGuestroomId(Integer guestroomId) throws DAOException;
 
-    void deleteGuestroomsDescriptionByHostelIdTransaction(Integer hostelId) throws DAOException;
+    void deleteGuestroomsDescriptionByHostelId(Integer hostelId) throws DAOException;
 
-    void deleteGuestroomsPicturesByHostelIdTransaction(Integer hostelId) throws DAOException;
+    void deleteGuestroomsPicturesByHostelId(Integer hostelId) throws DAOException;
 
-    void deleteGuestroomsByHostelIdTransaction(Integer hostelId) throws DAOException;
+    void deleteGuestroomsByHostelId(Integer hostelId) throws DAOException;
 
     List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws DAOException;
 
     Integer getTotalRowCount(String hostelName) throws DAOException;
 
-    void editGuestroomDescriptionsWithTransaction(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException;
+    void editGuestroomDescriptions(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException;
 
-    void editGuestroomWithTransaction(Guestroom guestroom) throws DAOException;
+    void editGuestroom(Guestroom guestroom) throws DAOException;
 
     String getGuestroomDescription(int guestroomId, String language) throws DAOException;
 }

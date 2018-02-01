@@ -14,6 +14,9 @@ public class TransactionManager {
         try {
             connection.setAutoCommit(false);
             for (EntityDAO dao : daos) {
+                if (!dao.isTransactional()) {
+                    throw new IllegalArgumentException("Not transactional dao!");//TODO exception
+                }
                 dao.setConnection(connection);
             }
             return new Transaction(connection);

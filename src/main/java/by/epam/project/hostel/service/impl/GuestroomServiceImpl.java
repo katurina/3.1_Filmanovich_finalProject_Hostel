@@ -63,10 +63,10 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
         try {
             Transaction transaction = transactionManager.beginTransaction(guestroomDAO, commentDAO);
             try {
-                guestroomDAO.deleteImagesByGuestroomIdTransaction(guestroomId);
-                guestroomDAO.deleteDescriptionsByGuestroomIdTransaction(guestroomId);
-                guestroomDAO.deleteGuestroomByIdTransaction(guestroomId);
-                commentDAO.deleteCommentsByGuestroomIdTransaction(guestroomId);
+                guestroomDAO.deleteImagesByGuestroomId(guestroomId);
+                guestroomDAO.deleteDescriptionsByGuestroomId(guestroomId);
+                guestroomDAO.deleteGuestroomById(guestroomId);
+                commentDAO.deleteCommentsByGuestroomId(guestroomId);
                 transaction.commit();
             } catch (DAOException e) {
                 transaction.rollback();
@@ -87,9 +87,9 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
         try {
             Transaction transaction = transactionManager.beginTransaction(guestroomDAO);
             try {
-                int guestroomId = guestroomDAO.addGuestroomWithTransaction(guestroom);
-                guestroomDAO.addDescriptionWithTransaction(guestroomId, descriptionEn, descriptionRu);
-                guestroomDAO.addImageWithTransaction(guestroomId, guestroom.getImgPath());
+                int guestroomId = guestroomDAO.addGuestroom(guestroom);
+                guestroomDAO.addDescription(guestroomId, descriptionEn, descriptionRu);
+                guestroomDAO.addImage(guestroomId, guestroom.getImgPath());
                 transaction.commit();
             } catch (DAOException e) {
                 transaction.rollback();
@@ -177,8 +177,8 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
             GuestroomDAO guestroomDAO = instance.createGuestroomDAO();
             Transaction transaction = transactionManager.beginTransaction(guestroomDAO);
             try {
-                guestroomDAO.editGuestroomDescriptionsWithTransaction(guestroom.getId(), descriptionEn, descriptionRu);
-                guestroomDAO.editGuestroomWithTransaction(guestroom);
+                guestroomDAO.editGuestroomDescriptions(guestroom.getId(), descriptionEn, descriptionRu);
+                guestroomDAO.editGuestroom(guestroom);
                 transaction.commit();
             } catch (DAOException e) {
                 transaction.rollback();

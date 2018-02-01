@@ -1,4 +1,4 @@
-package by.epam.project.hostel.dao.impl;
+package by.epam.project.hostel.dao;
 
 import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.DAOException;
@@ -10,14 +10,17 @@ import java.sql.Statement;
 
 public abstract class BaseDAO implements by.epam.project.hostel.dao.EntityDAO {
 
+    private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
     protected Connection connection;
 
+    protected GetConnection provider;
 
+    private boolean isTransactional = true;
 
     public int getTotalRowCount() throws DAOException {
         String selectCount = "SELECT COUNT(*) FROM " + getTableName();
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-        try (Connection connection = connectionProvider.takeConnection()) {
+        try (Connection connection = provider.connection()) {
             Statement ps = connection.createStatement();
             ResultSet rs = ps.executeQuery(selectCount);
             rs.next();
@@ -27,9 +30,24 @@ public abstract class BaseDAO implements by.epam.project.hostel.dao.EntityDAO {
         }
     }
 
-    protected abstract String getTableName();
-
+    @Override
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
+
+    public boolean isTransactional() {
+        return isTransactional;
+    }
+
+    public void setTransactional() {
+        provider = () -> connection;
+        isTransactional = true;
+    }
+
+    public void setSingleton() {
+        provider = connectionProvider::takeConnection;
+        isTransactional = false;
+    }
+
+    protected abstract String getTableName();
 }

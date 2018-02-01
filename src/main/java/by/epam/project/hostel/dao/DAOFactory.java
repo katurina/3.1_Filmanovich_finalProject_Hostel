@@ -9,13 +9,23 @@ import by.epam.project.hostel.dao.impl.UserDAOImpl;
 public class DAOFactory {
     private final static DAOFactory instance = new DAOFactory();
 
-    private UserDAO userDAO = new UserDAOImpl();
-    private HostelDAO hostelDAO = new HostelDAOImpl();
-    private GuestroomDAO guestroomDAO = new GuestroomDAOImpl();
-    private BookingDAO bookingDAO = new BookingDAOImpl();
-    private CommentDAO commentDAO = new CommentDAOImpl();
+    private UserDAO userDAO;
+    private HostelDAO hostelDAO;
+    private GuestroomDAO guestroomDAO;
+    private BookingDAO bookingDAO;
+    private CommentDAO commentDAO;
 
     private DAOFactory() {
+        userDAO = new UserDAOImpl();
+        userDAO.setSingleton();
+        hostelDAO = new HostelDAOImpl();
+        hostelDAO.setSingleton();
+        guestroomDAO = new GuestroomDAOImpl();
+        guestroomDAO.setSingleton();
+        bookingDAO = new BookingDAOImpl();
+        bookingDAO.setSingleton();
+        commentDAO = new CommentDAOImpl();
+        commentDAO.setSingleton();
     }
 
     public static DAOFactory getInstance() {
@@ -43,23 +53,33 @@ public class DAOFactory {
     }
 
     public HostelDAO createHostelDAO() {
-        return new HostelDAOImpl();
+        HostelDAOImpl hostelDAO = new HostelDAOImpl();
+        hostelDAO.setTransactional();
+        return hostelDAO;
     }
 
     public UserDAO createUserDAO() {
-        return new UserDAOImpl();
+        UserDAOImpl userDAO = new UserDAOImpl();
+        userDAO.setTransactional();
+        return userDAO;
     }
 
     public GuestroomDAO createGuestroomDAO() {
-        return new GuestroomDAOImpl();
+        GuestroomDAOImpl guestroomDAO = new GuestroomDAOImpl();
+        guestroomDAO.setTransactional();
+        return guestroomDAO;
     }
 
     public CommentDAO createCommentDAO() {
-        return new CommentDAOImpl();
+        CommentDAOImpl commentDAO = new CommentDAOImpl();
+        commentDAO.setTransactional();
+        return commentDAO;
     }
 
     public BookingDAO createBookingDAO() {
-        return new BookingDAOImpl();
+        BookingDAOImpl bookingDAO = new BookingDAOImpl();
+        bookingDAO.setTransactional();
+        return bookingDAO;
     }
 
 }

@@ -15,11 +15,11 @@ public interface HostelDAO extends EntityDAO {
 
     void deleteHostelById(Integer hostelId) throws DAOException;
 
-    int addHostelTransaction(Map<String, Hostel> hostel) throws DAOException;
+    int addHostel(Map<String, Hostel> hostel) throws DAOException;
 
-    void addHostelLanguageParamsTransaction(Map<String, Hostel> hostel, int hostelId) throws DAOException;
+    void addHostelLanguageParams(Map<String, Hostel> hostel, int hostelId) throws DAOException;
 
-    void deleteHostelDescriptionTransaction(Integer hostelId) throws DAOException;
+    void deleteHostelDescription(Integer hostelId) throws DAOException;
 
     List<String> getHostelsName() throws DAOException;
 
@@ -29,7 +29,7 @@ public interface HostelDAO extends EntityDAO {
 
     String getHostelNameByGuestroomId(Integer hostelId) throws DAOException;
 
-    void updateHostelDescriptionsWithTransaction(String language, Hostel hostel) throws DAOException;
+    void updateHostelDescriptions(String language, Hostel hostel) throws DAOException;
 
-    void updateHostelWithTransaction(Map<String, Hostel> hostel) throws DAOException;
+    void updateHostel(Map<String, Hostel> hostel) throws DAOException;
 }
