@@ -78,17 +78,6 @@ public final class ConnectionProvider {
         clearConnectionQueue();
     }
 
-    public Connection takeConnection() throws ConnectionPoolException {
-        Connection connection;
-        try {
-            connection = connectionQueue.take();
-            givenAwayConQueue.add(connection);
-        } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Error connection to the data sources.", e);
-        }
-        return connection;
-    }
-
     private void clearConnectionQueue() {
         try {
             closeConnectionsQueue(givenAwayConQueue);
@@ -108,6 +97,17 @@ public final class ConnectionProvider {
         }
     }
 
+    public Connection takeConnection() throws ConnectionPoolException {
+        Connection connection;
+        try {
+            connection = connectionQueue.take();
+            givenAwayConQueue.add(connection);
+        } catch (InterruptedException e) {
+            throw new ConnectionPoolException("Error connection to the data sources.", e);
+        }
+        return connection;
+    }
+
     private class PooledConnection implements Connection {
 
         private Connection connection;
@@ -115,7 +115,6 @@ public final class ConnectionProvider {
         public PooledConnection(Connection connection) throws SQLException {
             this.connection = connection;
             this.connection.setAutoCommit(true);
-
         }
 
 
@@ -124,30 +123,13 @@ public final class ConnectionProvider {
         }
 
         @Override
-        public void close() throws SQLException {
-            if (connection.isClosed()) {
-                throw new SQLDataException("Attempting to close closed connection.");
-            }
-            if (connection.isReadOnly()) {
-                connection.setReadOnly(false);
-            }
-            if (!givenAwayConQueue.remove(this)) {
-                throw new SQLDataException("Error deleting connection from the given away connections pool.");
-            }
-
-            if (!connectionQueue.offer(this)) {
-                throw new SQLException("Error allocating connection in the pool.");
-            }
+        public <T> T unwrap(Class<T> iface) throws SQLException {
+            return connection.unwrap(iface);
         }
 
         @Override
         public boolean isWrapperFor(Class<?> iface) throws SQLException {
             return connection.isWrapperFor(iface);
-        }
-
-        @Override
-        public <T> T unwrap(Class<T> iface) throws SQLException {
-            return connection.unwrap(iface);
         }
 
         @Override
@@ -169,6 +151,25 @@ public final class ConnectionProvider {
         public String nativeSQL(String sql) throws SQLException {
             return connection.nativeSQL(sql);
         }
+
+        @Override
+        public void close() throws SQLException {
+            if (getAutoCommit()) {
+                if (connection.isClosed()) {
+                    throw new SQLDataException("Attempting to close closed connection.");
+                }
+                if (connection.isReadOnly()) {
+                    connection.setReadOnly(false);
+                }
+                if (!givenAwayConQueue.remove(this)) {
+                    throw new SQLDataException("Error deleting connection from the given away connections pool.");
+                }
+                if (!connectionQueue.offer(this)) {
+                    throw new SQLException("Error allocating connection in the pool.");
+                }
+            }
+        }
+
 
         @Override
         public boolean getAutoCommit() throws SQLException {

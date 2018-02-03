@@ -1,6 +1,5 @@
 package by.epam.project.hostel.dao.impl;
 
-import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.UserDAO;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;

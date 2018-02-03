@@ -1,6 +1,5 @@
 package by.epam.project.hostel.dao.impl;
 
-import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.HostelDAO;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
@@ -20,7 +19,6 @@ import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
 
 
 public class HostelDAOImpl extends BaseDAO implements HostelDAO {
-
 
 
     private static final String SELECT_HOSTEL_BY_ID = "SELECT  stars,  imgPath,  name,  country,  city,  description,  address,  t.hostel_id FROM hostel  INNER JOIN thostel t ON hostel.id = t.hostel_id INNER JOIN language l ON t.language_id = l.id WHERE l.language = ? AND hostel.id = ?";
@@ -86,7 +84,8 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     public void deleteHostelById(Integer hostelId) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement(DELETE_HOSTEL_BY_ID)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_HOSTEL_BY_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -96,7 +95,8 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     public int addHostel(Map<String, Hostel> hostel) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement(INSERT_HOSTEL, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(INSERT_HOSTEL, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, hostel.get(RU).getStars());
             ps.setString(2, hostel.get(RU).getImgPath());
             ps.setString(3, hostel.get(RU).getName());
@@ -116,7 +116,8 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     public void addHostelLanguageParams(Map<String, Hostel> hostel, int hostelId) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement(INSERT_THOSTEL)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(INSERT_THOSTEL)) {
             ps.setInt(1, 1);
             ps.setInt(2, hostelId);
             ps.setString(3, hostel.get(EN).getCountry());
@@ -138,7 +139,8 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     public void deleteHostelDescription(Integer hostelId) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement(DELETE_EN_RU_HOSTEL_PART)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_EN_RU_HOSTEL_PART)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -214,7 +216,8 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     public void updateHostelDescriptions(String language, Hostel hostel) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement("UPDATE thostel SET country=?,city=?,description=?,address=? WHERE language_id=? AND hostel_id=?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement("UPDATE thostel SET country=?,city=?,description=?,address=? WHERE language_id=? AND hostel_id=?")) {
             ps.setString(1, hostel.getCountry());
             ps.setString(2, hostel.getCity());
             ps.setString(3, hostel.getDescription());
@@ -229,7 +232,8 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     public void updateHostel(Map<String, Hostel> hostel) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement("UPDATE hostel SET stars=?,imgPath=?,name=? WHERE id=?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement("UPDATE hostel SET stars=?,imgPath=?,name=? WHERE id=?")) {
             Hostel hostelEntity = hostel.get(RU);
             ps.setInt(1, hostelEntity.getStars());
             ps.setString(2, hostelEntity.getImgPath());

@@ -1,6 +1,5 @@
 package by.epam.project.hostel.dao.impl;
 
-import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.CommentDAO;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
@@ -72,7 +71,8 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
     @Override
     public void deleteCommentsByGuestroomId(Integer guestroomId) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement("DELETE FROM comments WHERE guestrooms_id = ?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE guestrooms_id = ?")) {
             ps.setInt(1, guestroomId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -83,7 +83,8 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
     @Override
     public void deleteCommentsByHostelId(Integer hostelId) throws DAOException {
-        try (PreparedStatement ps = provider.connection().prepareStatement(DELETE_PICTURES_BY_HOSTEL_ID)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_PICTURES_BY_HOSTEL_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {
