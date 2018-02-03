@@ -84,6 +84,6 @@ public class AddHostelCommand implements Command {
                 }
             }
         }
-        return filename.isEmpty() ? null : PICTURE_UPLOAD_PATH + filename;
+        return filename.isEmpty() ? null : PICTURE_UPLOAD_PATH + LocalDateTime.now().toString() + filename;
     }
 }

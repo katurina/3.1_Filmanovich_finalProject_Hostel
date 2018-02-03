@@ -78,6 +78,6 @@ public class EditHostelCommand implements Command {
                 }
             }
         }
-        return filename.isEmpty() ? request.getParameter(IMG_PATH) : PICTURE_UPLOAD_PATH + filename;
+        return filename.isEmpty() ? request.getParameter(IMG_PATH) : PICTURE_UPLOAD_PATH + LocalDateTime.now().toString() + filename;
     }
 }

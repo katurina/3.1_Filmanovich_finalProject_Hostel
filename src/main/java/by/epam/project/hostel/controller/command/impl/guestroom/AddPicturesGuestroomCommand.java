@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
 
@@ -41,7 +42,7 @@ public class AddPicturesGuestroomCommand implements Command {
                 }
             }
         }
-        String imgPath = PICTURE_UPLOAD_PATH + filename;
+        String imgPath = PICTURE_UPLOAD_PATH + LocalDateTime.now().toString() + filename;
         try {
             ServiceFactory.getInstance().getGuestroomService().addImage(guestroomId, imgPath);
             response.sendRedirect("/admin/edit_guestroom?id=" + guestroomId);
