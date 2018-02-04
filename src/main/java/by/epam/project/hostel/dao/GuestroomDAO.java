@@ -4,6 +4,7 @@ import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Guestroom;
 import by.epam.project.hostel.entity.search.SearchGuestroomsParams;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface GuestroomDAO extends EntityDAO {
@@ -48,4 +49,6 @@ public interface GuestroomDAO extends EntityDAO {
     void editGuestroom(Guestroom guestroom) throws DAOException;
 
     String getGuestroomDescription(int guestroomId, String language) throws DAOException;
+
+    BigDecimal getNightPriceByRoomId(Integer roomId) throws DAOException;
 }

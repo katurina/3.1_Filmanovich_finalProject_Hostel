@@ -1,29 +1,48 @@
 package by.epam.project.hostel.controller.command.impl.booking;
 
 import by.epam.project.hostel.controller.command.Command;
+import by.epam.project.hostel.entity.Booking;
 import by.epam.project.hostel.entity.User;
+import by.epam.project.hostel.service.ServiceFactory;
+import by.epam.project.hostel.service.exception.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static by.epam.project.hostel.controller.constant.Constant.Booking.GUESTROOM_ID;
-import static by.epam.project.hostel.controller.constant.Constant.Booking.LAST_DATE;
-import static by.epam.project.hostel.controller.constant.Constant.Booking.START_DATE;
-import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
+import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
+import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_FROM;
+import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_TO;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class BookRoomCommand implements Command {
+
+    private static final Logger logger = LogManager.getLogger(BookRoomCommand.class);
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String language = (String) request.getSession().getAttribute(LOCAL);
+        Integer roomId = Integer.valueOf(request.getParameter(ID));
 
-        User user = (User) request.getSession().getAttribute(USER);
-        Integer roomId = Integer.valueOf(request.getParameter(GUESTROOM_ID));
-        LocalDate lastDate = LocalDate.parse(request.getParameter(LAST_DATE));
-        LocalDate startDay = LocalDate.parse(request.getParameter(START_DATE));
-//        TODO
+        try {
+            ServiceFactory instance = ServiceFactory.getInstance();
+            BigDecimal nightPrice = instance.getGuestroomService().getNightPriceByRoomId(roomId);
+            User user = (User) request.getSession().getAttribute(USER);
+            Integer userId = user.getId();
+            LocalDate lastDate = LocalDate.parse(request.getParameter(DATE_TO));
+            LocalDate startDay = LocalDate.parse(request.getParameter(DATE_FROM));
+            LocalDate today = LocalDate.now();
+            Booking booking = new Booking(nightPrice, startDay, lastDate, today, userId, roomId);
+            instance.getBookingService().bookRoom(booking);
+            response.sendRedirect("/user/bookings?page=1");
+//            MailSender.sendMessage("Booking", "success", user.getEmail());
+
+        } catch (ServiceException /*| MailException*/ e) {
+            logger.error("error during booking room", e);
+        }
     }
 }

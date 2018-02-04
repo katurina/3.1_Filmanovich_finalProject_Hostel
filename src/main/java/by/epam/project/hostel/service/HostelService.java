@@ -8,7 +8,7 @@ import javax.security.sasl.SaslException;
 import java.util.List;
 import java.util.Map;
 
-public interface HostelService  extends EntityService {
+public interface HostelService extends EntityService {
     Hostel getHostelById(int id, String language) throws ValidationException;
 
     List<Hostel> getHostels(String language) throws ServiceException;

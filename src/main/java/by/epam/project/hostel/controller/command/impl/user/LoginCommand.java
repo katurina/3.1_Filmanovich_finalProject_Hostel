@@ -15,6 +15,7 @@ import java.io.IOException;
 import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_USER_NOT_LOGGED;
 import static by.epam.project.hostel.controller.constant.Constant.Page.BLOCK_PAGE_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.URL;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
@@ -44,7 +45,13 @@ public class LoginCommand implements Command {
         }
         try {
             request.setAttribute(ERROR_USER_NOT_LOGGED, error);
-            request.getRequestDispatcher(INDEX_JSP).forward(request, response);
+            String url = (String) request.getSession().getAttribute(URL);
+            if (url != null && !url.isEmpty()) {
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                request.getRequestDispatcher(INDEX_JSP).forward(request, response);
+
+            }
         } catch (ServletException | IOException e) {
             logger.error("error during forward in login command", e);
         }

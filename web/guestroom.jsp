@@ -42,21 +42,21 @@
         <div>${properties}</div>
         <div class="properties">
             <li>WiFi <c:choose><c:when test="${requestScope.guestroom.wifi eq true}">
-                <img src="img/toolbar/tick.svg">
+                <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
             </c:when><c:otherwise>
-                <img src="img/toolbar/cross.svg">
+                <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
             </c:otherwise></c:choose></li>
             <li>TV <c:choose><c:when test="${requestScope.guestroom.tv eq true}">
-                <img src="img/toolbar/tick.svg">
+                <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
             </c:when><c:otherwise>
-                <img src="img/toolbar/cross.svg">
+                <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
             </c:otherwise></c:choose></li>
             <li>${bathroom}
                 <c:choose>
                     <c:when test="${requestScope.guestroom.bath eq true}">
-                        <img src="img/toolbar/tick.svg">
+                        <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
                     </c:when><c:otherwise>
-                    <img src="img/toolbar/cross.svg">
+                    <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
                 </c:otherwise>
                 </c:choose>
             </li>

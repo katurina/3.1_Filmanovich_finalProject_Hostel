@@ -38,7 +38,7 @@ public class GetBookingsCommand implements Command {
             String pageParam = request.getParameter(CURRENT_PAGE);
             int currentPage = (pageParam == null || pageParam.isEmpty()) ? 1 : Integer.valueOf(pageParam);
             try {
-                List<Booking> userBooking = bookingService.getUserBooking(userId, currentPage);
+                List<Booking> userBooking = bookingService.getUserBookings(userId, currentPage);
                 int totalRowCount = bookingService.getTotalRowCount();
                 Page<Booking> page = PageWrapper.wrapList(userBooking, currentPage, totalRowCount);
                 request.setAttribute(Constant.Page.PAGE, page);

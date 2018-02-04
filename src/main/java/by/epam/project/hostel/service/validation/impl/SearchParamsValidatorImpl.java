@@ -12,7 +12,8 @@ public class SearchParamsValidatorImpl implements Validator<SearchGuestroomsPara
         if (searchParams == null) {
             throw new EmptyParamServiceException("search parameters == null");
         }
-        if ((searchParams.getDateTo() == null || searchParams.getDateFrom() == null) && searchParams.getSearch() != null && searchParams.getSearch()) {
+        if ((searchParams.getDateTo() == null || searchParams.getDateFrom() == null)
+                && searchParams.getSearch() != null && searchParams.getSearch()) {
             throw new SearchParamsServiceException("date cannot be empty! ", Constants.ErrorParamMessages.EMPTY_DATE);
         }
         if (searchParams.getDateFrom() != null && searchParams.getDateTo() != null && searchParams.getDateFrom().isAfter(searchParams.getDateTo())) {

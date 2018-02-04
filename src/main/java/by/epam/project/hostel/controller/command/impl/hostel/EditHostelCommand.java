@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,6 +79,6 @@ public class EditHostelCommand implements Command {
                 }
             }
         }
-        return filename.isEmpty() ? request.getParameter(IMG_PATH) : PICTURE_UPLOAD_PATH + LocalDateTime.now().toString() + filename;
+        return filename.isEmpty() ? request.getParameter(IMG_PATH) : PICTURE_UPLOAD_PATH + LocalDate.now().toString() + filename;
     }
 }

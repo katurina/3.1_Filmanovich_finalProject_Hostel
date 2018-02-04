@@ -3,7 +3,10 @@ package by.epam.project.hostel.controller;
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.controller.command.impl.ChangeLocalCommand;
 import by.epam.project.hostel.controller.command.impl.booking.BookRoomCommand;
+import by.epam.project.hostel.controller.command.impl.booking.DeleteBookingByIdCommand;
+import by.epam.project.hostel.controller.command.impl.booking.GetBookingDetailsCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
+import by.epam.project.hostel.controller.command.impl.booking.PayBookingCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.AddGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.AddPicturesGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.DeleteGuestroomByIdCommand;
@@ -131,6 +134,12 @@ public class CommandFactory {
                 return new EditHostelCommand();
             case ADD_HOSTEL_COMMAND:
                 return new AddHostelCommand();
+            case "get-booking-details-command":
+                return new GetBookingDetailsCommand();
+            case "delete-booking-by-id-command":
+                return new DeleteBookingByIdCommand();
+            case "pay-booking-command":
+                return new PayBookingCommand();
 
         }
         return null;

@@ -81,7 +81,7 @@ public class GetRequiredGuestroomsCommand implements Command {
             searchParams.setDateFrom(LocalDate.parse(dateFromParam));
         }
         if (dateFromParam != null && !dateToParam.isEmpty()) {
-            searchParams.setDateFrom(LocalDate.parse(dateToParam));
+            searchParams.setDateTo(LocalDate.parse(dateToParam));
         }
         if (wifiParam != null) {
             searchParams.setWifi(!wifiParam.isEmpty());
@@ -102,7 +102,7 @@ public class GetRequiredGuestroomsCommand implements Command {
         if (city != null && !city.isEmpty()) {
             searchParams.setCity(city);
         }
-        if(search!=null && !search.isEmpty()){
+        if (search != null && !search.isEmpty()) {
             searchParams.setSearch(Boolean.valueOf(search));
         }
         return searchParams;

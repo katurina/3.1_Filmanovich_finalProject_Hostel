@@ -26,8 +26,9 @@ public class Hostel extends Entity implements Serializable {
         this.address = address;
     }
 
-    public Hostel(int id, int stars, String name, String country, String city,
-                  String description, String imgPath, String address) {
+    public Hostel(
+            int id, int stars, String name, String country, String city,
+            String description, String imgPath, String address) {
         this.id = id;
         this.stars = stars;
         this.name = name;
@@ -36,6 +37,54 @@ public class Hostel extends Entity implements Serializable {
         this.description = description;
         this.imgPath = imgPath;
         this.address = address;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getStars();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getImgPath() != null ? getImgPath().hashCode() : 0);
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Hostel hostel = (Hostel) o;
+
+        if (getId() != hostel.getId()) {
+            return false;
+        }
+        if (getStars() != hostel.getStars()) {
+            return false;
+        }
+        if (getName() != null ? !getName().equals(hostel.getName()) : hostel.getName() != null) {
+            return false;
+        }
+        if (getCountry() != null ? !getCountry().equals(hostel.getCountry()) : hostel.getCountry() != null) {
+            return false;
+        }
+        if (getCity() != null ? !getCity().equals(hostel.getCity()) : hostel.getCity() != null) {
+            return false;
+        }
+        if (getDescription() != null ? !getDescription().equals(hostel.getDescription()) : hostel.getDescription() != null) {
+            return false;
+        }
+        if (getImgPath() != null ? !getImgPath().equals(hostel.getImgPath()) : hostel.getImgPath() != null) {
+            return false;
+        }
+        return getAddress() != null ? getAddress().equals(hostel.getAddress()) : hostel.getAddress() == null;
     }
 
     public int getStars() {
@@ -92,54 +141,6 @@ public class Hostel extends Entity implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Hostel hostel = (Hostel) o;
-
-        if (getId() != hostel.getId()) {
-            return false;
-        }
-        if (getStars() != hostel.getStars()) {
-            return false;
-        }
-        if (getName() != null ? !getName().equals(hostel.getName()) : hostel.getName() != null) {
-            return false;
-        }
-        if (getCountry() != null ? !getCountry().equals(hostel.getCountry()) : hostel.getCountry() != null) {
-            return false;
-        }
-        if (getCity() != null ? !getCity().equals(hostel.getCity()) : hostel.getCity() != null) {
-            return false;
-        }
-        if (getDescription() != null ? !getDescription().equals(hostel.getDescription()) : hostel.getDescription() != null) {
-            return false;
-        }
-        if (getImgPath() != null ? !getImgPath().equals(hostel.getImgPath()) : hostel.getImgPath() != null) {
-            return false;
-        }
-        return getAddress() != null ? getAddress().equals(hostel.getAddress()) : hostel.getAddress() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId();
-        result = 31 * result + getStars();
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
-        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (getImgPath() != null ? getImgPath().hashCode() : 0);
-        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
-        return result;
     }
 
     @Override

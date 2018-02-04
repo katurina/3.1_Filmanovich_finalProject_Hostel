@@ -316,6 +316,22 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
         }
     }
 
+    @Override
+    public BigDecimal getNightPriceByRoomId(Integer roomId) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement("SELECT night_price FROM guestrooms WHERE id = ?")) {
+            ps.setInt(1, roomId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return rs.getBigDecimal(1);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting night price by room id", e);
+        }
+    }
+
     private void addRuEnDescriptions(
             String descriptionEn, String descriptionRu, Connection connection,
             int guestroomId) throws SQLException {
@@ -536,14 +552,6 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
             }
         } catch (SQLException e) {
             throw new DAOException("error during getting guestroom images", e);
-        }
-    }
-
-    private void addPicturePath(Guestroom guestroom, Connection connection, int guestroomId) throws SQLException {
-        try (PreparedStatement pst = connection.prepareStatement(INSERT_ROOM_PICTURE)) {
-            pst.setInt(1, guestroomId);
-            pst.setString(2, guestroom.getImgPath().get(0));
-            pst.executeUpdate();
         }
     }
 

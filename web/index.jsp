@@ -114,7 +114,8 @@
                 <div style="">
                         ${hostel.description}</div>
             </div>
-            <a style="float: left" href="${pageContext.request.contextPath}/hostel.jsp?id=${hostel.id}">${look_hostel}</a>
+            <a style="float: left"
+               href="${pageContext.request.contextPath}/hostel.jsp?id=${hostel.id}">${look_hostel}</a>
             <a style="float: right"
                href="${pageContext.request.contextPath}/search.jsp?city=${hostel.city}">${rooms}</a>
             <span class="clear"></span>

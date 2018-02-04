@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 
 import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH;
@@ -93,6 +94,6 @@ public class AddGuestroomCommand implements Command {
                 }
             }
         }
-        return filename.isEmpty() ? null : PICTURE_UPLOAD_PATH + LocalDateTime.now().toString() + filename;
+        return filename.isEmpty() ? null : PICTURE_UPLOAD_PATH + LocalDate.now().toString() + filename;
     }
 }

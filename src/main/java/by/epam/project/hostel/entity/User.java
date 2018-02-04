@@ -32,8 +32,60 @@ public class User extends Entity implements Serializable {
         this.number = number;
     }
 
-    public enum Role {
-        USER, ADMIN;
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getSurname() != null ? getSurname().hashCode() : 0);
+        result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (isBanned() ? 1 : 0);
+        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        User user = (User) o;
+
+        if (getId() != user.getId()) {
+            return false;
+        }
+        if (isBanned() != user.isBanned()) {
+            return false;
+        }
+        if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null) {
+            return false;
+        }
+        if (getSurname() != null ? !getSurname().equals(user.getSurname()) : user.getSurname() != null) {
+            return false;
+        }
+        if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null) {
+            return false;
+        }
+        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null) {
+            return false;
+        }
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) {
+            return false;
+        }
+        if (getRole() != user.getRole()) {
+            return false;
+        }
+        return getNumber() != null ? getNumber().equals(user.getNumber()) : user.getNumber() == null;
+    }
+
+    public boolean isBanned() {
+        return banned;
     }
 
     public String getName() {
@@ -88,18 +140,6 @@ public class User extends Entity implements Serializable {
         }
     }
 
-    public boolean isBanned() {
-        return banned;
-    }
-
-    public void setBanned(int banned) {
-        if (banned == 0) {
-            this.banned = false;
-        } else {
-            this.banned = true;
-        }
-    }
-
     public String getNumber() {
         return number;
     }
@@ -108,56 +148,12 @@ public class User extends Entity implements Serializable {
         this.number = number;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    public void setBanned(int banned) {
+        if (banned == 0) {
+            this.banned = false;
+        } else {
+            this.banned = true;
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-
-        if (getId() != user.getId()) {
-            return false;
-        }
-        if (isBanned() != user.isBanned()) {
-            return false;
-        }
-        if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null) {
-            return false;
-        }
-        if (getSurname() != null ? !getSurname().equals(user.getSurname()) : user.getSurname() != null) {
-            return false;
-        }
-        if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null) {
-            return false;
-        }
-        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null) {
-            return false;
-        }
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) {
-            return false;
-        }
-        if (getRole() != user.getRole()) {
-            return false;
-        }
-        return getNumber() != null ? getNumber().equals(user.getNumber()) : user.getNumber() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId();
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getSurname() != null ? getSurname().hashCode() : 0);
-        result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
-        result = 31 * result + (isBanned() ? 1 : 0);
-        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
-        return result;
     }
 
     @Override
@@ -173,5 +169,9 @@ public class User extends Entity implements Serializable {
                 ", banned=" + banned +
                 ", number='" + number + '\'' +
                 '}';
+    }
+
+    public enum Role {
+        USER, ADMIN;
     }
 }

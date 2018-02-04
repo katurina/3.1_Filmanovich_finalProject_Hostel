@@ -20,18 +20,18 @@ public class CommentValidatorImpl implements Validator<Comment> {
         validateRate(comment.getRate());
     }
 
+    public void validateDate(LocalDate date) throws EmptyParamServiceException {
+        if (date == null) {
+            throw new EmptyParamServiceException("date is empty");
+        }
+    }
+
     public void validateRate(Integer rate) throws ValidationException {
         if (rate == null) {
             throw new EmptyParamServiceException("rate is null");
         }
         if (rate > 5 || rate < 1) {
             throw new ValidationException("invalid rate value, rate = " + rate);
-        }
-    }
-
-    public void validateDate(LocalDate date) throws EmptyParamServiceException {
-        if (date == null) {
-            throw new EmptyParamServiceException("date is empty");
         }
     }
 }

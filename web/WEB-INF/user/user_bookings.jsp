@@ -19,6 +19,7 @@
     <fmt:message bundle="${loc}" key="local.booking.payed.true" var="isPayed"/>
     <fmt:message bundle="${loc}" key="local.booking.payed.false" var="notPayed"/>
     <fmt:message bundle="${loc}" key="local.text.form" var="from"/>
+    <fmt:message bundle="${loc}" key="local.admin.cancellation" var="cancellation"/>
     <title>${bookings}</title>
     <c:set scope="session" var="url" value="/user/bookings?page=${param.page}"/>
 
@@ -47,31 +48,44 @@
             <th>${status}</th>
             <th>${bookDay}</th>
             <th>${finalCost}</th>
+            <th>${cancellation}</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="booking" items="${requestScope.page.entity}">
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-                <input type="hidden" name="command" value="get-bookings-command">
-                <input type="hidden" name="id" value="${booking.id}">
-                <tr>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/guestroom.jsp?id=${booking.guestroomId}">${booking.guestroomId}</a>
-                    </td>
-                    <td>${booking.nightPrice}</td>
-                    <td>${booking.startDay}</td>
-                    <td>${booking.lastDay}</td>
-                    <td><c:choose>
+            <tr>
+                <td>
+                    <a style="color: gainsboro;"
+                       href="${pageContext.request.contextPath}/guestroom.jsp?id=${booking.guestroomId}">${booking.guestroomId}</a>
+                </td>
+                <td>${booking.nightPrice}</td>
+                <td>${booking.startDay}</td>
+                <td>${booking.lastDay}</td>
+                <td>
+                    <c:choose>
                         <c:when test="${booking.payed eq false}">
-                            <input type="submit" value="${pay}"/>
+                            <form action="${pageContext.request.contextPath}/controller" method="post">
+                                <input type="hidden" name="command" value="pay-booking-command">
+                                <input type="hidden" name="id" value="${booking.id}">
+                                <input type="submit" value="${pay}"/>
+                            </form>
                         </c:when>
                         <c:otherwise>
                             ${isPayed}</c:otherwise>
-                    </c:choose></td>
-                    <td>${booking.nightsCount}</td>
-                    <td>${booking.finalCost}</td>
-                </tr>
-            </form>
+                    </c:choose>
+                </td>
+                <td>${booking.nightsCount}</td>
+                <td>${booking.finalCost}</td>
+                <td>
+                    <c:if test="${booking.payed eq false}">
+                        <form action="${pageContext.request.contextPath}/controller" method="post">
+                            <input type="hidden" name="command" value="delete-booking-by-id-command">
+                            <input type="hidden" name="id" value="${booking.id}">
+                            <input type="submit" value="${cancellation}"/>
+                        </form>
+                    </c:if>
+                </td>
+            </tr>
         </c:forEach>
         </tbody>
     </table>

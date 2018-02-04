@@ -3,7 +3,7 @@ package by.epam.project.hostel.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Comment extends Entity implements Serializable{
+public class Comment extends Entity implements Serializable {
     private static final long serialVersionUID = -8053748141053902283L;
 
     private int userId;
@@ -32,44 +32,15 @@ public class Comment extends Entity implements Serializable{
         this.rate = rate;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getGuestroomId() {
-        return guestroomId;
-    }
-
-    public void setGuestroomId(int guestroomId) {
-        this.guestroomId = guestroomId;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public LocalDate getCommentDate() {
-        return commentDate;
-    }
-
-    public void setCommentDate(LocalDate commentDate) {
-        this.commentDate = commentDate;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getUserId();
+        result = 31 * result + getGuestroomId();
+        result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
+        result = 31 * result + (getCommentDate() != null ? getCommentDate().hashCode() : 0);
+        result = 31 * result + getRate();
+        return result;
     }
 
     @Override
@@ -101,15 +72,44 @@ public class Comment extends Entity implements Serializable{
         return getCommentDate() != null ? getCommentDate().equals(comment1.getCommentDate()) : comment1.getCommentDate() == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = getId();
-        result = 31 * result + getUserId();
-        result = 31 * result + getGuestroomId();
-        result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
-        result = 31 * result + (getCommentDate() != null ? getCommentDate().hashCode() : 0);
-        result = 31 * result + getRate();
-        return result;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getGuestroomId() {
+        return guestroomId;
+    }
+
+    public void setGuestroomId(int guestroomId) {
+        this.guestroomId = guestroomId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public LocalDate getCommentDate() {
+        return commentDate;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public void setCommentDate(LocalDate commentDate) {
+        this.commentDate = commentDate;
     }
 
     @Override

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR_USER_NOT_LOGGED;
 import static by.epam.project.hostel.controller.constant.Constant.Page.BLOCK_PAGE_JSP;
+import static by.epam.project.hostel.controller.constant.Constant.URL;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class CheckUserRoleFilter implements Filter {
@@ -31,7 +33,8 @@ public class CheckUserRoleFilter implements Filter {
         } else if (user != null && user.isBanned()) {
             ((HttpServletResponse) response).sendRedirect(BLOCK_PAGE_JSP);
         } else {
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_NOT_FOUND);
+            request.setAttribute(ERROR_USER_NOT_LOGGED, true);
+            request.getRequestDispatcher((String) ((HttpServletRequest) request).getSession().getAttribute(URL)).forward(request, response);
         }
     }
 

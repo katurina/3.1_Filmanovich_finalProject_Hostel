@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
+import static by.epam.project.hostel.controller.constant.Constant.URL;
 
 public class ChangeLocalCommand implements Command {
 
@@ -17,12 +18,12 @@ public class ChangeLocalCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute(LOCAL, request.getParameter(LOCAL));
-        String currentPage = String.valueOf(request.getSession().getAttribute("url"));
+        String currentPage = String.valueOf(request.getSession().getAttribute(URL));
 
         try {
             response.sendRedirect(currentPage);
         } catch (IOException e) {
-            logger.error("error during changing local",e);
+            logger.error("error during changing local", e);
         }
     }
 }

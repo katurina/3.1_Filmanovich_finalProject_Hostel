@@ -30,6 +30,7 @@
     <fmt:message bundle="${loc}" key="local.text.form" var="textFrom"/>
     <fmt:message bundle="${loc}" key="local.error.empty" var="emptyError"/>
     <fmt:message bundle="${loc}" key="local.error.date" var="dateError"/>
+    <fmt:message bundle="${loc}" key="local.search.for.start.booking" var="forStartBook"/>
     <title>${search}</title>
     <c:set scope="session" var="url" value="search.jsp"/>
     <jsp:include page="${pageContext.request.contextPath}/controller">
@@ -110,6 +111,7 @@
                             <input type="text" name="priceTo" pattern="[0-9]*"/>
                         </div>
                     </div>
+                    <c:if test="${( empty param.dateTo) && (empty param.dateFrom)}"><br>${forStartBook} <br></c:if>
                     <div class="criteria">
                         <div>
                             ${dates}
@@ -167,8 +169,11 @@
                             ${room.description}</div>
                 </div>
                 </p>
-                <a href="">${book}</a>
-                <a style="float: right;" href="guestroom.jsp?id=${room.id}">${guestroom}</a>
+                <c:if test="${(not empty param.dateTo) && (not empty param.dateFrom)}">
+                    <a href="${pageContext.request.contextPath}/user/booking?id=${room.id}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}">${book}</a>
+                </c:if>
+                <a style="float: right;"
+                   href="${pageContext.request.contextPath}/guestroom.jsp?id=${room.id}">${guestroom}</a>
                 <span class="clear"></span>
             </div>
         </c:forEach>

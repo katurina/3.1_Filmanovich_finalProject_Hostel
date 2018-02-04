@@ -1,7 +1,7 @@
 package by.epam.project.hostel.dao.exception;
 
 public class ConnectionPoolException extends DAOException {
-    
+
     public ConnectionPoolException() {
     }
 

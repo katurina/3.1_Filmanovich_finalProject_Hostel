@@ -13,6 +13,7 @@ import by.epam.project.hostel.service.validation.Validator;
 import by.epam.project.hostel.service.validation.impl.GuestroomValidatorImpl;
 import by.epam.project.hostel.service.validation.impl.SearchParamsValidatorImpl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class GuestroomServiceImpl extends BaseService implements GuestroomService {
@@ -199,6 +200,16 @@ public class GuestroomServiceImpl extends BaseService implements GuestroomServic
             return guestroomDAO.getGuestroomDescription(guestroomId, language);
         } catch (DAOException e) {
             throw new ServiceException("error during getting guestroom description ", e);
+        }
+    }
+
+    @Override
+    public BigDecimal getNightPriceByRoomId(Integer roomId) throws ServiceException {
+        validator.validateID(roomId);
+        try {
+            return guestroomDAO.getNightPriceByRoomId(roomId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting night price by room id ", e);
         }
     }
 

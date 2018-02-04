@@ -19,32 +19,16 @@ public class Page<T> {
         this.entity = entity;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public int getNumberOfPages() {
-        return numberOfPages;
-    }
-
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
-    public List<T> getEntity() {
-        return entity;
-    }
-
-    public void setEntity(List<T> entity) {
-        this.entity = entity;
-    }
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getCurrentPage();
+        result = 31 * result + getNumberOfPages();
+        result = 31 * result + (getEntity() != null ? getEntity().hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -67,12 +51,28 @@ public class Page<T> {
         return getEntity() != null ? getEntity().equals(page.getEntity()) : page.getEntity() == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = getCurrentPage();
-        result = 31 * result + getNumberOfPages();
-        result = 31 * result + (getEntity() != null ? getEntity().hashCode() : 0);
-        return result;
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public List<T> getEntity() {
+        return entity;
+    }
+
+    public void setEntity(List<T> entity) {
+        this.entity = entity;
     }
 
     @Override

@@ -6,10 +6,10 @@ import by.epam.project.hostel.dao.exception.DAOException;
 import by.epam.project.hostel.entity.Booking;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,6 @@ import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRI
 public class BookingDAOImpl extends BaseDAO implements BookingDAO {
     private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
     private static final String DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE id = ?";
-
-    @Override
-    public void bookRoom(double nightPrice, LocalDate startDay, LocalDate lastDay, boolean payed, LocalDate bookDay, double finalCost, int userId, int guestroomId) {
-
-    }
 
 
     @Override
@@ -53,6 +48,34 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during deleting booking by id = " + bookingId, e);
+        }
+    }
+
+    @Override
+    public void bookRoom(Booking booking) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement("INSERT INTO bookings(user_id, guestrooms_id, night_price, start_day, last_day, book_day, all_price) VALUES (?,?,?,?,?,?,?)")) {
+            ps.setInt(1, booking.getUserId());
+            ps.setInt(2, booking.getGuestroomId());
+            ps.setBigDecimal(3, booking.getNightPrice());
+            ps.setDate(4, Date.valueOf(booking.getStartDay()));
+            ps.setDate(5, Date.valueOf(booking.getLastDay()));
+            ps.setDate(6, Date.valueOf(booking.getBookDay().toString()));
+            ps.setBigDecimal(7, booking.getFinalCost());
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during inserting booking into db", e);
+        }
+    }
+
+    @Override
+    public void payBooking(int bookingId) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement("UPDATE bookings SET payed = 1 WHERE id = ?")) {
+            ps.setInt(1, bookingId);
+            ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during set booking payed with id = " + bookingId, e);
         }
     }
 

@@ -4,6 +4,7 @@ import by.epam.project.hostel.entity.Guestroom;
 import by.epam.project.hostel.entity.search.SearchGuestroomsParams;
 import by.epam.project.hostel.service.exception.ServiceException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface GuestroomService extends EntityService {
@@ -33,4 +34,6 @@ public interface GuestroomService extends EntityService {
     void editGuestroom(Guestroom guestroom, String descriptionEn, String descriptionRu) throws ServiceException;
 
     String getGuestroomDescription(Integer guestroomId, String language) throws ServiceException;
+
+    BigDecimal getNightPriceByRoomId(Integer roomId) throws ServiceException;
 }
