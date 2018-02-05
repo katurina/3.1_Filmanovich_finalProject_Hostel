@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.Hostel.ID;
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 
 public class GetHostelCommand implements Command {
@@ -21,7 +22,7 @@ public class GetHostelCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.valueOf(request.getParameter(Constant.Hostel.ID));
+        int id = Integer.valueOf(request.getParameter(ID));
         String language = (String) request.getSession().getAttribute(LOCAL);
         try {
             Hostel hostel = ServiceFactory.getInstance().getHostelService().getHostelById(id, language);

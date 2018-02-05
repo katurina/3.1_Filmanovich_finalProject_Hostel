@@ -3,7 +3,6 @@ package by.epam.project.hostel.controller.command.impl.user;
 import by.epam.project.hostel.controller.command.Command;
 import by.epam.project.hostel.entity.User;
 import by.epam.project.hostel.service.ServiceFactory;
-import by.epam.project.hostel.service.UserService;
 import by.epam.project.hostel.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.User.EMAIL;
+import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
+import static by.epam.project.hostel.controller.constant.Constant.User.NAME;
+import static by.epam.project.hostel.controller.constant.Constant.User.NUMBER;
+import static by.epam.project.hostel.controller.constant.Constant.User.PASSWORD;
+import static by.epam.project.hostel.controller.constant.Constant.User.SURNAME;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 public class EditUserCommand implements Command {
@@ -21,13 +26,31 @@ public class EditUserCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute(USER);
-        ServiceFactory instance = ServiceFactory.getInstance();
-        UserService userService = instance.getUserService();
+        User user = createUser(request);
         try {
-            userService.updateUser(user);
+            ServiceFactory.getInstance().getUserService().updateUser(user);
+            response.sendRedirect("/user/account");
         } catch (ServiceException e) {
             logger.error("error during edit user", e);
         }
+    }
+
+    private User createUser(HttpServletRequest request) {
+        String name = request.getParameter(NAME);
+        String surname = request.getParameter(SURNAME);
+        String login = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
+        String email = request.getParameter(EMAIL);
+        String number = request.getParameter(NUMBER);
+        Integer id = ((User) request.getSession().getAttribute(USER)).getId();
+        User user = new User();
+        user.setId(id);
+        user.setNumber(number);
+        user.setName(name);
+        user.setSurname(surname);
+        user.setLogin(login);
+        user.setPassword(password);
+        user.setEmail(email);
+        return user;
     }
 }

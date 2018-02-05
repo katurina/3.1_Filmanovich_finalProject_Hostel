@@ -17,4 +17,6 @@ public interface UserDAO extends EntityDAO {
     void editUser(User user) throws DAOException;
 
     void deleteUserById(Integer userId) throws DAOException;
+
+    User getUserById(Integer userId) throws DAOException;
 }

@@ -7,6 +7,10 @@
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="local.title.hotel" var="hotel"/>
+    <fmt:message bundle="${loc}" key="local.hostel.city" var="city"/>
+    <fmt:message bundle="${loc}" key="local.hostel.stars" var="stars"/>
+    <fmt:message bundle="${loc}" key="local.hostel.address" var="address"/>
+    <fmt:message bundle="${loc}" key="local.hostel.rooms" var="rooms"/>
     <title>${hotel}</title>
 
 
@@ -33,7 +37,23 @@
     margin-top: 0;
     color: #9eaeee;">${requestScope.hostel.name} </h1>
         <img src="${requestScope.hostel.imgPath}" style=" width: 50%;"/>
+        <table>
+            <tr>
+                <td>${stars}</td>
+                <td>${requestScope.hostel.stars}</td>
+            </tr>
+            <tr>
+                <td>${city}</td>
+                <td>${requestScope.hostel.city}</td>
+            </tr>
+            <tr>
+                <td>${address}</td>
+                <td>${requestScope.hostel.address}</td>
+            </tr>
+        </table>
         <p>${requestScope.hostel.description}</p>
+        <a style="float: right"
+           href="${pageContext.request.contextPath}/search.jsp?city=${requestScope.hostel.city}">${rooms}</a>
     </div>
     <c:import url="footer.jsp"/>
 </div>

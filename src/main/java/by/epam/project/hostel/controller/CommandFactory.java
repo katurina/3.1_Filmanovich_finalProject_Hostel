@@ -7,6 +7,9 @@ import by.epam.project.hostel.controller.command.impl.booking.DeleteBookingByIdC
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingDetailsCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
 import by.epam.project.hostel.controller.command.impl.booking.PayBookingCommand;
+import by.epam.project.hostel.controller.command.impl.comment.AddCommentCommand;
+import by.epam.project.hostel.controller.command.impl.comment.DeleteCommentByIdCommand;
+import by.epam.project.hostel.controller.command.impl.comment.GetGuestroomCommentsCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.AddGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.AddPicturesGuestroomCommand;
 import by.epam.project.hostel.controller.command.impl.guestroom.DeleteGuestroomByIdCommand;
@@ -26,6 +29,8 @@ import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCitiesCom
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsCommand;
 import by.epam.project.hostel.controller.command.impl.hostel.GetHostelsNameCommand;
 import by.epam.project.hostel.controller.command.impl.user.EditRoleBanUserCommand;
+import by.epam.project.hostel.controller.command.impl.user.EditUserCommand;
+import by.epam.project.hostel.controller.command.impl.user.GetUserByIdCommand;
 import by.epam.project.hostel.controller.command.impl.user.GetUsersCommand;
 import by.epam.project.hostel.controller.command.impl.user.LoginAdminCommand;
 import by.epam.project.hostel.controller.command.impl.user.LoginCommand;
@@ -140,6 +145,16 @@ public class CommandFactory {
                 return new DeleteBookingByIdCommand();
             case "pay-booking-command":
                 return new PayBookingCommand();
+            case "edit-user-command":
+                return new EditUserCommand();
+            case "get-guestroom-comments-command":
+                return new GetGuestroomCommentsCommand();
+            case "get-user-by-id-command":
+                return new GetUserByIdCommand();
+            case "add-comment-command":
+                return new AddCommentCommand();
+            case "delete-comment-by-id-command":
+                return new DeleteCommentByIdCommand();
 
         }
         return null;

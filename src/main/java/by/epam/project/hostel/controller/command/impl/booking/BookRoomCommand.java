@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_FROM;
 import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_TO;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
@@ -42,6 +43,8 @@ public class BookRoomCommand implements Command {
 //            MailSender.sendMessage("Booking", "success", user.getEmail());
 
         } catch (ServiceException /*| MailException*/ e) {
+            request.setAttribute(MESSAGE, "error during booking room, please try again");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during booking room", e);
         }
     }

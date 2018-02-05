@@ -1,5 +1,6 @@
 package by.epam.project.hostel.dao.impl;
 
+import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.GuestroomDAO;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
@@ -26,14 +27,24 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     private static final String SELECT_ROOM_BY_ID = "SELECT guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description, hostel_id FROM guestrooms  INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id WHERE guestrooms.id = ? AND language = ?";
     private static final String SELECT_ROOMS_BY_HOSTEL_ID_LIMIT = "SELECT  guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description ,hostel_id FROM guestrooms INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id INNER JOIN language l ON t.language_id = l.id WHERE l.language=? AND hostel_id=? LIMIT ?,?";
     private static final String SELECT_IMAGES_PATH = "SELECT file FROM picture WHERE guestrooms_id = ?";
-    private static final String DELETE_RU_EN_ROOM_PART = "DELETE FROM tguestrooms WHERE guestrooms_id = ?";
     private static final String DELETE_ROOM_BY_ID = "DELETE FROM guestrooms WHERE id =?";
     private static final String INSERT_ROOM = "INSERT INTO guestrooms(hostel_id,night_price,tv,wifi,bath,capacity) VALUES (?,?,?,?,?,?)";
     private static final String INSERT_ROOM_DESCRIPTIONS = "INSERT INTO tguestrooms(language_id, guestrooms_id, description) VALUES (?,?,?)";
-    private static final String INSERT_ROOM_PICTURE = "INSERT INTO picture(guestrooms_id, file) VALUES (?,?)";
     private static final String SELECT_GUESTROOMS_LIMIT = "SELECT guestrooms.id,  night_price,  tv,  wifi,  bath,  capacity,  description ,hostel_id  FROM guestrooms INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id INNER JOIN language l ON t.language_id = l.id  WHERE language = ? LIMIT ?,?";
-    private static final String DELETE_ROOM_PICTURES = "DELETE FROM picture WHERE guestrooms_id = ?";
     private static final String DELETE_TGUESTROOMS_BY_HOSTEL_ID = "DELETE FROM tguestrooms WHERE tguestrooms.guestrooms_id IN (SELECT id FROM guestrooms WHERE hostel_id = ?)";
+    private static final String DELETE_GUESTROOMS_PICTURES_BY_HOSTEL_ID = "DELETE FROM picture WHERE guestrooms_id IN (SELECT guestrooms.id FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.id=?)";
+    private static final String DELETE_GUESTROOMS_BY_HOSTEL_ID = "DELETE FROM guestrooms WHERE hostel_id = ?";
+    private static final String SELECT_GUESTROOMS_ID_BY_HOSTEL_ID_LIMIT = "SELECT guestrooms.id FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.name=? LIMIT ?,?";
+    private static final String SELECT_AMOUNT_GUESTROOMS_BY_HOSTEL_NAME = "SELECT count(*) FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.name = ?";
+    private static final String UPDATE_GUESTROOMS_DESCRIPTIONS_BY_ID_AND_LANGUAGE = "UPDATE tguestrooms SET description = ? WHERE guestrooms_id=? AND language_id=?";
+    private static final String UPDATE_GUESTROOM_BY_ID = "UPDATE guestrooms SET hostel_id=?, night_price=?,tv=?,wifi = ?,bath = ?, capacity = ? WHERE id=?";
+    private static final String SELECT_GUESTROOM_DESCRIPTION_BY_ID_AND_LANGUAGE = "SELECT description FROM tguestrooms WHERE language_id = ? AND guestrooms_id = ?";
+    private static final String SELECT_GUESTROOM_NIGHT_PRICE_BY_ID = "SELECT night_price FROM guestrooms WHERE id = ?";
+    private static final String DELETE_GUESTROOM_DESCRIPTIONS_BY_ID = "DELETE  FROM tguestrooms WHERE guestrooms_id = ?";
+    private static final String DELETE_PICTURES_BY_GUESTROOM_ID = "DELETE FROM picture WHERE guestrooms_id = ?";
+    private static final String INSERT_GUESTROOM_PICTURE_BY_GUESTROOM_ID = "INSERT INTO picture(guestrooms_id, file) VALUES (?,?)";
+    private static final String DELETE_PICTURE_BY_ID = "DELETE FROM picture WHERE picture.file = ?";
+    private static final String INSERT_GUESTROOM_PICTURE = "INSERT INTO picture(guestrooms_id, file) VALUES (?,?)";
 
     @Override
     public List<Guestroom> getGuestroomsByHostelId(int id, String language, int page) throws DAOException {
@@ -109,7 +120,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public void addImage(Integer guestroomId, String imgPath) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("INSERT INTO picture(guestrooms_id, file) VALUES (?,?)")) {
+             PreparedStatement ps = connection.prepareStatement(INSERT_GUESTROOM_PICTURE)) {
             ps.setInt(1, guestroomId);
             ps.setString(2, imgPath);
             ps.executeUpdate();
@@ -121,7 +132,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public void deleteImage(String imgPath) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE picture.file = ?")) {
+             PreparedStatement ps = connection.prepareStatement(DELETE_PICTURE_BY_ID)) {
             ps.setString(1, imgPath);
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
@@ -144,7 +155,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public int addGuestroom(Guestroom guestroom) throws DAOException {
-        try (PreparedStatement ps = connection.prepareStatement(INSERT_ROOM, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(INSERT_ROOM, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, guestroom.getHostelId());
             ps.setBigDecimal(2, guestroom.getNightPrice());
             ps.setBoolean(3, guestroom.isTv());
@@ -160,7 +172,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void addImage(int guestroomId, List<String> imgPaths) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement("INSERT INTO picture(guestrooms_id, file) VALUES (?,?)")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(INSERT_GUESTROOM_PICTURE_BY_GUESTROOM_ID)) {
             for (String imgPath : imgPaths) {
                 ps.setInt(1, guestroomId);
                 ps.setString(2, imgPath);
@@ -173,7 +186,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void addDescription(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException {
-        try {
+        try (Connection connection = provider.connection()) {
             addRuEnDescriptions(descriptionEn, descriptionRu, connection, guestroomId);
         } catch (SQLException e) {
             throw new DAOException("error during adding description with transaction", e);
@@ -182,7 +195,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void deleteImagesByGuestroomId(Integer guestroomId) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE guestrooms_id = ?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_PICTURES_BY_GUESTROOM_ID)) {
             ps.setInt(1, guestroomId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -192,7 +206,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void deleteDescriptionsByGuestroomId(Integer guestroomId) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement("DELETE  FROM tguestrooms WHERE guestrooms_id = ?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_GUESTROOM_DESCRIPTIONS_BY_ID)) {
             ps.setInt(1, guestroomId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -202,7 +217,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void deleteGuestroomsDescriptionByHostelId(Integer hostelId) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement(DELETE_TGUESTROOMS_BY_HOSTEL_ID)) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_TGUESTROOMS_BY_HOSTEL_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -213,7 +229,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public void deleteGuestroomsPicturesByHostelId(Integer hostelId) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM picture WHERE guestrooms_id IN (SELECT guestrooms.id FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.id=?)")) {
+             PreparedStatement ps = connection.prepareStatement(DELETE_GUESTROOMS_PICTURES_BY_HOSTEL_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -223,7 +239,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void deleteGuestroomsByHostelId(Integer hostelId) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement("DELETE FROM guestrooms WHERE hostel_id = ?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(DELETE_GUESTROOMS_BY_HOSTEL_ID)) {
             ps.setInt(1, hostelId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -234,7 +251,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public List<Guestroom> getGuestroomsByHostelName(String hostelName, Integer currentPage) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT guestrooms.id FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.name=? LIMIT ?,?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_GUESTROOMS_ID_BY_HOSTEL_ID_LIMIT)) {
             ps.setString(1, hostelName);
             ps.setInt(2, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
             ps.setInt(3, MAX_ENTRIES_PER_PAGE);
@@ -255,7 +272,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public Integer getTotalRowCount(String hostelName) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT count(*) FROM guestrooms INNER JOIN hostel h ON guestrooms.hostel_id = h.id WHERE h.name = ?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_AMOUNT_GUESTROOMS_BY_HOSTEL_NAME)) {
             ps.setString(1, hostelName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
@@ -270,7 +287,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void editGuestroomDescriptions(int guestroomId, String descriptionEn, String descriptionRu) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement("UPDATE tguestrooms SET description = ? WHERE guestrooms_id=? AND language_id=?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_GUESTROOMS_DESCRIPTIONS_BY_ID_AND_LANGUAGE)) {
             ps.setString(1, descriptionEn);
             ps.setInt(2, guestroomId);
             ps.setInt(3, 1);
@@ -285,7 +303,8 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     @Override
     public void editGuestroom(Guestroom guestroom) throws DAOException {
-        try (Connection connection = provider.connection(); PreparedStatement ps = connection.prepareStatement("UPDATE guestrooms SET hostel_id=?, night_price=?,tv=?,wifi = ?,bath = ?, capacity = ? WHERE id=?")) {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_GUESTROOM_BY_ID)) {
             ps.setInt(1, guestroom.getHostelId());
             ps.setBigDecimal(2, guestroom.getNightPrice());
             ps.setBoolean(3, guestroom.isTv());
@@ -302,7 +321,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public String getGuestroomDescription(int guestroomId, String language) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT description FROM tguestrooms WHERE language_id = ? AND guestrooms_id = ?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_GUESTROOM_DESCRIPTION_BY_ID_AND_LANGUAGE)) {
             ps.setInt(1, language.equals(RU) ? 2 : 1);
             ps.setInt(2, guestroomId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -319,7 +338,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     @Override
     public BigDecimal getNightPriceByRoomId(Integer roomId) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT night_price FROM guestrooms WHERE id = ?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_GUESTROOM_NIGHT_PRICE_BY_ID)) {
             ps.setInt(1, roomId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
@@ -539,7 +558,6 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
         return guestroom;
     }
 
-    //todo this method remade in inner join
     private List<String> getGuestroomImage(int id, Connection connection) throws DAOException {
         try (PreparedStatement ps = connection.prepareStatement(SELECT_IMAGES_PATH)) {
             ps.setInt(1, id);

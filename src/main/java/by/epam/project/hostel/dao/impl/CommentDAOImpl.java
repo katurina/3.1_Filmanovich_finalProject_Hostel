@@ -1,5 +1,6 @@
 package by.epam.project.hostel.dao.impl;
 
+import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.CommentDAO;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
@@ -16,11 +17,12 @@ import java.util.List;
 
 public class CommentDAOImpl extends BaseDAO implements CommentDAO {
 
-    private static final String SELECT_COMMENTS_BY_ROOM_ID = "SELECT id,comment,date,rate FROM comments WHERE guestrooms_id =?;";
-    private static final String SELECT_COMMENTS_BY_HOSTEL_ID = "SELECT   comments.id,  comment,  date,  rate FROM comments  INNER JOIN guestrooms g ON comments.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
-    private static final String INSERT_COMMENT = "INSERT comments(guestrooms_id, user_id, comment, date,rate) VALUES (?,?,?,?,?);";
+    private static final String SELECT_COMMENTS_BY_ROOM_ID = "SELECT id,comment,date,rate,user_id FROM comments WHERE guestrooms_id =?;";
+    private static final String SELECT_COMMENTS_BY_HOSTEL_ID = "SELECT   comments.id,  comment,  date,  rate,user_id FROM comments  INNER JOIN guestrooms g ON comments.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
+    private static final String INSERT_COMMENT = "INSERT comments(guestrooms_id, user_id, comment, date) VALUES (?,?,?,?);";
     private static final String DELETE_COMMENT_BY_ID = "DELETE FROM comments WHERE id = ?";
     private static final String DELETE_PICTURES_BY_HOSTEL_ID = "DELETE p FROM picture p INNER JOIN guestrooms g ON p.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
+    private static final String DELETE_COMMENTS_BY_ROOM_ID = "DELETE FROM comments WHERE guestrooms_id = ?";
 
     @Override
     public List<Comment> getCommentsByRoomId(Integer guestroomId) throws DAOException {
@@ -61,7 +63,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     @Override
     public void deleteCommentById(Integer commentId) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE id = ?")) {
+             PreparedStatement ps = connection.prepareStatement(DELETE_COMMENT_BY_ID)) {
             ps.setInt(1, commentId);
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
@@ -72,7 +74,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     @Override
     public void deleteCommentsByGuestroomId(Integer guestroomId) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("DELETE FROM comments WHERE guestrooms_id = ?")) {
+             PreparedStatement ps = connection.prepareStatement(DELETE_COMMENTS_BY_ROOM_ID)) {
             ps.setInt(1, guestroomId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -108,6 +110,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
         comment.setComment(rs.getString(2));
         comment.setCommentDate(LocalDate.parse(rs.getString(3)));
         comment.setRate(rs.getInt(4));
+        comment.setUserId(rs.getInt(5));
         return comment;
     }
 

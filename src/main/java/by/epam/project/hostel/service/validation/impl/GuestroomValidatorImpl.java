@@ -9,16 +9,17 @@ public class GuestroomValidatorImpl implements Validator<Guestroom> {
 
 
     @Override
-    public void validate(Guestroom entity) throws ValidationException {
-        if (entity == null) {
+    public Guestroom validate(Guestroom guestroom) throws ValidationException {
+        if (guestroom == null) {
             throw new EmptyParamServiceException("guestroom is empty");
         }
-        if (entity.getNightPrice().doubleValue() < 0) {
-            throw new ValidationException("night price has incorrect value = " + entity.getNightPrice());
+        if (guestroom.getNightPrice().doubleValue() < 0) {
+            throw new ValidationException("night price has incorrect value = " + guestroom.getNightPrice());
         }
-        if (entity.getCapacity() < 1) {
-            throw new ValidationException("room capacity cannot by less then 1, capacity = " + entity.getCapacity());
+        if (guestroom.getCapacity() < 1) {
+            throw new ValidationException("room capacity cannot by less then 1, capacity = " + guestroom.getCapacity());
         }
+        return guestroom;
     }
 }
 

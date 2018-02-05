@@ -9,7 +9,7 @@
     <fmt:message bundle="${loc}" key="local.admin.users" var="users"/>
     <fmt:message bundle="${loc}" key="local.user.login" var="login"/>
     <fmt:message bundle="${loc}" key="local.user.name" var="name"/>
-    <fmt:message bundle="${loc}" key="local.user.role" var="role"/>
+    <fmt:message bundle="${loc}" key="local.user.admin" var="admin"/>
     <fmt:message bundle="${loc}" key="local.user.surname" var="surname"/>
     <fmt:message bundle="${loc}" key="local.user.number" var="number"/>
     <fmt:message bundle="${loc}" key="local.user.email" var="email"/>
@@ -37,7 +37,7 @@
         <th>${login}</th>
         <th>${email}</th>
         <th>${number}</th>
-        <th>${role}</th>
+        <th>${admin}</th>
         <th>${banned}</th>
         <th>${edit}</th>
     </tr>

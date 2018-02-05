@@ -25,7 +25,8 @@ public class UserServiceImpl extends BaseService implements UserService {
     public User singIn(String login, String password) throws ServiceException {
         try {
             validator.validate(login, password);
-            User user = userDAO.signIn(login, password);
+            String validatePassword = ((UserValidatorImpl) validator).validatePassword(password);
+            User user = userDAO.signIn(login, validatePassword);
             if (user != null && User.Role.USER.equals(user.getRole())) {
                 return user;
             } else {
@@ -39,8 +40,9 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public User adminSignIn(String login, String password) throws ServiceException {
         validator.validate(login, password);
+        String validatePassword = ((UserValidatorImpl) validator).validatePassword(password);
         try {
-            User admin = userDAO.signIn(login, password);
+            User admin = userDAO.signIn(login, validatePassword);
             if (admin != null && User.Role.ADMIN.equals(admin.getRole())) {
                 return admin;
             } else {
@@ -63,8 +65,9 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public void registerUser(String name, String surname, String login, String password, String email, String number) throws ServiceException {
         validator.validate(name, surname, login, password, email, number);
+        String passwordMD5 = ((UserValidatorImpl) validator).validatePassword(password);
         try {
-            userDAO.register(name, surname, login, password, email, number);
+            userDAO.register(name, surname, login, passwordMD5, email, number);
         } catch (SuchLoginExistException e) {
             throw new LoginDuplicatedException("such login exist: " + login, e, Constants.ErrorParamMessages.LOGIN_DUPLICATE);
         } catch (DAOException e) {
@@ -86,9 +89,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public void updateUser(User user) throws ServiceException {
-        validator.validate(user);
+        User validateUser = validator.validate(user);
         try {
-            userDAO.editUser(user);
+            userDAO.editUser(validateUser);
         } catch (DAOException e) {
             throw new ServiceException("error during update user", e);
         }
@@ -102,6 +105,17 @@ public class UserServiceImpl extends BaseService implements UserService {
         } catch (DAOException e) {
             throw new ServiceException("error during delete user", e);
         }
+    }
+
+    @Override
+    public User getUserById(Integer userId) throws ServiceException {
+        validator.validateID(userId);
+        try {
+            return userDAO.getUserById(userId);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting user by id", e);
+        }
+
     }
 
     @Override

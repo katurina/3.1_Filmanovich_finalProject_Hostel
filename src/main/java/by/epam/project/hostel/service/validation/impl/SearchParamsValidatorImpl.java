@@ -8,7 +8,7 @@ import by.epam.project.hostel.service.validation.Validator;
 
 public class SearchParamsValidatorImpl implements Validator<SearchGuestroomsParams> {
     @Override
-    public void validate(SearchGuestroomsParams searchParams) throws SearchParamsServiceException, EmptyParamServiceException {
+    public SearchGuestroomsParams validate(SearchGuestroomsParams searchParams) throws SearchParamsServiceException, EmptyParamServiceException {
         if (searchParams == null) {
             throw new EmptyParamServiceException("search parameters == null");
         }
@@ -22,7 +22,7 @@ public class SearchParamsValidatorImpl implements Validator<SearchGuestroomsPara
 
         if (searchParams.getNightPriceTo() != null && searchParams.getNightPriceFrom() != null) {
             if (searchParams.getNightPriceTo().compareTo(searchParams.getNightPriceFrom()) < 0
-                    || searchParams.getNightPriceFrom().intValue() < 1
+                    || searchParams.getNightPriceFrom().intValue() < 0
                     || searchParams.getNightPriceTo().intValue() < 1) {
                 throw new SearchParamsServiceException("incorrect input of night prices", Constants.ErrorParamMessages.INCORRECT_NIGHT_PRICE);
             }
@@ -33,6 +33,7 @@ public class SearchParamsValidatorImpl implements Validator<SearchGuestroomsPara
                 throw new SearchParamsServiceException("incorrect input of room capacity", Constants.ErrorParamMessages.INCORRECT_CAPACITY);
             }
         }
+        return searchParams;
     }
 
 }

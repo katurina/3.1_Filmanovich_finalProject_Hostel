@@ -81,6 +81,15 @@ span.psw {
     height: 10px;
 }
 
+.comment {
+    background: #9eaeee;
+    margin: 10px 50px;
+}
+
+.title {
+    font-size: 12px;
+}
+
 .search {
     display: none;
     width: 100%;
@@ -135,6 +144,10 @@ tr:nth-child(even) {
     background-color: #987dbf;
 }
 
+.properties {
+    color: white;
+}
+
 .footer {
     padding: 20px 0;
     left: 0;
@@ -143,7 +156,7 @@ tr:nth-child(even) {
     background-color: #4c266d;
     color: #f1f1f1;
     text-align: center;
-    margin-top: calc(100vh - 70px);
+    /*margin-top: calc(100 - 70px);*/
 }
 
 /* Add Zoom Animation */

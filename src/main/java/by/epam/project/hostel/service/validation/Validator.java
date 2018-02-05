@@ -6,7 +6,7 @@ import by.epam.project.hostel.service.exception.ValidationException;
 
 public interface Validator<T> {
 
-    void validate(T entity) throws ValidationException, SearchParamsServiceException;
+    T validate(T entity) throws ValidationException, SearchParamsServiceException;
 
     default void validate(String... params) throws EmptyParamServiceException {
         if (params != null) {

@@ -30,9 +30,14 @@
     <fmt:message bundle="${loc}" key="local.text.form" var="textFrom"/>
     <fmt:message bundle="${loc}" key="local.error.empty" var="emptyError"/>
     <fmt:message bundle="${loc}" key="local.error.date" var="dateError"/>
+    <fmt:message bundle="${loc}" key="local.hostel.hostel.name" var="hostelName"/>
+    <fmt:message bundle="${loc}" key="local.hostel.address" var="address"/>
+    <fmt:message bundle="${loc}" key="local.hostel.city" var="city"/>
+    <fmt:message bundle="${loc}" key="local.hostel.country" var="country"/>
+    <fmt:message bundle="${loc}" key="local.guestroom.night.price" var="nightPrice"/>
     <fmt:message bundle="${loc}" key="local.search.for.start.booking" var="forStartBook"/>
+    <fmt:message bundle="${loc}" key="local.user.search.check.search.params" var="checkSearchParams"/>
     <title>${search}</title>
-    <c:set scope="session" var="url" value="search.jsp"/>
     <jsp:include page="${pageContext.request.contextPath}/controller">
         <jsp:param name="command" value="get-required-guestrooms-command"/>
         <jsp:param name="page" value="${param.page}"/>
@@ -111,7 +116,7 @@
                             <input type="text" name="priceTo" pattern="[0-9]*"/>
                         </div>
                     </div>
-                    <c:if test="${( empty param.dateTo) && (empty param.dateFrom)}"><br>${forStartBook} <br></c:if>
+
                     <div class="criteria">
                         <div>
                             ${dates}
@@ -120,10 +125,10 @@
                             ${dateFrom}
                             <input required id="dateFrom" type="text" name="dateFrom"
                                    onclick="setSens('dateTo', 'max');"
-                                   readonly="true">
+                                   readonly="true" value="${param.dateFrom}">
                             ${dateTo}
                             <input required id="dateTo" type="text" name="dateTo" onclick="setSens('dateFrom', 'min');"
-                                   readonly="true">
+                                   readonly="true" value="${param.dateTo}">
                             <c:if test="${requestScope.error eq 'empty'}">
                                 <div class="error">${emptyError}</div>
                             </c:if>
@@ -138,17 +143,39 @@
                         </div>
                         <div>
                             ${capacityFrom}
-                            <input type="text" name="capacityFrom" pattern="[0-9]*"/>
+                            <input type="text" value="${capacityFrom}" name="capacityFrom" pattern="[0-9]*"/>
                             ${capacityTo}
-                            <input type="text" name="capacityTo" pattern="[0-9]*"/>
+                            <input type="text" value="${capacityTo}" name="capacityTo" pattern="[0-9]*"/>
                         </div>
                     </div>
                     <div class="criteria">
                         <div>${required}</div>
                         <div>
-                            <div>wifi<input type="checkbox" value="true" name="wifi"/></div>
-                            <div>TV<input type="checkbox" value="true" name="tv"/></div>
-                            <div>${shower}<input type="checkbox" value="true" name="shower"/></div>
+                            <div>wifi
+                                <c:choose>
+                                    <c:when test="${param.wifi eq 'true'}">
+                                        <input type="checkbox" value="true" name="wifi" checked/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox" value="true" name="wifi"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div>TV<c:choose>
+                                <c:when test="${param.wifi eq 'true'}">
+                                    <input type="checkbox" value="true" name="tv" checked/> </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" value="true" name="tv"/> </c:otherwise>
+                            </c:choose>
+                            </div>
+                            <div>${shower}
+                                <c:choose>
+                                    <c:when test="${param.wifi eq 'true'}">
+                                        <input type="checkbox" value="true" name="shower" checked/> </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox" value="true" name="shower"/> </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                     <input type="hidden" name="search" value="true"/>
@@ -156,19 +183,30 @@
                 </form>
             </div>
         </div>
+        <c:if test="${empty requestScope.page.entity}">
+            <h1 style="text-align: center;text-transform: uppercase;margin-top: 0;color: #9eaeee;">${checkSearchParams}</h1>
+        </c:if>
+        <c:if test="${( empty param.dateTo) && (empty param.dateFrom)}">${forStartBook}</c:if>
         <c:forEach var="room" items="${requestScope.page.entity}">
+            <jsp:include page="/controller">
+                <jsp:param name="command" value="view-hostel-command"/>
+                <jsp:param name="id" value="${room.hostelId}"/>
+            </jsp:include>
             <div class="room-hotel">
                 <p>
                 <div class="img-down"><img src="${room.imgPath[0]}" width="100%"></div>
                 <div class="room-description">
                     <div class="room-parameters">
-                        <div class="money">${room.nightPrice}$</div>
-                            ${room.capacity}
+                        <div class="money">${nightPrice}:&#8195;${room.nightPrice}$</div>
+                            ${capacity}:&#8195;${room.capacity}<br>
+                            ${hostelName}:&#8195;${requestScope.hostel.name}<br>
+                            ${country}:&#8195;${requestScope.hostel.country}<br>
+                            ${city}:&#8195;${requestScope.hostel.city}<br>
+                            ${address}:&#8195;${requestScope.hostel.address}
                     </div>
                     <div style="">
                             ${room.description}</div>
                 </div>
-                </p>
                 <c:if test="${(not empty param.dateTo) && (not empty param.dateFrom)}">
                     <a href="${pageContext.request.contextPath}/user/booking?id=${room.id}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}">${book}</a>
                 </c:if>

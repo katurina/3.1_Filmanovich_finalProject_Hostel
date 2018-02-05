@@ -1,5 +1,6 @@
 package by.epam.project.hostel.dao.impl;
 
+import by.epam.project.hostel.dao.BaseDAO;
 import by.epam.project.hostel.dao.UserDAO;
 import by.epam.project.hostel.dao.exception.ConnectionPoolException;
 import by.epam.project.hostel.dao.exception.DAOException;
@@ -27,6 +28,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     private static final String SELECT_USER_BY_LOGIN = "SELECT login FROM user WHERE login =?";
     private static final String UPDATE_USER_BY_ID = "UPDATE user SET name=?,surname=?,login=?,password=?,email=?,number=? WHERE id =?";
     private static final String DELETE_USER_BY_ID = "DELETE FROM user WHERE id = ?";
+    private static final String SELECT_USER_BY_ID = "SELECT id,name,surname,login,password,email,role,banned,number FROM user WHERE id = ?";
 
     @Override
     public User signIn(String login, String password) throws DAOException {
@@ -133,6 +135,22 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during delete user by id = " + userId, e);
+        }
+    }
+
+    @Override
+    public User getUserById(Integer userId) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return createUser(rs);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting user by id", e);
         }
     }
 

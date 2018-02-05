@@ -17,9 +17,9 @@ import java.util.List;
 import static by.epam.project.hostel.controller.constant.Constant.Comment.COMMENTS;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
 
-public class GetGuestroomCommentCommand implements Command {
+public class GetGuestroomCommentsCommand implements Command {
 
-    private static final Logger logger = LogManager.getLogger(GetGuestroomCommentCommand.class);
+    private static final Logger logger = LogManager.getLogger(GetGuestroomCommentsCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

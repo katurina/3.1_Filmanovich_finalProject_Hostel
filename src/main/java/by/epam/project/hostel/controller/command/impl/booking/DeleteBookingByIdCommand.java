@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Booking.ID;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class DeleteBookingByIdCommand implements Command {
 
@@ -24,6 +25,8 @@ public class DeleteBookingByIdCommand implements Command {
             ServiceFactory.getInstance().getBookingService().deleteBookingById(bookingId);
             response.sendRedirect("/user/bookings");
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "error during delete booking room, please try again");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during deleting booking by id", e);
         }
     }

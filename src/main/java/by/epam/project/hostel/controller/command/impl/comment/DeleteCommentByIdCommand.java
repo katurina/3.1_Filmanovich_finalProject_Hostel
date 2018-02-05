@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.Booking.GUESTROOM_ID;
 import static by.epam.project.hostel.controller.constant.Constant.Comment.ID;
 
 public class DeleteCommentByIdCommand implements Command {
@@ -20,9 +21,10 @@ public class DeleteCommentByIdCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer commentId = Integer.valueOf(request.getParameter(ID));
+        Integer guestroomId = Integer.valueOf(request.getParameter(GUESTROOM_ID));
         try {
             ServiceFactory.getInstance().getCommentService().deleteCommentById(commentId);
-//            todo sendRedirect
+            response.sendRedirect("/guestroom.jsp?id=" + guestroomId);
         } catch (ServiceException e) {
             logger.error("error during delete comment by id", e);
         }

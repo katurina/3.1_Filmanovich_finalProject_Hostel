@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public class BookingValidatorImpl implements Validator<Booking> {
     @Override
-    public void validate(Booking entity) throws ValidationException {
+    public Booking validate(Booking entity) throws ValidationException {
         if (entity == null) {
             throw new EmptyParamServiceException("booking is empty");
         }
@@ -19,6 +19,7 @@ public class BookingValidatorImpl implements Validator<Booking> {
             throw new EmptyParamServiceException("last day of start day cannot be null");
         }
         validateDates(entity.getStartDay(), entity.getLastDay());
+        return entity;
 
     }
 

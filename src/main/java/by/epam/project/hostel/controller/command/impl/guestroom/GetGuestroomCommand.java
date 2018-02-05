@@ -22,7 +22,8 @@ public class GetGuestroomCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.valueOf(request.getParameter(ID));
+        String parameter = request.getParameter(ID);
+        Integer id = Integer.valueOf(parameter);
         String language = (String) request.getSession().getAttribute(Constant.Page.LOCAL);
         try {
             Guestroom guestroom = ServiceFactory.getInstance().getGuestroomService().getGuestroomById(id, language);

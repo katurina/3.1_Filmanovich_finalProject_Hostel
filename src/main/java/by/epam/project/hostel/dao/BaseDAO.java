@@ -1,6 +1,5 @@
-package by.epam.project.hostel.dao.impl;
+package by.epam.project.hostel.dao;
 
-import by.epam.project.hostel.dao.GetConnection;
 import by.epam.project.hostel.dao.db.connection.ConnectionProvider;
 import by.epam.project.hostel.dao.exception.DAOException;
 
@@ -13,7 +12,7 @@ public abstract class BaseDAO implements by.epam.project.hostel.dao.EntityDAO {
 
     private static final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
-    protected Connection connection;
+    private Connection connection;
 
     protected GetConnection provider;
 

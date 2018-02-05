@@ -61,26 +61,28 @@
             <div>${city}: ${requestScope.hostel.city}</div>
             <div>${address}: ${requestScope.hostel.address}</div>
             <div>${nightPrice}: ${requestScope.guestroom.nightPrice}</div>
-            <li>WiFi <c:choose><c:when test="${requestScope.guestroom.wifi eq true}">
-                <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
-            </c:when><c:otherwise>
-                <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
-            </c:otherwise></c:choose></li>
-            <li>TV <c:choose><c:when test="${requestScope.guestroom.tv eq true}">
-                <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
-            </c:when><c:otherwise>
-                <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
-            </c:otherwise></c:choose></li>
-            <li>${bathroom}
-                <c:choose>
-                    <c:when test="${requestScope.guestroom.bath eq true}">
-                        <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
-                    </c:when>
-                    <c:otherwise>
-                        <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
-                    </c:otherwise>
-                </c:choose>
-            </li>
+            <div class="properties">
+                <li>WiFi <c:choose><c:when test="${requestScope.guestroom.wifi eq true}">
+                    <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
+                </c:when><c:otherwise>
+                    <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
+                </c:otherwise></c:choose></li>
+                <li>TV <c:choose><c:when test="${requestScope.guestroom.tv eq true}">
+                    <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
+                </c:when><c:otherwise>
+                    <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
+                </c:otherwise></c:choose></li>
+                <li>${bathroom}
+                    <c:choose>
+                        <c:when test="${requestScope.guestroom.bath eq true}">
+                            <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+            </div>
             <div>${finalCost}: ${requestScope.finalCost}</div>
             <input type="hidden" name="id" value="${param.id}">
             <input type="submit" value="${book}">

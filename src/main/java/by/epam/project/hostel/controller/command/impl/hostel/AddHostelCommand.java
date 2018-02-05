@@ -1,6 +1,8 @@
 package by.epam.project.hostel.controller.command.impl.hostel;
 
 import by.epam.project.hostel.controller.command.Command;
+import by.epam.project.hostel.controller.constant.Constant;
+import by.epam.project.hostel.controller.img.loader.ImgLoader;
 import by.epam.project.hostel.entity.Hostel;
 import by.epam.project.hostel.service.ServiceFactory;
 import by.epam.project.hostel.service.exception.ServiceException;
@@ -11,12 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,13 +38,18 @@ public class AddHostelCommand implements Command {
 
     private static final String FILE = "file";
     private static final String PICTURE_UPLOAD_PATH = "/img/hotel/";
-    private static final String IMAGE_MIME_TYPE = "image/";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter(NAME);
         Integer stars = Integer.valueOf(request.getParameter(STARS));
-        String imgPath = getImgPath(request);
+
+        Part filePart = request.getPart(FILE);
+        String filename = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_hhmmss")) + filePart.getSubmittedFileName();
+        String mimeType = request.getServletContext().getMimeType(filename);
+        String pathname = request.getServletContext().getRealPath("") + PICTURE_UPLOAD_PATH;
+        ImgLoader.loadImageJpg(filePart, filename, mimeType, pathname);
+        String imgPath = PICTURE_UPLOAD_PATH + filename;
 
         String countryRu = request.getParameter(COUNTRY_RU);
         String countryEn = request.getParameter(COUNTRY_EN);
@@ -66,25 +70,9 @@ public class AddHostelCommand implements Command {
             ServiceFactory.getInstance().getHostelService().addHostel(hostel);
             response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
+            request.setAttribute(Constant.MESSAGE, "error during adding hostel command, please try again");
+            request.getRequestDispatcher("/error.jsp");
             logger.error("error during adding hostel", e);
         }
-
-    }
-
-
-    private String getImgPath(HttpServletRequest request) throws IOException, ServletException {
-        Part filePart = request.getPart(FILE);
-        String filename = filePart.getSubmittedFileName();
-        if (!filename.isEmpty()) {
-            String mimeType = request.getServletContext().getMimeType(filename);
-            if (mimeType.startsWith(IMAGE_MIME_TYPE)) {
-                File uploads = new File(request.getServletContext().getRealPath("") + PICTURE_UPLOAD_PATH);
-                File file = new File(uploads, filename);
-                try (InputStream input = filePart.getInputStream()) {
-                    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                }
-            }
-        }
-        return filename.isEmpty() ? null : PICTURE_UPLOAD_PATH + LocalDate.now().toString() + filename;
     }
 }

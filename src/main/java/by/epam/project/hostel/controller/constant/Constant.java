@@ -2,6 +2,7 @@ package by.epam.project.hostel.controller.constant;
 
 public final class Constant {
     public static final String URL = "url";
+    public static final String MESSAGE = "message";
 
 
     private Constant() {

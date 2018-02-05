@@ -8,12 +8,13 @@ public class HostelValidatorImpl implements Validator<Hostel> {
 
 
     @Override
-    public void validate(Hostel entity) throws ValidationException {
+    public Hostel validate(Hostel hostel) throws ValidationException {
 
-        validate(entity.getAddress(), entity.getCity(), entity.getCountry(), entity.getDescription(), entity.getImgPath(), entity.getName());
+        validate(hostel.getAddress(), hostel.getCity(), hostel.getCountry(), hostel.getDescription(), hostel.getImgPath(), hostel.getName());
 
-        if (entity.getStars() > 5 || entity.getStars() < 1) {
-            throw new ValidationException("not correct count of stars = " + entity.getStars());
+        if (hostel.getStars() > 5 || hostel.getStars() < 1) {
+            throw new ValidationException("not correct count of stars = " + hostel.getStars());
         }
+        return hostel;
     }
 }

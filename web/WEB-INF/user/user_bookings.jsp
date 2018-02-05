@@ -55,8 +55,8 @@
         <c:forEach var="booking" items="${requestScope.page.entity}">
             <tr>
                 <td>
-                    <a style="color: gainsboro;"
-                       href="${pageContext.request.contextPath}/guestroom.jsp?id=${booking.guestroomId}">${booking.guestroomId}</a>
+                    <a href="${pageContext.request.contextPath}/guestroom.jsp?id=${booking.guestroomId}"
+                       style="color: black;">${booking.guestroomId}</a>
                 </td>
                 <td>${booking.nightPrice}</td>
                 <td>${booking.startDay}</td>

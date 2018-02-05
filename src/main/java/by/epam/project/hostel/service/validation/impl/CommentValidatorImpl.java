@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public class CommentValidatorImpl implements Validator<Comment> {
 
-    public void validate(Comment comment) throws ValidationException {
+    public Comment validate(Comment comment) throws ValidationException {
         if (comment == null) {
             throw new EmptyParamServiceException("comment is empty");
         }
@@ -17,7 +17,7 @@ public class CommentValidatorImpl implements Validator<Comment> {
         validateID(comment.getUserId());
         validate(comment.getComment());
         validateDate(comment.getCommentDate());
-        validateRate(comment.getRate());
+        return comment;
     }
 
     public void validateDate(LocalDate date) throws EmptyParamServiceException {

@@ -15,6 +15,13 @@ public class Comment extends Entity implements Serializable {
     public Comment() {
     }
 
+    public Comment(int userId, int guestroomId, String comment, LocalDate commentDate) {
+        this.userId = userId;
+        this.guestroomId = guestroomId;
+        this.comment = comment;
+        this.commentDate = commentDate;
+    }
+
     public Comment(int userId, int guestroomId, String comment, LocalDate commentDate, int rate) {
         this.userId = userId;
         this.guestroomId = guestroomId;

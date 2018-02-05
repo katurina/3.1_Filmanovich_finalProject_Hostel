@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import static by.epam.project.hostel.controller.constant.Constant.Comment.COMMENT;
-import static by.epam.project.hostel.controller.constant.Constant.Comment.RATE;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
@@ -30,11 +29,10 @@ public class AddCommentCommand implements Command {
         Integer userId = ((User) request.getSession().getAttribute(USER)).getId();
         String commentText = request.getParameter(COMMENT);
         LocalDate localDate = LocalDate.now();
-        Integer rate = Integer.valueOf(request.getParameter(RATE));
-        Comment comment = new Comment(userId, guestroomId, commentText, localDate, rate);
+        Comment comment = new Comment(userId, guestroomId, commentText, localDate);
         try {
             ServiceFactory.getInstance().getCommentService().addComment(comment);
-//            todo sendRedirect
+            response.sendRedirect("/guestroom.jsp?id=" + guestroomId);
         } catch (ServiceException e) {
             logger.error("error during adding comment in db", e);
         }
