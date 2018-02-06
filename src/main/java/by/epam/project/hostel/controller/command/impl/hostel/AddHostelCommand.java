@@ -1,7 +1,6 @@
 package by.epam.project.hostel.controller.command.impl.hostel;
 
 import by.epam.project.hostel.controller.command.Command;
-import by.epam.project.hostel.controller.constant.Constant;
 import by.epam.project.hostel.controller.img.loader.ImgLoader;
 import by.epam.project.hostel.entity.Hostel;
 import by.epam.project.hostel.service.ServiceFactory;
@@ -12,10 +11,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +27,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
 import static by.epam.project.hostel.controller.constant.Constant.Hostel.STARS;
 import static by.epam.project.hostel.controller.constant.Constant.Language.EN;
 import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class AddHostelCommand implements Command {
 
@@ -43,14 +40,7 @@ public class AddHostelCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter(NAME);
         Integer stars = Integer.valueOf(request.getParameter(STARS));
-
-        Part filePart = request.getPart(FILE);
-        String filename = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_hhmmss")) + filePart.getSubmittedFileName();
-        String mimeType = request.getServletContext().getMimeType(filename);
-        String pathname = request.getServletContext().getRealPath("") + PICTURE_UPLOAD_PATH;
-        ImgLoader.loadImageJpg(filePart, filename, mimeType, pathname);
-        String imgPath = PICTURE_UPLOAD_PATH + filename;
-
+        String imgPath = ImgLoader.getImgPath(request, PICTURE_UPLOAD_PATH);
         String countryRu = request.getParameter(COUNTRY_RU);
         String countryEn = request.getParameter(COUNTRY_EN);
         String cityRu = request.getParameter(CITY_RU);
@@ -70,8 +60,8 @@ public class AddHostelCommand implements Command {
             ServiceFactory.getInstance().getHostelService().addHostel(hostel);
             response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
-            request.setAttribute(Constant.MESSAGE, "error during adding hostel command, please try again");
-            request.getRequestDispatcher("/error.jsp");
+            request.setAttribute(MESSAGE, "error during adding hostel command, please try again");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
             logger.error("error during adding hostel", e);
         }
     }

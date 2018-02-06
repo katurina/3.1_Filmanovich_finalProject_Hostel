@@ -11,11 +11,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH;
@@ -32,8 +29,8 @@ public class AddGuestroomCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(AddGuestroomCommand.class);
 
-    private static final String FILE = "file";
     private static final String PICTURE_UPLOAD_PATH = "/img/guestroom/";
+
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,12 +62,7 @@ public class AddGuestroomCommand implements Command {
         String bath = request.getParameter(BATH);
         Integer capacity = Integer.valueOf(request.getParameter(CAPACITY));
 
-        Part filePart = request.getPart(FILE);
-        String filename = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_hhmmss")) + filePart.getSubmittedFileName();
-        String mimeType = request.getServletContext().getMimeType(filename);
-        String pathname = request.getServletContext().getRealPath("") + PICTURE_UPLOAD_PATH;
-        ImgLoader.loadImageJpg(filePart, filename, mimeType, pathname);
-        String imgPath = PICTURE_UPLOAD_PATH + filename;
+        String imgPath = ImgLoader.getImgPath(request, PICTURE_UPLOAD_PATH);
 
         guestroom.setHostelId(hostelId);
         guestroom.setTv(tv);
@@ -82,6 +74,5 @@ public class AddGuestroomCommand implements Command {
 
         return guestroom;
     }
-
 
 }

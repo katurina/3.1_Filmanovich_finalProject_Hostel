@@ -11,10 +11,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,14 +45,7 @@ public class EditHostelCommand implements Command {
         Integer id = Integer.valueOf(request.getParameter(ID));
         String name = request.getParameter(NAME);
         Integer stars = Integer.valueOf(request.getParameter(STARS));
-        Part filePart = request.getPart(FILE);
-
-        String filename = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_hhmmss")) + filePart.getSubmittedFileName();
-        String mimeType = request.getServletContext().getMimeType(filename);
-        String pathname = request.getServletContext().getRealPath("") + PICTURE_UPLOAD_PATH;
-        ImgLoader.loadImageJpg(filePart, filename, mimeType, pathname);
-        String imagePath = PICTURE_UPLOAD_PATH + filename;
-
+        String imagePath = ImgLoader.getImgPath(request, PICTURE_UPLOAD_PATH);
         String countryRu = request.getParameter("countryRu");
         String countryEn = request.getParameter("countryEn");
         String cityRu = request.getParameter("cityRu");
