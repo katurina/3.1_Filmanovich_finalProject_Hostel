@@ -7,6 +7,7 @@
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="local.error" var="error"/>
+    <fmt:message bundle="${loc}" key="${requestScope.message}" var="message"/>
     <title>${error}</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
     <h3 class="    text-align: center;
     text-transform: uppercase;
     margin-top: 0;
-    color: #9eaeee;">${requestScope.message}</h3>
+    color: #9eaeee;">${message}</h3>
 </div>
 </body>
 </html>
