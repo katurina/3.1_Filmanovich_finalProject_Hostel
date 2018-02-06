@@ -6,6 +6,7 @@ import by.epam.project.hostel.controller.command.impl.booking.BookRoomCommand;
 import by.epam.project.hostel.controller.command.impl.booking.DeleteBookingByIdCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingDetailsCommand;
 import by.epam.project.hostel.controller.command.impl.booking.GetBookingsCommand;
+import by.epam.project.hostel.controller.command.impl.booking.GetUserBookingsCommand;
 import by.epam.project.hostel.controller.command.impl.booking.PayBookingCommand;
 import by.epam.project.hostel.controller.command.impl.comment.AddCommentCommand;
 import by.epam.project.hostel.controller.command.impl.comment.DeleteCommentByIdCommand;
@@ -46,7 +47,7 @@ public class CommandFactory {
     private static final String EDIT_USER_COMMAND = "edit-role-ban-user-command";
     private static final String GET_USERS_COMMAND = "get-users-command";
     private static final String VIEW_HOSTEL_COMMAND = "view-hostel-command";
-    private static final String GET_BOOKINGS_COMMAND = "get-bookings-command";
+    private static final String GET_USER_BOOKINGS_COMMAND = "get-user-bookings-command";
     private static final String VIEW_GUESTROOM_COMMAND = "view-guestroom-command";
     private static final String GET_DESIRED_GUESTROOMS_COMMAND = "get-required-guestrooms-command";
     private static final String GET_HOSTELS_COMMAND = "get-hostels-command";
@@ -97,8 +98,8 @@ public class CommandFactory {
                 return new GetUsersCommand();
             case VIEW_HOSTEL_COMMAND:
                 return new GetHostelCommand();
-            case GET_BOOKINGS_COMMAND:
-                return new GetBookingsCommand();
+            case GET_USER_BOOKINGS_COMMAND:
+                return new GetUserBookingsCommand();
             case VIEW_GUESTROOM_COMMAND:
                 return new GetGuestroomCommand();
             case GET_DESIRED_GUESTROOMS_COMMAND:
@@ -155,7 +156,8 @@ public class CommandFactory {
                 return new AddCommentCommand();
             case "delete-comment-by-id-command":
                 return new DeleteCommentByIdCommand();
-
+            case "get-bookins-command":
+                return new GetBookingsCommand();
         }
         return null;
     }

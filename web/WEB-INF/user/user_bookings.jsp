@@ -33,7 +33,7 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/controller">
-    <jsp:param name="command" value="get-bookings-command"/>
+    <jsp:param name="command" value="get-user-bookings-command"/>
 </jsp:include>
 <c:import url="/menu.jsp"/>
 <div id="page-content-wrapper">

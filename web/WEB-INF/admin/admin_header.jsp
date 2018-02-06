@@ -18,7 +18,7 @@
     <li><a href="${pageContext.request.contextPath}/admin/admin_users">${users}</a></li>
     <li><a href="${pageContext.request.contextPath}/admin/admin_hostels">${hostel}</a></li>
     <li><a href="${pageContext.request.contextPath}/admin/admin_guestrooms">${rooms}</a></li>
-    <li><a href="${pageContext.request.contextPath}/admin/admin_user_bookings">${bookings}</a></li>
+    <li><a href="${pageContext.request.contextPath}/admin/admin_users_bookings">${bookings}</a></li>
     <li><a href="${pageContext.request.contextPath}/controller?command=logout-command">${logout}</a></li>
     <li>
         <form action="${pageContext.request.contextPath}/controller" method="post">

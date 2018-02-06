@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface BookingService extends EntityService {
+
+    List<Booking> getBookings(int currentPage) throws ServiceException;
+
     List<Booking> getUserBookings(int userId, int currentPage) throws ServiceException;
 
     void deleteBookingById(Integer bookingId) throws ServiceException;

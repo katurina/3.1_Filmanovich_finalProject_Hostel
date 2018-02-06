@@ -33,6 +33,16 @@ public class BookingServiceImpl extends BaseService implements BookingService {
     }
 
     @Override
+    public List<Booking> getBookings(int currentPage) throws ServiceException {
+        validator.validateCurrentPage(currentPage);
+        try {
+            return bookingDAO.getBookings(currentPage);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting user's bookings", e);
+        }
+    }
+
+    @Override
     public List<Booking> getUserBookings(int userId, int currentPage) throws ServiceException {
         validator.validateID(userId);
         validator.validateCurrentPage(currentPage);

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface BookingDAO extends EntityDAO {
 
+    List<Booking> getBookings(int currentPage) throws DAOException;
+
     List<Booking> getUserBookings(int userId, int currentPage) throws DAOException;
 
     void deleteBookingById(Integer bookingId) throws DAOException;

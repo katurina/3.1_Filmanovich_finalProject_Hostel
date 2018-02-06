@@ -88,11 +88,11 @@
 
     <servlet>
         <servlet-name>AdminBookings</servlet-name>
-        <jsp-file>/WEB-INF/admin/admin_user_bookings.jsp</jsp-file>
+        <jsp-file>/WEB-INF/admin/admin_users_bookings.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminBookings</servlet-name>
-        <url-pattern>/admin/admin_user_bookings</url-pattern>
+        <url-pattern>/admin/admin_users_bookings</url-pattern>
     </servlet-mapping>
 
     <servlet>

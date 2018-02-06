@@ -18,9 +18,24 @@ import java.util.List;
 import static by.epam.project.hostel.controller.pagination.PageWrapper.MAX_ENTRIES_PER_PAGE;
 
 public class BookingDAOImpl extends BaseDAO implements BookingDAO {
-    private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
-    private static final String DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE id = ?";
 
+    private static final String SELECT_BOOKINGS = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price, user_id FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id LIMIT ?,?";
+    private static final String DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE id = ?";
+    private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price, user_id FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
+
+    @Override
+    public List<Booking> getBookings(int currentPage) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_BOOKINGS)) {
+            ps.setInt(1, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
+            ps.setInt(2, MAX_ENTRIES_PER_PAGE);
+            try (ResultSet rs = ps.executeQuery()) {
+                return createBookings(rs);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException("error during getting user's bookings", e);
+        }
+    }
 
     @Override
     public List<Booking> getUserBookings(int userId, int currentPage) throws DAOException {
@@ -30,11 +45,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
             ps.setInt(2, (currentPage - 1) * MAX_ENTRIES_PER_PAGE);
             ps.setInt(3, MAX_ENTRIES_PER_PAGE);
             try (ResultSet rs = ps.executeQuery()) {
-                List<Booking> bookings = new ArrayList<>();
-                while (rs.next()) {
-                    bookings.add(createBooking(rs));
-                }
-                return bookings;
+                return createBookings(rs);
             }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting user's bookings", e);
@@ -80,6 +91,14 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
         }
     }
 
+    private List<Booking> createBookings(ResultSet rs) throws SQLException {
+        List<Booking> bookings = new ArrayList<>();
+        while (rs.next()) {
+            bookings.add(createBooking(rs));
+        }
+        return bookings;
+    }
+
     private Booking createBooking(ResultSet rs) throws SQLException {
         Booking booking = new Booking();
         booking.setId(rs.getInt(1));
@@ -91,6 +110,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
         booking.setBookDay(rs.getDate(7).toLocalDate());
         booking.setFinalCost(rs.getBigDecimal(8));
         booking.setNightsCount(Period.between(booking.getStartDay(), booking.getLastDay()).getDays());
+        booking.setUserId(rs.getInt(9));
         return booking;
     }
 
