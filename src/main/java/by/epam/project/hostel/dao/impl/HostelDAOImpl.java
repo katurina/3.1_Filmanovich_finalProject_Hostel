@@ -30,6 +30,12 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     private static final String DELETE_EN_RU_HOSTEL_PART = "DELETE FROM thostel WHERE hostel_id = ?";
     private static final String INSERT_HOSTEL = "INSERT INTO hostel (stars, imgPath, name) VALUES (?,?,?)";
     private static final String SELECT_CITIES = "SELECT city FROM thostel INNER JOIN language l ON thostel.language_id = l.id WHERE language = ?";
+    private static final String SELECT_NAME_FROM_HOSTEL = "SELECT name FROM hostel";
+    private static final String SELECT_ID_FROM_HOSTEL_BY_NAME = "SELECT id FROM hostel WHERE name = ?";
+    private static final String SELECT_NAME_FROM_HOSTEL_BY_GUESTROOM_ID = "SELECT name FROM hostel INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ?";
+    private static final String UPDATE_HOSTEL_DESCRIPTION = "UPDATE thostel SET country=?,city=?,description=?,address=? WHERE language_id=? AND hostel_id=?";
+    private static final String UPDATE_HOSTEL = "UPDATE hostel SET stars=?,imgPath=?,name=? WHERE id=?";
+    private static final String HOSTEL = "hostel";
 
     @Override
     public Hostel getHostelById(int id, String language) throws DAOException {
@@ -152,31 +158,20 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     @Override
     public List<String> getHostelsName() throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT name FROM hostel")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                List<String> hostelNames = new ArrayList<>();
-                while (rs.next()) {
-                    hostelNames.add(rs.getString(1));
-                }
-                return hostelNames;
-            }
+             PreparedStatement ps = connection.prepareStatement(SELECT_NAME_FROM_HOSTEL)) {
+            return getList(ps);
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting whole hostels name", e);
         }
     }
+
 
     @Override
     public List<String> getHostelsCities(String language) throws DAOException {
         try (Connection connection = provider.connection();
              PreparedStatement ps = connection.prepareStatement(SELECT_CITIES)) {
             ps.setString(1, language);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<String> cities = new ArrayList<>();
-                while (rs.next()) {
-                    cities.add(rs.getString(1));
-                }
-                return cities;
-            }
+            return getList(ps);
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during getting hostels' cities", e);
         }
@@ -185,7 +180,7 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     @Override
     public Integer getHostelIdByName(String hostelName) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT id FROM hostel WHERE name = ?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_ID_FROM_HOSTEL_BY_NAME)) {
             ps.setString(1, hostelName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
@@ -201,7 +196,7 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     @Override
     public String getHostelNameByGuestroomId(Integer hostelId) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("SELECT name FROM hostel INNER JOIN guestrooms g ON hostel.id = g.hostel_id WHERE g.id = ?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_NAME_FROM_HOSTEL_BY_GUESTROOM_ID)) {
             ps.setInt(1, hostelId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
@@ -218,7 +213,7 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     @Override
     public void updateHostelDescriptions(String language, Hostel hostel) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("UPDATE thostel SET country=?,city=?,description=?,address=? WHERE language_id=? AND hostel_id=?")) {
+             PreparedStatement ps = connection.prepareStatement(UPDATE_HOSTEL_DESCRIPTION)) {
             ps.setString(1, hostel.getCountry());
             ps.setString(2, hostel.getCity());
             ps.setString(3, hostel.getDescription());
@@ -234,7 +229,7 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
     @Override
     public void updateHostel(Map<String, Hostel> hostel) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("UPDATE hostel SET stars=?,imgPath=?,name=? WHERE id=?")) {
+             PreparedStatement ps = connection.prepareStatement(UPDATE_HOSTEL)) {
             Hostel hostelEntity = hostel.get(RU);
             ps.setInt(1, hostelEntity.getStars());
             ps.setString(2, hostelEntity.getImgPath());
@@ -246,6 +241,15 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
         }
     }
 
+    private List<String> getList(PreparedStatement ps) throws SQLException {
+        try (ResultSet rs = ps.executeQuery()) {
+            List<String> hostelNames = new ArrayList<>();
+            while (rs.next()) {
+                hostelNames.add(rs.getString(1));
+            }
+            return hostelNames;
+        }
+    }
 
     private Hostel createHostel(ResultSet rs) throws SQLException {
         Hostel hostel = new Hostel();
@@ -262,6 +266,6 @@ public class HostelDAOImpl extends BaseDAO implements HostelDAO {
 
     @Override
     protected String getTableName() {
-        return "hostel";
+        return HOSTEL;
     }
 }

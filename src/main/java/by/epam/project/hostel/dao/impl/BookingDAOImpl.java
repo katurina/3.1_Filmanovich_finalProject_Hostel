@@ -22,6 +22,9 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
     private static final String SELECT_BOOKINGS = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price, user_id FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id LIMIT ?,?";
     private static final String DELETE_BOOKING_BY_ID = "DELETE FROM bookings WHERE id = ?";
     private static final String SELECT_BOOKINGS_BY_USER_ID_LIMIT = "SELECT  bookings.id AS booking_id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price, user_id FROM bookings INNER JOIN guestrooms g ON bookings.guestrooms_id = g.id WHERE user_id = ? LIMIT ?,?";
+    private static final String INSERT_BOOKING = "INSERT INTO bookings(user_id, guestrooms_id, night_price, start_day, last_day, book_day, all_price) VALUES (?,?,?,?,?,?,?)";
+    private static final String UPDATE_BOOKINGS_SET_PAYED = "UPDATE bookings SET payed = 1 WHERE id = ?";
+    private static final String BOOKINGS = "bookings";
 
     @Override
     public List<Booking> getBookings(int currentPage) throws DAOException {
@@ -66,7 +69,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
     @Override
     public void bookRoom(Booking booking) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("INSERT INTO bookings(user_id, guestrooms_id, night_price, start_day, last_day, book_day, all_price) VALUES (?,?,?,?,?,?,?)")) {
+             PreparedStatement ps = connection.prepareStatement(INSERT_BOOKING)) {
             ps.setInt(1, booking.getUserId());
             ps.setInt(2, booking.getGuestroomId());
             ps.setBigDecimal(3, booking.getNightPrice());
@@ -83,7 +86,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
     @Override
     public void payBooking(int bookingId) throws DAOException {
         try (Connection connection = provider.connection();
-             PreparedStatement ps = connection.prepareStatement("UPDATE bookings SET payed = 1 WHERE id = ?")) {
+             PreparedStatement ps = connection.prepareStatement(UPDATE_BOOKINGS_SET_PAYED)) {
             ps.setInt(1, bookingId);
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
@@ -116,7 +119,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
 
     @Override
     protected String getTableName() {
-        return "bookings";
+        return BOOKINGS;
     }
 
 }

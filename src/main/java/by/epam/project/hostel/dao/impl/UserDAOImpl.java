@@ -29,6 +29,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     private static final String UPDATE_USER_BY_ID = "UPDATE user SET name=?,surname=?,login=?,password=?,email=?,number=? WHERE id =?";
     private static final String DELETE_USER_BY_ID = "DELETE FROM user WHERE id = ?";
     private static final String SELECT_USER_BY_ID = "SELECT id,name,surname,login,password,email,role,banned,number FROM user WHERE id = ?";
+    private static final String USER = "user";
 
     @Override
     public User signIn(String login, String password) throws DAOException {
@@ -76,10 +77,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
             ps.setInt(3, id);
             ps.executeUpdate();
 
-        } catch (SQLException |
-                ConnectionPoolException e)
-
-        {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("Error during getting user by id: " + id, e);
         }
 
@@ -171,6 +169,6 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
     @Override
     protected String getTableName() {
-        return "user";
+        return USER;
     }
 }

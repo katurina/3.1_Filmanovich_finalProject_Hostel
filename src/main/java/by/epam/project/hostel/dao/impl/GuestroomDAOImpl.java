@@ -45,6 +45,26 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     private static final String INSERT_GUESTROOM_PICTURE_BY_GUESTROOM_ID = "INSERT INTO picture(guestrooms_id, file) VALUES (?,?)";
     private static final String DELETE_PICTURE_BY_ID = "DELETE FROM picture WHERE picture.file = ?";
     private static final String INSERT_GUESTROOM_PICTURE = "INSERT INTO picture(guestrooms_id, file) VALUES (?,?)";
+    private static final String SELECT_COUNT_DISTINCT_ID = "SELECT count(DISTINCT (guestrooms.id)) FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ? ";
+    private static final String ANY = "any";
+    private static final String AND_CITY = " AND t2.city = ? ";
+    private static final String AND_GUESTROOMS_NIGHT_PRICE_BETWEEN = " AND (guestrooms.night_price BETWEEN ? AND ?) ";
+    private static final String AND_GUESTROOM_NOT_IN_BOOKINGS = " AND guestrooms.id NOT IN (SELECT DISTINCT guestrooms_id FROM bookings AS b  WHERE (? >= b.last_day AND ? >= b.start_day) OR (? <= b.last_day AND ? <= b.start_day)) ";
+    private static final String AND_WIFI_1 = "  AND wifi=1 ";
+    private static final String AND_TV_1 = " AND tv=1 ";
+    private static final String AND_BATH_1 = " AND bath=1 ";
+    private static final String AND_CAPACITY_BETWEEN_AND = " and (capacity BETWEEN ? and ?) ";
+    private static final String SELECT_DISTINCT_GUESTROOM = "SELECT DISTINCT(guestrooms.id),   night_price,   tv,   wifi,   bath,   capacity,   t.description,   guestrooms.hostel_id FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ?  ";
+    private static final String NIGHT_PRICE = "nightPrice";
+    private static final String CAPACITY = "capacity";
+    private static final String NONE = "none";
+    private static final String ORDER_BY_GUESTROOMS_NIGHT_PRICE = " ORDER BY guestrooms.night_price ";
+    private static final String ORDER_BY_CAPACITY = " ORDER BY capacity ";
+    private static final String ASCENDING = "ascending";
+    private static final String DESCENDING = "descending";
+    private static final String DESC = " DESC ";
+    private static final String ASC = " ASC ";
+    private static final String LIMIT = " LIMIT ?,?";
 
     @Override
     public List<Guestroom> getGuestroomsByHostelId(int id, String language, int page) throws DAOException {
@@ -380,7 +400,7 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
 
     private PreparedStatement getSQLTotalRowCount(Connection connection, SearchGuestroomsParams searchParams) throws
             SQLException {
-        StringBuilder sqlSelectCount = new StringBuilder("SELECT count(DISTINCT (guestrooms.id)) FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ? ");
+        StringBuilder sqlSelectCount = new StringBuilder(SELECT_COUNT_DISTINCT_ID);
         String city = searchParams.getCity();
         LocalDate dateFrom = searchParams.getDateFrom();
         LocalDate dateTo = searchParams.getDateTo();
@@ -392,34 +412,34 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
         BigDecimal nightPriceTo = searchParams.getNightPriceTo();
         BigDecimal nightPriceFrom = searchParams.getNightPriceFrom();
 
-        if (city != null && !city.equals("any")) {
-            sqlSelectCount.append(" AND t2.city = ? ");
+        if (city != null && !city.equals(ANY)) {
+            sqlSelectCount.append(AND_CITY);
         }
 
         if (nightPriceFrom != null && nightPriceTo != null) {
-            sqlSelectCount.append(" AND (guestrooms.night_price BETWEEN ? AND ?) ");
+            sqlSelectCount.append(AND_GUESTROOMS_NIGHT_PRICE_BETWEEN);
         }
         if (dateFrom != null && dateTo != null) {
-            sqlSelectCount.append(" AND guestrooms.id NOT IN (SELECT DISTINCT guestrooms_id FROM bookings AS b  WHERE (? >= b.last_day AND ? >= b.start_day) OR (? <= b.last_day AND ? <= b.start_day)) ");
+            sqlSelectCount.append(AND_GUESTROOM_NOT_IN_BOOKINGS);
         }
         if (wifi) {
-            sqlSelectCount.append("  AND wifi=1 ");
+            sqlSelectCount.append(AND_WIFI_1);
         }
         if (tv) {
-            sqlSelectCount.append(" AND tv=1 ");
+            sqlSelectCount.append(AND_TV_1);
         }
         if (shower) {
-            sqlSelectCount.append(" AND bath=1 ");
+            sqlSelectCount.append(AND_BATH_1);
         }
         if (capacityFrom != null && capacityTo != null) {
-            sqlSelectCount.append(" and (capacity BETWEEN ? and ?) ");
+            sqlSelectCount.append(AND_CAPACITY_BETWEEN_AND);
         }
         return connection.prepareStatement(sqlSelectCount.toString());
     }
 
     private PreparedStatement getSQLSelect(Connection connection, SearchGuestroomsParams searchParams) throws
             SQLException {
-        StringBuilder selectByParams = new StringBuilder("SELECT DISTINCT(guestrooms.id),   night_price,   tv,   wifi,   bath,   capacity,   t.description,   guestrooms.hostel_id FROM guestrooms   INNER JOIN tguestrooms t ON guestrooms.id = t.guestrooms_id   INNER JOIN language l ON t.language_id = l.id   INNER JOIN hostel h ON guestrooms.hostel_id = h.id   INNER JOIN thostel t2 ON h.id = t2.hostel_id WHERE language = ?  ");
+        StringBuilder selectByParams = new StringBuilder(SELECT_DISTINCT_GUESTROOM);
 
         String city = searchParams.getCity();
         LocalDate dateFrom = searchParams.getDateFrom();
@@ -435,53 +455,53 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
         Integer capacityTo = searchParams.getCapacityTo();
 
 
-        if (city != null && !city.equals("any")) {
-            selectByParams.append(" AND t2.city = ? ");
+        if (city != null && !city.equals(ANY)) {
+            selectByParams.append(AND_CITY);
         }
 
         if (nightPriceFrom != null && nightPriceTo != null) {
-            selectByParams.append(" AND (guestrooms.night_price BETWEEN ? AND ?) ");
+            selectByParams.append(AND_GUESTROOMS_NIGHT_PRICE_BETWEEN);
         }
 
         if (dateFrom != null && dateTo != null) {
-            selectByParams.append(" AND guestrooms.id NOT IN (SELECT DISTINCT guestrooms_id FROM bookings AS b  WHERE (? >= b.last_day AND ? >= b.start_day) OR (? <= b.last_day AND ? <= b.start_day)) ");
+            selectByParams.append(AND_GUESTROOM_NOT_IN_BOOKINGS);
         }
         if (wifi) {
-            selectByParams.append("  AND wifi=1 ");
+            selectByParams.append(AND_WIFI_1);
         }
         if (tv) {
-            selectByParams.append(" AND tv=1 ");
+            selectByParams.append(AND_TV_1);
         }
         if (shower) {
-            selectByParams.append(" AND bath=1 ");
+            selectByParams.append(AND_BATH_1);
         }
         if (capacityFrom != null && capacityTo != null) {
-            selectByParams.append(" and (capacity BETWEEN ? and ?) ");
+            selectByParams.append(AND_CAPACITY_BETWEEN_AND);
         }
 
         if (sorting != null) {
             switch (sorting) {
-                case "nightPrice":
-                    selectByParams.append(" ORDER BY guestrooms.night_price ");
+                case NIGHT_PRICE:
+                    selectByParams.append(ORDER_BY_GUESTROOMS_NIGHT_PRICE);
                     break;
-                case "capacity":
-                    selectByParams.append(" ORDER BY capacity ");
+                case CAPACITY:
+                    selectByParams.append(ORDER_BY_CAPACITY);
                     break;
-                case "none":
+                case NONE:
                     break;
             }
         }
-        if (sorting != null && !sorting.equals("none") && direction != null) {
+        if (sorting != null && !sorting.equals(NONE) && direction != null) {
             switch (direction) {
-                case "ascending":
-                    selectByParams.append(" ASC ");
+                case ASCENDING:
+                    selectByParams.append(ASC);
                     break;
-                case "descending":
-                    selectByParams.append(" DESC ");
+                case DESCENDING:
+                    selectByParams.append(DESC);
                     break;
             }
         }
-        selectByParams.append(" LIMIT ?,?");
+        selectByParams.append(LIMIT);
 
         return connection.prepareStatement(selectByParams.toString());
     }
@@ -561,15 +581,19 @@ public class GuestroomDAOImpl extends BaseDAO implements GuestroomDAO {
     private List<String> getGuestroomImage(int id, Connection connection) throws DAOException {
         try (PreparedStatement ps = connection.prepareStatement(SELECT_IMAGES_PATH)) {
             ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<String> images = new ArrayList<>();
-                while (rs.next()) {
-                    images.add(rs.getString(1));
-                }
-                return images;
-            }
+            return getList(ps);
         } catch (SQLException e) {
             throw new DAOException("error during getting guestroom images", e);
+        }
+    }
+
+    private List<String> getList(PreparedStatement ps) throws SQLException {
+        try (ResultSet rs = ps.executeQuery()) {
+            List<String> guestroomsNames = new ArrayList<>();
+            while (rs.next()) {
+                guestroomsNames.add(rs.getString(1));
+            }
+            return guestroomsNames;
         }
     }
 

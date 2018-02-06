@@ -23,6 +23,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
     private static final String DELETE_COMMENT_BY_ID = "DELETE FROM comments WHERE id = ?";
     private static final String DELETE_PICTURES_BY_HOSTEL_ID = "DELETE p FROM picture p INNER JOIN guestrooms g ON p.guestrooms_id = g.id  INNER JOIN hostel h ON g.hostel_id = h.id WHERE h.id = ?";
     private static final String DELETE_COMMENTS_BY_ROOM_ID = "DELETE FROM comments WHERE guestrooms_id = ?";
+    private static final String COMMENTS = "comments";
 
     @Override
     public List<Comment> getCommentsByRoomId(Integer guestroomId) throws DAOException {
@@ -119,6 +120,6 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
      */
     @Override
     protected String getTableName() {
-        return "comments";
+        return COMMENTS;
     }
 }
