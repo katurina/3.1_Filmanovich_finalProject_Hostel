@@ -25,7 +25,7 @@ public class DeleteBookingByIdCommand implements Command {
             ServiceFactory.getInstance().getBookingService().deleteBookingById(bookingId);
             response.sendRedirect("/user/bookings");
         } catch (ServiceException e) {
-            request.setAttribute(MESSAGE, "error during delete booking room, please try again");
+            request.setAttribute(MESSAGE, "local.error.delete.booking");
             request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during deleting booking by id", e);
         }

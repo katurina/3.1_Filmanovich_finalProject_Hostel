@@ -44,6 +44,11 @@ public class GetUserBookingsCommand implements Command {
                 request.setAttribute(Constant.Page.PAGE, page);
             } catch (ServiceException e) {
                 logger.error("error during getting user bookings", e);
+                try {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                } catch (IOException err) {
+                    logger.error("error during send error", err);
+                }
             }
         } else {
             request.setAttribute(ERROR_USER_NOT_LOGGED, TRUE);

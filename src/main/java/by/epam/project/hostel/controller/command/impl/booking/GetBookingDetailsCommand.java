@@ -16,7 +16,6 @@ import java.util.Map;
 
 import static by.epam.project.hostel.controller.constant.Constant.Booking.FINAL_COST;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.GUESTROOM;
-import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_FROM;
 import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_TO;
 
@@ -34,9 +33,12 @@ public class GetBookingDetailsCommand implements Command {
             bookingDetails = ServiceFactory.getInstance().getBookingService().getBookingDetails(dateFrom, dateTo, guestroom);
             request.setAttribute(FINAL_COST, bookingDetails.get(FINAL_COST));
         } catch (ServiceException e) {
-            request.setAttribute(MESSAGE, "error getting bookings details, please try again");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during getting booking details command", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during send error", err);
+            }
         }
     }
 }

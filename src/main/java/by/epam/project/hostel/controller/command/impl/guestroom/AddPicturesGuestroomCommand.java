@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class AddPicturesGuestroomCommand implements Command {
 
@@ -29,6 +30,8 @@ public class AddPicturesGuestroomCommand implements Command {
             ServiceFactory.getInstance().getGuestroomService().addImage(guestroomId, imgPath);
             response.sendRedirect("/admin/edit_guestroom?id=" + guestroomId);
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.during.adding.image");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
             logger.error("error during adding image ", e);
         }
     }

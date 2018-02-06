@@ -27,27 +27,26 @@ public class GetBookingsCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-            String pageParam = request.getParameter(CURRENT_PAGE);
-            int currentPage = (pageParam == null || pageParam.isEmpty()) ? 1 : Integer.valueOf(pageParam);
+        String pageParam = request.getParameter(CURRENT_PAGE);
+        int currentPage = (pageParam == null || pageParam.isEmpty()) ? 1 : Integer.valueOf(pageParam);
         String userId = request.getParameter(USER_ID);
-            try {
-                List<Booking> userBooking;
-                if (userId == null || userId.isEmpty()) {
-                    userBooking = bookingService.getBookings(currentPage);
-                } else {
-                    userBooking = bookingService.getUserBookings(Integer.parseInt(userId), currentPage);
-                }
-                int totalRowCount = bookingService.getTotalRowCount();
-                Page<Booking> page = PageWrapper.wrapList(userBooking, currentPage, totalRowCount);
-                request.setAttribute(Constant.Page.PAGE + BOOKINGS, page);
-            } catch (ServiceException e) {
-                logger.error("error during getting user bookings", e);
-                try {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                } catch (IOException err) {
-                    logger.error("error during send error", err);
-                }
-
+        try {
+            List<Booking> userBooking;
+            if (userId == null || userId.isEmpty()) {
+                userBooking = bookingService.getBookings(currentPage);
+            } else {
+                userBooking = bookingService.getUserBookings(Integer.parseInt(userId), currentPage);
             }
+            int totalRowCount = bookingService.getTotalRowCount();
+            Page<Booking> page = PageWrapper.wrapList(userBooking, currentPage, totalRowCount);
+            request.setAttribute(Constant.Page.PAGE + BOOKINGS, page);
+        } catch (ServiceException e) {
+            logger.error("error during getting user bookings", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during send error", err);
+            }
+        }
     }
 }

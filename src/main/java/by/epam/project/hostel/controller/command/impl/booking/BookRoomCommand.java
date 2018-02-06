@@ -40,10 +40,8 @@ public class BookRoomCommand implements Command {
             Booking booking = new Booking(nightPrice, startDay, lastDate, today, userId, roomId);
             instance.getBookingService().bookRoom(booking);
             response.sendRedirect("/user/bookings?page=1");
-//            MailSender.sendMessage("Booking", "success", user.getEmail());
-
-        } catch (ServiceException /*| MailException*/ e) {
-            request.setAttribute(MESSAGE, "error during booking room, please try again");
+        } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.during.book.room");
             request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during booking room", e);
         }
