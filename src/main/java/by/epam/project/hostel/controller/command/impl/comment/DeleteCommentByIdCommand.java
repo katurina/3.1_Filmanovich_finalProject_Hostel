@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Booking.GUESTROOM_ID;
 import static by.epam.project.hostel.controller.constant.Constant.Comment.ID;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class DeleteCommentByIdCommand implements Command {
 
@@ -26,6 +27,8 @@ public class DeleteCommentByIdCommand implements Command {
             ServiceFactory.getInstance().getCommentService().deleteCommentById(commentId);
             response.sendRedirect("/guestroom.jsp?id=" + guestroomId);
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.delete.comment");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during delete comment by id", e);
         }
 

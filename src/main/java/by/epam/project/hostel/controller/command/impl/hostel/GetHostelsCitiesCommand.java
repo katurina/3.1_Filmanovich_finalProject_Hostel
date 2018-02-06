@@ -27,6 +27,11 @@ public class GetHostelsCitiesCommand implements Command {
             request.setAttribute(CITIES, hostelsCities);
         } catch (ServiceException e) {
             logger.error("error during getting hostels' cities", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting hostel's cities", err);
+            }
         }
     }
 }

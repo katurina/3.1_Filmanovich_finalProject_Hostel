@@ -29,6 +29,11 @@ public class GetGuestroomDescriptionsCommand implements Command {
             request.setAttribute("descriptionEn", descriptionEn);
         } catch (ServiceException e) {
             logger.error("error during getting guestroom's descriptions", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting guestroom descriptions", err);
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
 import static by.epam.project.hostel.controller.constant.Constant.Hostel.STARS;
 import static by.epam.project.hostel.controller.constant.Constant.Language.EN;
 import static by.epam.project.hostel.controller.constant.Constant.Language.RU;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class EditHostelCommand implements Command {
 
@@ -36,6 +37,8 @@ public class EditHostelCommand implements Command {
             ServiceFactory.getInstance().getHostelService().editHostel(hostel);
             response.sendRedirect("/admin/edit_hostel?id=" + request.getParameter(ID));
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.edit.hostel");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
             logger.error("error during editing hostel ", e);
         }
 

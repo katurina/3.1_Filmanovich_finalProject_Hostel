@@ -25,6 +25,11 @@ public class GetHostelsNameCommand implements Command {
             request.setAttribute(NAMES, hostelsName);
         } catch (ServiceException e) {
             logger.error("error during getting hostels name", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting hostels' names", err);
+            }
         }
     }
 }

@@ -29,6 +29,11 @@ public class GetHostelCommand implements Command {
             request.setAttribute(Constant.Hostel.HOSTEL, hostel);
         } catch (ValidationException e) {
             logger.error("error during getting hostel", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting hostel", err);
+            }
         }
     }
 }

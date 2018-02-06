@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class DeleteGuestroomByIdCommand implements Command {
 
@@ -24,6 +25,8 @@ public class DeleteGuestroomByIdCommand implements Command {
             ServiceFactory.getInstance().getGuestroomService().deleteGuestroomById(guestroomId);
             response.sendRedirect("/admin/admin_guestrooms");
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.delete.guestroom");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during delete guestroom by id", e);
         }
     }

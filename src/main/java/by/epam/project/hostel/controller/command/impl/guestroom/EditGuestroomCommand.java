@@ -22,6 +22,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Guestroom.NIGH
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.TV;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.WIFI;
 import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class EditGuestroomCommand implements Command {
 
@@ -36,6 +37,8 @@ public class EditGuestroomCommand implements Command {
             ServiceFactory.getInstance().getGuestroomService().editGuestroom(guestroom, descriptionEn, descriptionRu);
             response.sendRedirect("/admin/admin_guestrooms");
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.edit.guestroom");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during edit guestroom ", e);
         }
     }

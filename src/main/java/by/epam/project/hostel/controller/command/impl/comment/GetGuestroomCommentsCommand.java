@@ -31,6 +31,11 @@ public class GetGuestroomCommentsCommand implements Command {
             request.setAttribute(COMMENTS, comments);
         } catch (ServiceException e) {
             logger.error("error during getting comments", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting guestroom comments", err);
+            }
         }
     }
 }

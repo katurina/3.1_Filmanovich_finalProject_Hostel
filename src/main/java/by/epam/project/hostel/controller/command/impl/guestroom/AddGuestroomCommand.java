@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.CAPACITY;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_RU;
@@ -23,6 +22,7 @@ import static by.epam.project.hostel.controller.constant.Constant.Guestroom.TV;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.WIFI;
 import static by.epam.project.hostel.controller.constant.Constant.Hostel.DESCRIPTION_EN;
 import static by.epam.project.hostel.controller.constant.Constant.Hostel.NAME;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Success.SUCCESS;
 
 public class AddGuestroomCommand implements Command {
@@ -40,11 +40,11 @@ public class AddGuestroomCommand implements Command {
             String descriptionEn = request.getParameter(DESCRIPTION_EN);
             ServiceFactory.getInstance().getGuestroomService().addGuestroom(guestroom, descriptionEn, descriptionRu);
             request.setAttribute(SUCCESS, "add");
+            response.sendRedirect("/admin/admin_guestrooms");
         } catch (ServiceException e) {
-            request.setAttribute(ERROR, "notAdd");
             logger.error("error during adding guestroom");
-        } finally {
-            request.getRequestDispatcher("/admin/admin_guestrooms").forward(request, response);
+            request.setAttribute(MESSAGE, "local.error.add.guestroom");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
         }
 
     }

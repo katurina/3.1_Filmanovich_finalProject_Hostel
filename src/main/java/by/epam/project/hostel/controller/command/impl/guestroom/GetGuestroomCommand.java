@@ -30,6 +30,11 @@ public class GetGuestroomCommand implements Command {
             request.setAttribute(GUESTROOM, guestroom);
         } catch (ServiceException e) {
             logger.error("error during getting guestroom by id = " + id, e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting guestroom", err);
+            }
         }
 
     }

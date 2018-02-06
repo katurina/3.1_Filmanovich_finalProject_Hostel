@@ -27,6 +27,11 @@ public class GetUserByIdCommand implements Command {
             request.setAttribute(USER, user);
         } catch (ServiceException e) {
             logger.error("error during getting user by id", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting user by id", err);
+            }
         }
 
 

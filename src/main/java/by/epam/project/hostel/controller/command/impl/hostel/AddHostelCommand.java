@@ -60,7 +60,7 @@ public class AddHostelCommand implements Command {
             ServiceFactory.getInstance().getHostelService().addHostel(hostel);
             response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
-            request.setAttribute(MESSAGE, "error during adding hostel command, please try again");
+            request.setAttribute(MESSAGE, "local.error.add.hostel");
             request.getRequestDispatcher("/error.jsp").forward(request, response);
             logger.error("error during adding hostel", e);
         }

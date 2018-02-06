@@ -42,6 +42,11 @@ public class LoginCommand implements Command {
             }
         } catch (ServiceException | IOException e) {
             logger.error("error during login command", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during longing command", err);
+            }
         }
         try {
             request.setAttribute(ERROR_USER_NOT_LOGGED, error);
@@ -54,6 +59,11 @@ public class LoginCommand implements Command {
             }
         } catch (ServletException | IOException e) {
             logger.error("error during forward in login command", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during longing command", err);
+            }
         }
     }
 }

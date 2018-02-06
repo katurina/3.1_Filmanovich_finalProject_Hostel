@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.INDEX_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
@@ -28,6 +29,8 @@ public class LogoutCommand implements Command {
             response.sendRedirect(INDEX_JSP);
         } catch (IOException e) {
             logger.error("error during sendRedirect in logout command", e);
+            request.setAttribute(MESSAGE, "local.error.log.out");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 }

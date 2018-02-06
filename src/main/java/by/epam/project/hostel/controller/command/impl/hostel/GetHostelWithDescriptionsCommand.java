@@ -33,6 +33,11 @@ public class GetHostelWithDescriptionsCommand implements Command {
             request.setAttribute("hostelEn", hostelEn);
         } catch (ValidationException e) {
             logger.error("error during getting whole hostel with descriptions ", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting hostel with descriptions", err);
+            }
         }
     }
 }

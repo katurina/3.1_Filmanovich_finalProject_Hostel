@@ -26,7 +26,11 @@
 <c:import url="menu.jsp"/>
 <div id="page-content-wrapper">
     <div class="main-window">
-
+        <div style="color: gainsboro">
+            ${message}<br>
+            ${reason}<br>
+            ${contacts}<br>
+        </div>
     </div>
     <c:import url="footer.jsp"/>
 </div>

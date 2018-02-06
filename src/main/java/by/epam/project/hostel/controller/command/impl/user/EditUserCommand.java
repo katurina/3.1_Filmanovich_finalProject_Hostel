@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.User.EMAIL;
 import static by.epam.project.hostel.controller.constant.Constant.User.LOGIN;
 import static by.epam.project.hostel.controller.constant.Constant.User.NAME;
@@ -31,6 +32,8 @@ public class EditUserCommand implements Command {
             ServiceFactory.getInstance().getUserService().updateUser(user);
             response.sendRedirect("/user/account");
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.edit.user");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
             logger.error("error during edit user", e);
         }
     }

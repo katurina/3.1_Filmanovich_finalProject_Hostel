@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.ADMIN_ADMIN_USERS;
 import static by.epam.project.hostel.controller.constant.Constant.User.BANNED;
 import static by.epam.project.hostel.controller.constant.Constant.User.NOT_BANNED;
@@ -41,6 +42,8 @@ public class EditRoleBanUserCommand implements Command {
             userService.updateUser(id, role, Integer.valueOf(banned));
             response.sendRedirect(ADMIN_ADMIN_USERS);
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.edit.role.ban.user");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
             logger.error("error during editing user", e);
         }
     }

@@ -40,12 +40,22 @@ public class LoginAdminCommand implements Command {
             }
         } catch (ServiceException e) {
             logger.error("error during longing admin command", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during longing admin command", err);
+            }
         }
         try {
             request.getSession().setAttribute(ERROR_USER_NOT_LOGGED, error);
             response.sendRedirect(forwardPage);
         } catch (IOException e) {
             logger.error("error during forward in LoginAdminCommand", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during longing admin command", err);
+            }
         }
     }
 }

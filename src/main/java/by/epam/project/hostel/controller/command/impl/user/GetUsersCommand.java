@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 import static by.epam.project.hostel.controller.constant.Constant.Page.CURRENT_PAGE;
@@ -35,6 +36,11 @@ public class GetUsersCommand implements Command {
             request.setAttribute(PAGE, usersPage);
         } catch (ServiceException e) {
             logger.error("error during getting page with users", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting page with users", err);
+            }
         }
 
     }

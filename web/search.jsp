@@ -143,9 +143,9 @@
                         </div>
                         <div>
                             ${capacityFrom}
-                            <input type="text" value="${capacityFrom}" name="capacityFrom" pattern="[0-9]*"/>
+                            <input type="text" value="${param.capacityFrom}" name="capacityFrom" pattern="[0-9]*"/>
                             ${capacityTo}
-                            <input type="text" value="${capacityTo}" name="capacityTo" pattern="[0-9]*"/>
+                            <input type="text" value="${param.capacityTo}" name="capacityTo" pattern="[0-9]*"/>
                         </div>
                     </div>
                     <div class="criteria">

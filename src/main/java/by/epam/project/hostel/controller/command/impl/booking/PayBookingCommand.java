@@ -25,7 +25,7 @@ public class PayBookingCommand implements Command {
             ServiceFactory.getInstance().getBookingService().payBooking(bookingId);
             response.sendRedirect("/user/bookings");
         } catch (ServiceException e) {
-            request.setAttribute(MESSAGE, "local.error.during.pay.booking");
+            request.setAttribute(MESSAGE, "local.error.pay.booking");
             request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during pay booking", e);
         }

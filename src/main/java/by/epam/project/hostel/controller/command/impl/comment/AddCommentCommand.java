@@ -16,6 +16,7 @@ import java.time.LocalDate;
 
 import static by.epam.project.hostel.controller.constant.Constant.Comment.COMMENT;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
+import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.User.USER;
 
 
@@ -34,6 +35,8 @@ public class AddCommentCommand implements Command {
             ServiceFactory.getInstance().getCommentService().addComment(comment);
             response.sendRedirect("/guestroom.jsp?id=" + guestroomId);
         } catch (ServiceException e) {
+            request.setAttribute(MESSAGE, "local.error.add.comment");
+            request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during adding comment in db", e);
         }
     }

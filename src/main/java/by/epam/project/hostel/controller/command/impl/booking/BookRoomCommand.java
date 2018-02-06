@@ -41,7 +41,7 @@ public class BookRoomCommand implements Command {
             instance.getBookingService().bookRoom(booking);
             response.sendRedirect("/user/bookings?page=1");
         } catch (ServiceException e) {
-            request.setAttribute(MESSAGE, "local.error.during.book.room");
+            request.setAttribute(MESSAGE, "local.error.book.room");
             request.getRequestDispatcher("/error.jps").forward(request, response);
             logger.error("error during booking room", e);
         }

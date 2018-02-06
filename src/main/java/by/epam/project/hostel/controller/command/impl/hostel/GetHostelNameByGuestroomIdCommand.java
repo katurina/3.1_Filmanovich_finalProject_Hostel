@@ -26,6 +26,11 @@ public class GetHostelNameByGuestroomIdCommand implements Command {
             request.setAttribute(HOSTEL_NAME, hostelName);
         } catch (ServiceException e) {
             logger.error("error during getting hostel name by guestroom id ", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting hostel name by guestroom id", err);
+            }
         }
     }
 }

@@ -46,6 +46,11 @@ public class GetRequiredGuestroomsCommand implements Command {
             request.setAttribute(ERROR, e.getParam());
         } catch (ServiceException e) {
             logger.error("error during getting required guestrooms by search params", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting required guestrooms", err);
+            }
         }
 
     }

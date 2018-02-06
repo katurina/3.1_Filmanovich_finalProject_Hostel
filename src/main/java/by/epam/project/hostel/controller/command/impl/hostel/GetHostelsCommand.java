@@ -31,6 +31,11 @@ public class GetHostelsCommand implements Command {
             request.setAttribute(HOSTELS, hostels);
         } catch (ServiceException e) {
             logger.error("error during getting whole hostels", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (IOException err) {
+                logger.error("error during getting hostels", err);
+            }
         }
     }
 }
