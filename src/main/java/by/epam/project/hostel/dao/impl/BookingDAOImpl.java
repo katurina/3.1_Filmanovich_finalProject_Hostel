@@ -25,6 +25,7 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
     private static final String INSERT_BOOKING = "INSERT INTO bookings(user_id, guestrooms_id, night_price, start_day, last_day, book_day, all_price) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_BOOKINGS_SET_PAYED = "UPDATE bookings SET payed = 1 WHERE id = ?";
     private static final String BOOKINGS = "bookings";
+    private static final String SELECT_BOOKING_BY_ID = "SELECT id,  guestrooms_id,  bookings.night_price,  start_day,  last_day,  payed,  book_day, all_price, user_id FROM bookings WHERE id = ?";
 
     @Override
     public List<Booking> getBookings(int currentPage) throws DAOException {
@@ -91,6 +92,22 @@ public class BookingDAOImpl extends BaseDAO implements BookingDAO {
             ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException("error during set booking payed with id = " + bookingId, e);
+        }
+    }
+
+    @Override
+    public Booking getBookingById(int id) throws DAOException {
+        try (Connection connection = provider.connection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_BOOKING_BY_ID)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                return createBooking(rs);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("error during getting bookings by id = " + id, e);
         }
     }
 

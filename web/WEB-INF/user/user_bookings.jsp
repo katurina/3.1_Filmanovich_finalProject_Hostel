@@ -67,6 +67,7 @@
                             <form action="${pageContext.request.contextPath}/controller" method="post">
                                 <input type="hidden" name="command" value="pay-booking-command">
                                 <input type="hidden" name="id" value="${booking.id}">
+                                <input type="hidden" name="roomId" value="${booking.guestroomId}">
                                 <input type="submit" value="${pay}"/>
                             </form>
                         </c:when>

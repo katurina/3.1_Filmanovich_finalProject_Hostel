@@ -55,7 +55,6 @@ public class LoginCommand implements Command {
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 request.getRequestDispatcher(INDEX_JSP).forward(request, response);
-
             }
         } catch (ServletException | IOException e) {
             logger.error("error during forward in login command", e);

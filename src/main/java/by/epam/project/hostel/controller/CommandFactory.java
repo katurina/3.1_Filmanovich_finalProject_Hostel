@@ -39,6 +39,7 @@ import by.epam.project.hostel.controller.command.impl.user.LogoutCommand;
 import by.epam.project.hostel.controller.command.impl.user.RegistrationCommand;
 
 public class CommandFactory {
+
     private static final String LOGIN_COMMAND = "login-command";
     private static final String REGISTRATION_COMMAND = "registration-command";
     private static final String CHANGE_LOCAL_COMMAND = "change-local-command";
@@ -68,6 +69,16 @@ public class CommandFactory {
     private static final String DELETE_GUESTROOM_IMG_COMMAND = "delete-guestroom-img-command";
     private static final String ADD_HOSTEL_COMMAND = "add-hostel-command";
     private static final String EDIT_HOSTEL_COMMAND = "edit-hostel-command";
+    private static final String GET_BOOKING_DETAILS_COMMAND = "get-booking-details-command";
+    private static final String DELETE_BOOKING_BY_ID_COMMAND = "delete-booking-by-id-command";
+    private static final String PAY_BOOKING_COMMAND = "pay-booking-command";
+    private static final String EDIT_USER_COMMAND1 = "edit-user-command";
+    private static final String GET_GUESTROOM_COMMENTS_COMMAND = "get-guestroom-comments-command";
+    private static final String GET_USER_BY_ID_COMMAND = "get-user-by-id-command";
+    private static final String ADD_COMMENT_COMMAND = "add-comment-command";
+    private static final String DELETE_COMMENT_BY_ID_COMMAND = "delete-comment-by-id-command";
+    private static final String GET_BOOKINS_COMMAND = "get-bookins-command";
+
     private static CommandFactory instance = null;
 
     private CommandFactory() {
@@ -140,23 +151,23 @@ public class CommandFactory {
                 return new EditHostelCommand();
             case ADD_HOSTEL_COMMAND:
                 return new AddHostelCommand();
-            case "get-booking-details-command":
+            case GET_BOOKING_DETAILS_COMMAND:
                 return new GetBookingDetailsCommand();
-            case "delete-booking-by-id-command":
+            case DELETE_BOOKING_BY_ID_COMMAND:
                 return new DeleteBookingByIdCommand();
-            case "pay-booking-command":
+            case PAY_BOOKING_COMMAND:
                 return new PayBookingCommand();
-            case "edit-user-command":
+            case EDIT_USER_COMMAND1:
                 return new EditUserCommand();
-            case "get-guestroom-comments-command":
+            case GET_GUESTROOM_COMMENTS_COMMAND:
                 return new GetGuestroomCommentsCommand();
-            case "get-user-by-id-command":
+            case GET_USER_BY_ID_COMMAND:
                 return new GetUserByIdCommand();
-            case "add-comment-command":
+            case ADD_COMMENT_COMMAND:
                 return new AddCommentCommand();
-            case "delete-comment-by-id-command":
+            case DELETE_COMMENT_BY_ID_COMMAND:
                 return new DeleteCommentByIdCommand();
-            case "get-bookins-command":
+            case GET_BOOKINS_COMMAND:
                 return new GetBookingsCommand();
         }
         return null;

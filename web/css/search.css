@@ -16,7 +16,8 @@
 
 .img-down {
     width: 40%;
-    margin: 1%;
+    margin-right: 20px;
+    margin-bottom: 5px;
     float: left;
 }
 
@@ -28,13 +29,26 @@ tr:nth-child(even) {
     color: #e4d6ff;
 }
 
-input[type=text], input[type=password] {
-    width: auto;
-    padding: 0;
-    margin: 8px 0;
+select, input[type=text], input[type=password] {
+    width: 150px;
+    height: 24px;
+    padding-left: 5px;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: initial;
+}
+
+.search-label {
+    font-family: Lato, Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.72222;
+}
+
+.search-label-error {
+    font-family: Lato, Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1.72222;
+    color: #ff0000;
 }
 
 .money {
@@ -71,6 +85,8 @@ input[type=text], input[type=password] {
 }
 
 .search-down {
+    padding-left: 10px;
+    padding-top: 10px;
     display: none;
     width: 100%;
     background: #887ebe;
@@ -83,7 +99,7 @@ input[type=text], input[type=password] {
 
 .room-hotel {
     margin: 5vh;
-    padding: 5vh;
+    padding: 5vh 5vh 10vh 5vh;
     background: #785eae;
     border-radius: 10vh;
 }

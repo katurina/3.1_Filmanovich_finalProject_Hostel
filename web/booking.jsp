@@ -19,6 +19,7 @@
     <fmt:message bundle="${loc}" key="local.guestroom.own.bathroom" var="bathroom"/>
     <fmt:message bundle="${loc}" key="local.booking.final.cost" var="finalCost"/>
     <fmt:message bundle="${loc}" key="local.search.book" var="book"/>
+    <fmt:message bundle="${loc}" key="local.message.need.log.in" var="needLogIn"/>
     <title>${yourBooking}</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -28,7 +29,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <c:set scope="session" var="url"
-           value="${pageContext.request.contextPath}/user/booking?id=${param.page}&dateFrom=${param.dateFrom}&dateTo${param.dateTo}"/>
+           value="${pageContext.request.contextPath}/booking.jsp?id=${param.id}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/menu.css">
 
@@ -49,7 +50,7 @@
 </jsp:include>
 <c:import url="/menu.jsp"/>
 <div id="page-content-wrapper">
-    <div class="page-content">
+    <div class="page-content" style="color:whitesmoke;">
         <form action="${pageContext.request.contextPath}/controller" method="post">
             <input type="hidden" name="command" value="booking-room-command">
             <div>${yourBooking}</div>
@@ -85,7 +86,14 @@
             </div>
             <div>${finalCost}: ${requestScope.finalCost}</div>
             <input type="hidden" name="id" value="${param.id}">
-            <input type="submit" value="${book}">
+            <c:choose>
+                <c:when test="${sessionScope.user.role eq 'USER'}">
+                    <input style="color: #000" type="submit" value="${book}">
+                </c:when>
+                <c:otherwise>
+                    ${needLogIn}
+                </c:otherwise>
+            </c:choose>
         </form>
     </div>
     <c:import url="/footer.jsp"/>

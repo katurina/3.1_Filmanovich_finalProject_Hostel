@@ -16,4 +16,6 @@ public interface BookingDAO extends EntityDAO {
     void bookRoom(Booking booking) throws DAOException;
 
     void payBooking(int bookingId) throws DAOException;
+
+    Booking getBookingById(int id) throws DAOException;
 }

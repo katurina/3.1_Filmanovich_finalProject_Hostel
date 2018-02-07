@@ -21,4 +21,6 @@ public interface BookingService extends EntityService {
     Map<String, Object> getBookingDetails(LocalDate dateFrom, LocalDate dateTo, Guestroom guestroom) throws ServiceException;
 
     void payBooking(Integer bookingId) throws ServiceException;
+
+    Booking getBookingById(Integer id) throws ServiceException;
 }

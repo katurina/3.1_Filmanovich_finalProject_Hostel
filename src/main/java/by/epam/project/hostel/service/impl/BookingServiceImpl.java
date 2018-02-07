@@ -94,4 +94,14 @@ public class BookingServiceImpl extends BaseService implements BookingService {
             throw new ServiceException("error during set booking payed", e);
         }
     }
+
+    @Override
+    public Booking getBookingById(Integer id) throws ServiceException {
+        validator.validateID(id);
+        try {
+            return bookingDAO.getBookingById(id);
+        } catch (DAOException e) {
+            throw new ServiceException("error during getting booking by id", e);
+        }
+    }
 }
