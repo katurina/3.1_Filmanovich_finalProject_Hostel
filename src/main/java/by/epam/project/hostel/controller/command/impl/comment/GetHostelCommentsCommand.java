@@ -31,7 +31,7 @@ public class GetHostelCommentsCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during getting hostel's comments", err);
+                logger.error("error during sending error", err);
             }
         }
     }

@@ -44,7 +44,7 @@ public class AddGuestroomCommand implements Command {
         } catch (ServiceException e) {
             logger.error("error during adding guestroom");
             request.setAttribute(MESSAGE, "local.error.add.guestroom");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
         }
 
     }

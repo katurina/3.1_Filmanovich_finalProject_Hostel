@@ -12,21 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.epam.project.hostel.controller.constant.Constant.Booking.ID;
+import static by.epam.project.hostel.controller.constant.Constant.ERROR_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 
 public class DeleteBookingByIdCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(DeleteBookingByIdCommand.class);
+    private static final String USER_BOOKINGS = "/user/bookings";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer bookingId = Integer.valueOf(request.getParameter(ID));
         try {
             ServiceFactory.getInstance().getBookingService().deleteBookingById(bookingId);
-            response.sendRedirect("/user/bookings");
+            response.sendRedirect(USER_BOOKINGS);
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.delete.booking");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during deleting booking by id", e);
         }
     }

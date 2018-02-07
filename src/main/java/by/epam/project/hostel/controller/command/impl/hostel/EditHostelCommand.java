@@ -38,7 +38,7 @@ public class EditHostelCommand implements Command {
             response.sendRedirect("/admin/edit_hostel?id=" + request.getParameter(ID));
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.edit.hostel");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during editing hostel ", e);
         }
 

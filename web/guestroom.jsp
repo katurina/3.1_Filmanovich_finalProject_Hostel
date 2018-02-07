@@ -14,6 +14,7 @@
     <fmt:message bundle="${loc}" key="local.guestroom.night.price" var="nightPrice"/>
     <fmt:message bundle="${loc}" key="local.comment.message.comment.for.comment" var="actionsForComment"/>
     <fmt:message bundle="${loc}" key="local.comment.comments" var="comments"/>
+    <fmt:message bundle="${loc}" key="local.admin.save" var="save"/>
     <title>${room}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -31,90 +32,98 @@
 </jsp:include>
 <c:import url="menu.jsp"/>
 <div id="page-content-wrapper">
-    <div>
-        <c:forEach var="img" items="${requestScope.guestroom.imgPath}">
-            <img height="300px" width="450px" style="margin: 10px" src="${img}"/>
-        </c:forEach>
-    </div>
-    <div class="money" style="color:#cccccc;"> ${nightPrice}
-        ${requestScope.guestroom.nightPrice}$
-    </div>
-    <div><p>${requestScope.guestroom.description}</p></div>
-    <div class="whole-properties">
-        <div style="color: #cccccc">${properties}</div>
-        <div class="properties">
-            <li>WiFi <c:choose><c:when test="${requestScope.guestroom.wifi eq true}">
-                <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
-            </c:when><c:otherwise>
-                <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
-            </c:otherwise></c:choose></li>
-            <li>TV <c:choose><c:when test="${requestScope.guestroom.tv eq true}">
-                <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
-            </c:when><c:otherwise>
-                <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
-            </c:otherwise></c:choose></li>
-            <li>${bathroom}
-                <c:choose>
-                    <c:when test="${requestScope.guestroom.bath eq true}">
-                        <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
-                    </c:when><c:otherwise>
+    <div style="padding-left: 20px; padding-right: 20px">
+        <div>
+            <c:forEach var="img" items="${requestScope.guestroom.imgPath}">
+                <img height="300px" width="450px" style="margin: 10px" src="${img}"/>
+            </c:forEach>
+        </div>
+        <div class="money" style="color:#cccccc;"> ${nightPrice}
+            ${requestScope.guestroom.nightPrice}$
+        </div>
+        <div><p>${requestScope.guestroom.description}</p></div>
+        <div class="whole-properties">
+            <div style="color: #cccccc">${properties}</div>
+            <div class="properties">
+                <li>WiFi <c:choose><c:when test="${requestScope.guestroom.wifi eq true}">
+                    <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
+                </c:when><c:otherwise>
                     <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
-                </c:otherwise>
-                </c:choose>
-            </li>
-            <li>${capacity}
-                ${requestScope.guestroom.capacity}
-            </li>
+                </c:otherwise></c:choose></li>
+                <li>TV <c:choose><c:when test="${requestScope.guestroom.tv eq true}">
+                    <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
+                </c:when><c:otherwise>
+                    <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
+                </c:otherwise></c:choose></li>
+                <li>${bathroom}
+                    <c:choose>
+                        <c:when test="${requestScope.guestroom.bath eq true}">
+                            <img src="${pageContext.request.contextPath}/img/toolbar/tick.svg">
+                        </c:when><c:otherwise>
+                        <img src="${pageContext.request.contextPath}/img/toolbar/cross.svg">
+                    </c:otherwise>
+                    </c:choose>
+                </li>
+                <li>${capacity}
+                    ${requestScope.guestroom.capacity}
+                </li>
 
 
+            </div>
         </div>
-    </div>
-    <div><a href="${pageContext.request.contextPath}/hostel.jsp?id=${requestScope.guestroom.hostelId}">${hotel}</a>
-    </div>
-    <div>${comments}</div>
-    <jsp:include page="/controller">
-        <jsp:param name="command" value="get-guestroom-comments-command"/>
-        <jsp:param name="id" value="${requestScope.guestroom.id}"/>
-    </jsp:include>
-    <c:forEach var="comment" items="${requestScope.comments}">
-        <div class="comment">
-            <div class="title">
-                <jsp:include page="/controller">
-                    <jsp:param name="command" value="get-user-by-id-command"/>
-                    <jsp:param name="id" value="${comment.userId}"/>
-                </jsp:include>
-                <div style="float: left">${requestScope.user.login}&#8195;${comment.commentDate}</div>
-                <c:if test="${sessionScope.user.role=='ADMIN'}">
-                    <div style="float: right;">
-                        <form action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="delete-comment-by-id-command">
-                            <input type="hidden" name="id" value="${comment.id}">
-                            <input type="hidden" name="guestroomId" value="${param.id}">
-                            <input type="submit" style="background:url(/img/toolbar/cross.svg);width:25px;
+        <div><a href="${pageContext.request.contextPath}/hostel.jsp?id=${requestScope.guestroom.hostelId}">${hotel}</a>
+        </div>
+        <div style="color: white">${comments}</div>
+        <jsp:include page="/controller">
+            <jsp:param name="command" value="get-guestroom-comments-command"/>
+            <jsp:param name="id" value="${requestScope.guestroom.id}"/>
+        </jsp:include>
+        <c:forEach var="comment" items="${requestScope.comments}">
+            <div class="comment">
+                <div class="title">
+                    <jsp:include page="/controller">
+                        <jsp:param name="command" value="get-user-by-id-command"/>
+                        <jsp:param name="id" value="${comment.userId}"/>
+                    </jsp:include>
+                    <div style="float: left">${requestScope.user.login}&#8195;${comment.commentDate}</div>
+                    <c:if test="${sessionScope.user.role=='ADMIN'}">
+                        <div style="float: right;">
+                            <form action="${pageContext.request.contextPath}/controller" method="post">
+                                <input type="hidden" name="command" value="delete-comment-by-id-command">
+                                <input type="hidden" name="id" value="${comment.id}">
+                                <input type="hidden" name="guestroomId" value="${param.id}">
+                                <input type="submit" style="background:url(/img/toolbar/cross.svg);width:25px;
                             height:25px" value="">
-                        </form>
-                    </div>
-                </c:if>
+                            </form>
+                        </div>
+                    </c:if>
+                </div>
+                <div style="color: white" class="text">
+                        ${comment.comment}
+                </div>
             </div>
-            <div class="text">
-                    ${comment.comment}
-            </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
 
-    <c:choose>
-        <c:when test="${sessionScope.user eq null || empty sessionScope.user}">
-            ${actionsForComment}
-        </c:when>
-        <c:otherwise>
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-                <input type="hidden" name="command" value="add-comment-command">
-                <input type="hidden" name="id" value="${requestScope.guestroom.id}">
-                <input style="width: 95%;height: 30px" type="text" name="comment">
-                <input type="submit" value="save">
-            </form>
-        </c:otherwise>
-    </c:choose>
+        <c:choose>
+            <c:when test="${sessionScope.user eq null || empty sessionScope.user}">
+                <div style="color: white">${actionsForComment}</div>
+            </c:when>
+            <c:otherwise>
+                <form action="${pageContext.request.contextPath}/controller" method="post">
+                    <input type="hidden" name="command" value="add-comment-command">
+                    <input type="hidden" name="id" value="${requestScope.guestroom.id}">
+                    <div class="form-group row">
+                        <div class="col-sm-11">
+                            <input class="form-control" type="text" name="comment">
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-control" type="submit" value="${save}">
+                        </div>
+                    </div>
+                </form>
+            </c:otherwise>
+        </c:choose>
+    </div>
     <c:import url="footer.jsp"/>
 </div>
 

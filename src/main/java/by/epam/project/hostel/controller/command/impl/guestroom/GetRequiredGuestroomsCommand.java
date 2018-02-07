@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.epam.project.hostel.controller.constant.Constant.Exception.ERROR;
@@ -30,26 +32,31 @@ public class GetRequiredGuestroomsCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GetRequiredGuestroomsCommand.class);
     private static final GuestroomService guestroomService = ServiceFactory.getInstance().getGuestroomService();
 
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String language = (String) request.getSession().getAttribute(LOCAL);
-        String pageParam = request.getParameter(CURRENT_PAGE);
-        int currentPage = pageParam == null || pageParam.isEmpty() ? 1 : Integer.valueOf(pageParam);
-        SearchGuestroomsParams searchParamsEntity = getSearchParamsEntity(request);
-
         try {
-            List<Guestroom> searchedGuestrooms = guestroomService.getGuestroomBySearchParam(currentPage, searchParamsEntity, language);
-            Page<Guestroom> page = PageWrapper.wrapList(searchedGuestrooms, currentPage, guestroomService.getTotalRowCount(searchParamsEntity, language));
+            String language = (String) request.getSession().getAttribute(LOCAL);
+            String pageParam = request.getParameter(CURRENT_PAGE);
+            int currentPage = pageParam == null || pageParam.isEmpty() ? 1 : Integer.valueOf(pageParam);
+            SearchGuestroomsParams searchParamsEntity = getSearchParamsEntity(request);
+
+            List<Guestroom> searchedGuestrooms = guestroomService
+                    .getGuestroomBySearchParam(currentPage, searchParamsEntity, language);
+            Page<Guestroom> page = PageWrapper
+                    .wrapList(searchedGuestrooms, currentPage, guestroomService.getTotalRowCount(searchParamsEntity, language));
             request.setAttribute(PAGE, page);
         } catch (SearchParamsServiceException e) {
             request.setAttribute(ERROR, e.getParam());
+        } catch (NumberFormatException | DateTimeParseException e) {
+            logger.error("not valid search param", e);
+            Page<Guestroom> page = PageWrapper.wrapList(new ArrayList<>(), 1, 0);
+            request.setAttribute(PAGE, page);
         } catch (ServiceException e) {
             logger.error("error during getting required guestrooms by search params", e);
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during getting required guestrooms", err);
+                logger.error("error during sending error", err);
             }
         }
 
@@ -71,7 +78,6 @@ public class GetRequiredGuestroomsCommand implements Command {
         String capacityTo = request.getParameter(Constant.SearchParams.CAPACITY_TO);
         String city = request.getParameter(Constant.SearchParams.CITY);
         String search = request.getParameter(Constant.SearchParams.SEARCH);
-
 
         if (nightPriceFrom != null && !nightPriceFrom.isEmpty()) {
             searchParams.setNightPriceFrom(BigDecimal.valueOf(Double.valueOf(nightPriceFrom)));

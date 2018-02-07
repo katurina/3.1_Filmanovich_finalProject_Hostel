@@ -61,7 +61,7 @@ public class AddHostelCommand implements Command {
             response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.add.hostel");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during adding hostel", e);
         }
     }

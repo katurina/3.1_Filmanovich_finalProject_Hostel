@@ -27,7 +27,7 @@ public class DeleteHostelByIdCommand implements Command {
             response.sendRedirect("/admin/admin_hostels");
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.delete.hostel");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during delete hostel by id", e);
         }
     }

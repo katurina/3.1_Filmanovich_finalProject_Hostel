@@ -43,7 +43,7 @@ public class EditRoleBanUserCommand implements Command {
             response.sendRedirect(ADMIN_ADMIN_USERS);
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.edit.role.ban.user");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during editing user", e);
         }
     }

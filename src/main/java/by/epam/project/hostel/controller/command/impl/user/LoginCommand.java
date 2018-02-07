@@ -45,7 +45,7 @@ public class LoginCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during longing command", err);
+                logger.error("error during sending error", err);
             }
         }
         try {
@@ -61,7 +61,7 @@ public class LoginCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during longing command", err);
+                logger.error("error during sending error", err);
             }
         }
     }

@@ -3,7 +3,7 @@ package by.epam.project.hostel.controller.constant;
 public final class Constant {
     public static final String URL = "url";
     public static final String MESSAGE = "message";
-
+    public static final String ERROR_JSP = "/error.jsp";
 
     private Constant() {
     }

@@ -33,7 +33,7 @@ public class EditUserCommand implements Command {
             response.sendRedirect("/user/account");
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.edit.user");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during edit user", e);
         }
     }

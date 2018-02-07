@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static by.epam.project.hostel.controller.constant.Constant.Booking.ID;
+import static by.epam.project.hostel.controller.constant.Constant.ERROR_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.Page.LOCAL;
 
@@ -24,6 +25,7 @@ public class PayBookingCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(PayBookingCommand.class);
     private static final ServiceFactory instance = ServiceFactory.getInstance();
+    private static final String USER_BOOKINGS = "/user/bookings";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,10 +36,10 @@ public class PayBookingCommand implements Command {
             String content = generateMessage(request, booking);
             User user = instance.getUserService().getUserById(booking.getUserId());
             MailSender.sendMessage("Booking is payed", content, user.getEmail());
-            response.sendRedirect("/user/bookings");
+            response.sendRedirect(USER_BOOKINGS);
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.pay.booking");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during pay booking", e);
         }
     }

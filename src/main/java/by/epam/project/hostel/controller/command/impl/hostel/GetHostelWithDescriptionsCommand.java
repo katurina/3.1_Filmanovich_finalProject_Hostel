@@ -36,7 +36,7 @@ public class GetHostelWithDescriptionsCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during getting hostel with descriptions", err);
+                logger.error("error during sending error", err);
             }
         }
     }

@@ -43,7 +43,7 @@ public class LoginAdminCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during longing admin command", err);
+                logger.error("error during sending error", err);
             }
         }
         try {
@@ -54,7 +54,7 @@ public class LoginAdminCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during longing admin command", err);
+                logger.error("error during sending error", err);
             }
         }
     }

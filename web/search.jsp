@@ -123,11 +123,12 @@
                     <div class="row">
                         <label for="priceFrom" class="col-sm-1 search-label">${fromPrice}</label>
                         <div class="col-sm-2">
-                            <input id="priceFrom" type="text" name="priceFrom" pattern="[0-9]*"/>
+                            <input id="priceFrom" value="${param.priceFrom}" type="text" name="priceFrom"
+                                   pattern="[0-9]*"/>
                         </div>
                         <label for="priceTo" class="col-sm-1 search-label">${toPrice}</label>
                         <div class="col-sm-2">
-                            <input id="priceTo" type="text" name="priceTo" pattern="[0-9]*"/>
+                            <input id="priceTo" value="${param.priceTo}" type="text" name="priceTo" pattern="[0-9]*"/>
                         </div>
                     </div>
                     <div class="row">
@@ -243,25 +244,27 @@
             </div>
         </c:forEach>
     </div>
-    <div class="down-pagination">
-        <c:choose> <c:when test="${requestScope.page.currentPage gt 1}">
-            <a href="${pageContext.request.contextPath}/search.jsp?page=1&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}"><<</a>&#8195;
-            <a href="${pageContext.request.contextPath}/search.jsp?page=${requestScope.page.currentPage - 1}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}"><</a>&#8195;
-        </c:when>
-            <c:otherwise>
-                &#8195;<<&#8195;<&#8195;
-            </c:otherwise>
-        </c:choose>
-        &#8195;${requestScope.page.currentPage} ${textFrom} ${requestScope.page.numberOfPages}&#8195;
-        <c:choose><c:when test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
-            <a href="${pageContext.request.contextPath}/search.jsp?page=${requestScope.page.currentPage + 1}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}">></a>&#8195;
-            <a href="${pageContext.request.contextPath}/search.jsp?page=${requestScope.page.numberOfPages}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}">>></a>
-        </c:when>
-            <c:otherwise>
-                &#8195;>&#8195;>>&#8195;
-            </c:otherwise>
-        </c:choose>
-    </div>
+    <c:if test="${not empty requestScope.page.entity}">
+        <div class="down-pagination">
+            <c:choose> <c:when test="${requestScope.page.currentPage gt 1}">
+                <a href="${pageContext.request.contextPath}/search.jsp?page=1&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}"><<</a>&#8195;
+                <a href="${pageContext.request.contextPath}/search.jsp?page=${requestScope.page.currentPage - 1}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}"><</a>&#8195;
+            </c:when>
+                <c:otherwise>
+                    &#8195;<<&#8195;<&#8195;
+                </c:otherwise>
+            </c:choose>
+            &#8195;${requestScope.page.currentPage} ${textFrom} ${requestScope.page.numberOfPages}&#8195;
+            <c:choose><c:when test="${requestScope.page.currentPage lt requestScope.page.numberOfPages}">
+                <a href="${pageContext.request.contextPath}/search.jsp?page=${requestScope.page.currentPage + 1}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}">></a>&#8195;
+                <a href="${pageContext.request.contextPath}/search.jsp?page=${requestScope.page.numberOfPages}&sort=${param.sorting}&priceFrom=${param.priceFrom}&priceTo=${param.priceTo}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&wifi=${param.wifi}&tv=${param.tv}&shower=${param.shower}&capacityFrom=${param.capacityFrom}&capacityTo=${param.capacityTo}&city=${param.city}">>></a>
+            </c:when>
+                <c:otherwise>
+                    &#8195;>&#8195;>>&#8195;
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </c:if>
     <c:import url="footer.jsp"/>
 </div>
 

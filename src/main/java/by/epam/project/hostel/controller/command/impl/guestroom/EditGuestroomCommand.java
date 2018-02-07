@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import static by.epam.project.hostel.controller.constant.Constant.ERROR_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.BATH;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.CAPACITY;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.DESCRIPTION_EN;
@@ -27,18 +28,20 @@ import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 public class EditGuestroomCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(EditGuestroomCommand.class);
+    private static final String ADMIN_ADMIN_GUESTROOMS = "/admin/admin_guestrooms";
+
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Guestroom guestroom = createGuestroom(request);
-            String descriptionRu = request.getParameter(DESCRIPTION_EN);
-            String descriptionEn = request.getParameter(DESCRIPTION_RU);
+            String descriptionRu = request.getParameter(DESCRIPTION_RU);
+            String descriptionEn = request.getParameter(DESCRIPTION_EN);
             ServiceFactory.getInstance().getGuestroomService().editGuestroom(guestroom, descriptionEn, descriptionRu);
-            response.sendRedirect("/admin/admin_guestrooms");
+            response.sendRedirect(ADMIN_ADMIN_GUESTROOMS);
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.edit.guestroom");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during edit guestroom ", e);
         }
     }

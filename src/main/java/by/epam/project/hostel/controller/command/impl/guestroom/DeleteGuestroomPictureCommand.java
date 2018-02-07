@@ -27,7 +27,7 @@ public class DeleteGuestroomPictureCommand implements Command {
             response.sendRedirect("/admin/edit_guestroom?id=" + roomId);
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.delete.guestroom.picture");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during delete image", e);
         }
     }

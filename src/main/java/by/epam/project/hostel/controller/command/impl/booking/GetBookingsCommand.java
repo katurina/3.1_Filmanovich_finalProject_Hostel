@@ -45,7 +45,7 @@ public class GetBookingsCommand implements Command {
             try {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (IOException err) {
-                logger.error("error during send error", err);
+                logger.error("error during sending error", err);
             }
         }
     }

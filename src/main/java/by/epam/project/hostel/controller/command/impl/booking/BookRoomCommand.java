@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static by.epam.project.hostel.controller.constant.Constant.ERROR_JSP;
 import static by.epam.project.hostel.controller.constant.Constant.Guestroom.ID;
 import static by.epam.project.hostel.controller.constant.Constant.MESSAGE;
 import static by.epam.project.hostel.controller.constant.Constant.SearchParams.DATE_FROM;
@@ -42,7 +43,7 @@ public class BookRoomCommand implements Command {
             response.sendRedirect("/user/bookings?page=1");
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.book.room");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during booking room", e);
         }
     }

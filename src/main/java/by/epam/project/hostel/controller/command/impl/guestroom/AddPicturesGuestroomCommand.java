@@ -31,7 +31,7 @@ public class AddPicturesGuestroomCommand implements Command {
             response.sendRedirect("/admin/edit_guestroom?id=" + guestroomId);
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.add.image");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during adding image ", e);
         }
     }

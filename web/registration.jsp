@@ -56,7 +56,8 @@
             </tr>
             <tr>
                 <td>${password}</td>
-                <td><input type="password" name="password" required pattern="[a-zA-Zа-яА-Я0-9-]*"></td>
+                <td><input type="password" style="width: 171px; height: 17px; padding-left: 0px" name="password"
+                           required pattern="[a-zA-Zа-яА-Я0-9-]*"></td>
             </tr>
             <tr>
                 <td>${email}</td>

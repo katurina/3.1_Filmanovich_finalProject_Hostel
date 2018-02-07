@@ -30,7 +30,7 @@ public class LogoutCommand implements Command {
         } catch (IOException e) {
             logger.error("error during sendRedirect in logout command", e);
             request.setAttribute(MESSAGE, "local.error.log.out");
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
         }
     }
 }

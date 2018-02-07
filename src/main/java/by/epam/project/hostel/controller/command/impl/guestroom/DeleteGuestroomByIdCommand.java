@@ -26,7 +26,7 @@ public class DeleteGuestroomByIdCommand implements Command {
             response.sendRedirect("/admin/admin_guestrooms");
         } catch (ServiceException e) {
             request.setAttribute(MESSAGE, "local.error.delete.guestroom");
-            request.getRequestDispatcher("/error.jps").forward(request, response);
+            request.getRequestDispatcher(ERROR_JSP).forward(request, response);
             logger.error("error during delete guestroom by id", e);
         }
     }
